@@ -27,41 +27,41 @@ export default function Header() {
                     </div>
                     <div className={styles.contact_nav_box}>
                         <PiPhoneCall />
-                        <a href="#"><p>081280360370</p></a>
+                        <Link href="#"><p>081280360370</p></Link>
                     </div>
                     <div className={styles.contact_nav_box}>
                         <HiOutlineEnvelope />
-                        <a href="#"><p>hello@nmwclinic.co.id</p></a>
+                        <Link href="#"><p>hello@nmwclinic.co.id</p></Link>
                     </div>
                 </div>
                 <div className={styles.sosmed_nav}>
                     <p>Ikuti Kami di </p>
                     <div className={styles.sosmed_nav_box}>
-                        <a href=""><FaFacebook/></a>
-                        <a href=""><FaInstagram/></a>
-                        <a href=""><FaTiktok/></a>
-                        <a href=""><FaYoutube/></a>
+                        <Link href=""><FaFacebook/></Link>
+                        <Link href=""><FaInstagram/></Link>
+                        <Link href=""><FaTiktok/></Link>
+                        <Link href=""><FaYoutube/></Link>
                     </div>
                 </div>
             </div>
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
-                    <a href="#">
+                    <Link href="#">
                         <img src="images/logo.svg"/>
-                    </a>
+                    </Link>
                 </div>
                 <div className={styles.menu}>
                     <ul>
-                        <li><a href="/layanan">Layanan</a></li>
-                        <li><a href="/artikel">Artikel</a></li>
-                        <li><a href="/cabang">Cabang</a></li>
-                        <li><a href="/katalog">Katalog</a></li>
+                        <li><Link href="/layanan">Layanan</Link></li>
+                        <li><Link href="/artikel">Artikel</Link></li>
+                        <li><Link href="/cabang">Cabang</Link></li>
+                        <li><Link href="/katalog">Katalog</Link></li>
                     </ul>
                 </div>
                 <div className={styles.login}>
-                    <a href="">
+                    <Link href="">
                         <button>Masuk</button>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
