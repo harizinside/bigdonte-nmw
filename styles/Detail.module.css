@@ -1,0 +1,211 @@
+.container{
+    width: 100%;
+    padding: 2vw 13.45vw;
+    padding-bottom: 10vw;
+}
+.container_layout{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 77% 23%;
+    margin-top: 1.85vw;
+}
+.container_content{
+    padding-right: 4vw;
+}
+.detail_tag button{
+    font-family: var(--poppins);
+    letter-spacing: .03vw;
+    font-size: .7vw;
+    background-color: transparent;
+    border: .1vw solid #6D6E70;
+    color: #FF851A;
+    border-radius: 100vw;
+    padding: .25vw .7vw;
+    padding-bottom: .2vw;
+}
+.content_heading{
+    display: flex;
+    flex-direction: column;
+    gap: .72vw;
+    margin-bottom: 1.8vw;
+}
+.content_heading h1{
+    font-family: var(--montserrat);
+    font-size: 2.23vw;
+    color: #4C4C4C;
+    letter-spacing: .03vw;
+}
+.content_heading span{
+    font-size: .72vw;
+    font-family: var(--montserrat);
+    color: #4C4C4C;
+}
+.content_text p{
+    font-family: var(--montserrat);
+    font-size: .81vw;
+    color: #4C4C4C;
+    letter-spacing: .036vw;
+    line-height: 1.6;
+    padding-right: 1.8vw;
+}
+.content_text img{
+    width: 100%;
+    border-radius: 1.35vw;
+    margin: 1.9vw 0;
+}
+.content_text h3{
+    font-family: var(--montserrat);
+    font-size: 1.1vw;
+    letter-spacing: .04vw;
+    color: #4C4C4C;
+    margin-bottom: .7vw;
+}
+.content_text ol{
+    margin-left: 1vw;
+}
+.content_text ol li{
+    font-family: var(--montserrat);
+    font-size: .81vw;
+    color: #4C4C4C;
+    line-height: 1.6;
+    letter-spacing: .036vw;
+}
+
+/* .container_sidebar{
+    background-color: #5A5A5A;
+} */
+ .sidebar_layout{
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    margin-top: 1.9vw;
+ }
+.sidebar_heading{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+}
+.sidebar_heading h4{
+    font-size: 1.33vw;
+    font-family: var(--montserrat);
+    letter-spacing: .03vw;
+    font-weight: 600;
+    color: #5A5A5A;
+}
+.sidebar_heading a{
+    text-align: end;
+    display: block;
+    width: max-content;
+    color: #FF851A;
+    font-size: .56vw;
+    font-family: var(--montserrat);
+    letter-spacing: .03vw;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: .18vw;
+}
+.article_image img{
+    width: 100%;
+}
+.article_box{
+    width: 100%;
+  }
+  .article_image{
+    width: 100%;
+    height: 10.4vw;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.2vw;
+    margin-bottom: .85vw;
+  }
+  .article_image img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: .4s all;
+    z-index: 1;
+  }
+  .article_box:hover .article_image img{
+    transform: scale(1.1);
+  }
+  .article_heading{
+    width: 100%;
+    margin-bottom: .4vw;
+  }
+  .article_heading h1{
+    font-size: .95vw;
+    font-family: var(--montserrat);
+    letter-spacing: .03vw;
+    font-weight: 600;
+    color: #4C4C4C;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: .4s all;
+  }
+  .article_box:hover .article_heading h1{
+    color: #FF851A;
+  }
+  .article_content{
+    display: flex;
+    flex-direction: column;
+  }
+  .article_content span{
+    font-size: .66vw;
+    font-family: var(--montserrat);
+    letter-spacing: .04vw;
+    color: #4C4C4C;
+  }
+  .article_content a{
+    text-decoration: none;
+  }
+  .article_image button{
+    position: absolute;
+    z-index: 2;
+    left: .7vw;
+    top: .7vw;
+    background-color: #ffffff3d;
+    backdrop-filter: blur(9.800000190734863px);
+    background: #FFFFFF4D;
+    font-family: var(--poppins);
+    letter-spacing: .05vw;
+    color: white;
+    font-size: .71vw;
+    font-weight: 300;
+    outline: none;
+    cursor: pointer;
+    padding: .2vw .7vw;
+    border: .1vw solid white;
+    border-radius: 100vw;
+  }
+  .article_section a{
+    text-decoration: none;
+  }
+  .btn_more{
+    background-color: transparent;
+    outline: none;
+    border: .1vw solid #FF851A;
+    font-size: .56vw;
+    font-family: var(--poppins);
+    letter-spacing: .03vw;
+    text-decoration: none;
+    font-weight: 400;
+    border-radius: 100vw;
+    padding: .3vw .8vw;
+    margin-top: .9vw;
+    cursor: pointer;
+    margin-top: .7vw;
+    color: #FF851A;
+    transition: .4s all;
+  }
+  .btn_more:hover{
+    background-color: #FF851A;
+    color:white;
+  }

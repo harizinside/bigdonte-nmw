@@ -46,7 +46,7 @@ export default function Header() {
             </div>
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
-                    <Link href="#">
+                    <Link href="/">
                         <img src="images/logo.svg"/>
                     </Link>
                 </div>
@@ -55,7 +55,7 @@ export default function Header() {
                         <li><Link href="/layanan">Layanan</Link></li>
                         <li><Link href="/artikel">Artikel</Link></li>
                         <li><Link href="/cabang">Cabang</Link></li>
-                        <li><Link href="/katalog">Katalog</Link></li>
+                        <li><Link href="/catalog">Katalog</Link></li>
                     </ul>
                 </div>
                 <div className={styles.login}>

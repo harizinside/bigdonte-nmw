@@ -78,19 +78,7 @@ export default function Artikel() {
                                     <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
-                                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
-                                    <span>Admin, 14-10-2024</span>
-                                    <p>Menghilangkan lemak tubuh tanpa bedah Memiliki tubuh ideal dalam waktu singkat pasti banyak diidamkan setiap orang, terutama bagi kaum hawa. Selain melakukan diet dan olahraga dengan benar, kalian dapat mencoba perawatan pelangsingan tubuh. Salah satu di antaranya adalah fat freezing. Fat freezing merupakan metode terapi pembekuan lemak yang biasa disebut dengan cryolipolysis. Dilakukan di beberapa bagian tubuh tertentu, seperti pada perut, paha, maupun lengan. Cara kerja Cryolipolisis Perawatan Cryolipolisis dilakukan menggunakan alat khusus yang dapat membekukan sel lemak di bawah</p>
-                                    <Link href={""}><button>Baca Selengkapnya</button></Link>
-                                </div>
-                            </div>
-                            <div className={styles.tabcontent_box}>
-                                <div className={styles.tabcontent_box_img}>
-                                    <img src='images/article_image_page.png' alt='Seni menjaga kecantikan: rutin anti-aging untuk setiap usia'/>
-                                    <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
-                                </div>
-                                <div className={styles.tabcontent_box_text}>
-                                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
+                                    <h1>Lorem ipsum dolor sit amet</h1>
                                     <span>Admin, 14-10-2024</span>
                                     <p>Menghilangkan lemak tubuh tanpa bedah Memiliki tubuh ideal dalam waktu singkat pasti banyak diidamkan setiap orang, terutama bagi kaum hawa. Selain melakukan diet dan olahraga dengan benar, kalian dapat mencoba perawatan pelangsingan tubuh. Salah satu di antaranya adalah fat freezing. Fat freezing merupakan metode terapi pembekuan lemak yang biasa disebut dengan cryolipolysis. Dilakukan di beberapa bagian tubuh tertentu, seperti pada perut, paha, maupun lengan. Cara kerja Cryolipolisis Perawatan Cryolipolisis dilakukan menggunakan alat khusus yang dapat membekukan sel lemak di bawah</p>
                                     <Link href={""}><button>Baca Selengkapnya</button></Link>
@@ -121,30 +109,6 @@ export default function Artikel() {
                                     <Link href={""}><button>Baca Selengkapnya</button></Link>
                                 </div>
                             </div>
-                            <div className={styles.tabcontent_box}>
-                                <div className={styles.tabcontent_box_img}>
-                                    <img src='images/article_image_page.png' alt='Seni menjaga kecantikan: rutin anti-aging untuk setiap usia'/>
-                                    <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
-                                </div>
-                                <div className={styles.tabcontent_box_text}>
-                                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
-                                    <span>Admin, 14-10-2024</span>
-                                    <p>Menghilangkan lemak tubuh tanpa bedah Memiliki tubuh ideal dalam waktu singkat pasti banyak diidamkan setiap orang, terutama bagi kaum hawa. Selain melakukan diet dan olahraga dengan benar, kalian dapat mencoba perawatan pelangsingan tubuh. Salah satu di antaranya adalah fat freezing. Fat freezing merupakan metode terapi pembekuan lemak yang biasa disebut dengan cryolipolysis. Dilakukan di beberapa bagian tubuh tertentu, seperti pada perut, paha, maupun lengan. Cara kerja Cryolipolisis Perawatan Cryolipolisis dilakukan menggunakan alat khusus yang dapat membekukan sel lemak di bawah</p>
-                                    <Link href={""}><button>Baca Selengkapnya</button></Link>
-                                </div>
-                            </div>
-                            <div className={styles.tabcontent_box}>
-                                <div className={styles.tabcontent_box_img}>
-                                    <img src='images/article_image_page.png' alt='Seni menjaga kecantikan: rutin anti-aging untuk setiap usia'/>
-                                    <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
-                                </div>
-                                <div className={styles.tabcontent_box_text}>
-                                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
-                                    <span>Admin, 14-10-2024</span>
-                                    <p>Menghilangkan lemak tubuh tanpa bedah Memiliki tubuh ideal dalam waktu singkat pasti banyak diidamkan setiap orang, terutama bagi kaum hawa. Selain melakukan diet dan olahraga dengan benar, kalian dapat mencoba perawatan pelangsingan tubuh. Salah satu di antaranya adalah fat freezing. Fat freezing merupakan metode terapi pembekuan lemak yang biasa disebut dengan cryolipolysis. Dilakukan di beberapa bagian tubuh tertentu, seperti pada perut, paha, maupun lengan. Cara kerja Cryolipolisis Perawatan Cryolipolisis dilakukan menggunakan alat khusus yang dapat membekukan sel lemak di bawah</p>
-                                    <Link href={""}><button>Baca Selengkapnya</button></Link>
-                                </div>
-                            </div>
                         </div>
                         <div className={styles.article_sidebar_layout}>
                             <div className={styles.article_sidebar_button}>
@@ -158,18 +122,7 @@ export default function Artikel() {
                 {activeTab === 2 && 
                     <div className={styles.tabcontent_layout}>
                         <div className={styles.tabcontent_section}>
-                            <div className={styles.tabcontent_box}>
-                                <div className={styles.tabcontent_box_img}>
-                                    <img src='images/article_image_page.png' alt='Seni menjaga kecantikan: rutin anti-aging untuk setiap usia'/>
-                                    <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
-                                </div>
-                                <div className={styles.tabcontent_box_text}>
-                                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
-                                    <span>Admin, 14-10-2024</span>
-                                    <p>Menghilangkan lemak tubuh tanpa bedah Memiliki tubuh ideal dalam waktu singkat pasti banyak diidamkan setiap orang, terutama bagi kaum hawa. Selain melakukan diet dan olahraga dengan benar, kalian dapat mencoba perawatan pelangsingan tubuh. Salah satu di antaranya adalah fat freezing. Fat freezing merupakan metode terapi pembekuan lemak yang biasa disebut dengan cryolipolysis. Dilakukan di beberapa bagian tubuh tertentu, seperti pada perut, paha, maupun lengan. Cara kerja Cryolipolisis Perawatan Cryolipolisis dilakukan menggunakan alat khusus yang dapat membekukan sel lemak di bawah</p>
-                                    <Link href={""}><button>Baca Selengkapnya</button></Link>
-                                </div>
-                            </div>
+                            
                             <div className={styles.tabcontent_box}>
                                 <div className={styles.tabcontent_box_img}>
                                     <img src='images/article_image_page.png' alt='Seni menjaga kecantikan: rutin anti-aging untuk setiap usia'/>
