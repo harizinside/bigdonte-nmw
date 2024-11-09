@@ -1,0 +1,151 @@
+.container{
+    width: 100%;
+    padding: 3vw 13.45vw;
+}
+.heading_section{
+    text-align: center;
+}
+.heading_section_start{
+    text-align: start;
+}
+.heading_section h1{
+    font-family: var(--fairplay);
+    color: #5A5A5A;
+    font-size: 2.93vw;
+}
+.heading_section h1 font{
+    color: #FF851A;
+}
+.dokter_heading{
+    display: grid;
+    grid-template-columns: 33% 67%;
+    align-items: flex-end;
+}
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5vw;
+    margin-bottom: .8vw;
+}
+
+.tab {
+    padding: .47vw 0;
+    font-size: .8vw;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: .1vw solid #FF851A;
+    border-radius: 100vw;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-family: var(--poppins);
+    letter-spacing: .04vw;
+    color: #FF851A;
+    font-weight: 600;
+}
+
+.tab:hover {
+    background-color: #FF851A;
+    color: white; 
+}
+
+.activeTab {
+    padding: .47vw 0;
+    font-size: .8vw;
+    cursor: pointer;
+    background-color: #FF851A;
+    border: none;
+    border-radius: 100vw;
+    width: 100%;
+    font-family: var(--poppins);
+    letter-spacing: .04vw;
+    color: #fff;
+    border: .1vw solid transparent;
+    font-weight: 600;
+}
+.tabContent{
+    margin-top: 4vw;
+}
+.cabang_layout{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 3.7vw;
+    grid-gap: 1.87vw;
+}
+.cabang_box_image{
+    width: 100%;
+    height: 14.7vw;
+    overflow: hidden;
+    border-radius: 1.3vw;
+    margin-bottom: 1.2vw;
+    position: relative;
+}
+.cabang_box_image img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.cabang_box_content{
+    padding: 1.1vw;
+    border: .1vw solid #E6E6E6;
+    border-radius: 1.3vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+.cabang_box_content h1{
+    font-family: var(--montserrat);
+    letter-spacing: .04vw;
+    font-size: .82vw;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #4C4C4C;
+}
+.cabang_box_content h1 font{
+    color: #FF851A;
+}
+.cabang_box_content span{
+    font-family: var(--montserrat);
+    font-size: .7vw;
+    letter-spacing: .024vw;
+    color: #4C4C4C;
+    margin-top: -.67vw;
+}
+.cabang_box_button{
+    display: flex;
+    gap: .8vw;
+    justify-content: center;
+}
+.cabang_box_button a{
+    text-decoration: none;
+}
+
+.article_pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .83vw;
+    padding-bottom: 5.7vw;
+    margin-top: 5vw;
+  }
+  .article_pagination a{
+    font-family: var(--montserrat);
+    font-size: .95vw;
+    text-decoration: none;
+    color: black;
+  }
+  .active_pagination{
+    font-size: 1.4vw !important;
+    color: #FF851A !important;
+    font-weight: 700 !important;
+  }
+  .article_pagination a svg{
+    color: #939393;
+    font-size: 1.1vw;
+    margin-top: .3vw;
+  }

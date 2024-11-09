@@ -1,5 +1,3 @@
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import styles from "@/styles/Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import React, { useRef, useState } from 'react';
@@ -19,12 +17,11 @@ export default function Home() {
 
   return (
     <>
-      <Header/>
       <div className={styles.banner}>
           <div className={styles.banner_content}>
               <h1>Best Beauty <font>And Care</font></h1>
               <p>Overnight Beauty Repair For Every Budget + Skin Detox. Drink That Boost Metabolism. Improved Health.</p>
-              <a href="#"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></a>
+              <Link href="#"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
           </div>
       </div>
       <div className={styles.section_1}>
@@ -240,7 +237,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <Footer/>
     </>
   );
 }
