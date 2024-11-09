@@ -14,7 +14,7 @@ export default function Abdominoplasty(){
                 <h1><font></font> Abdominoplasty</h1>
             </div>
             <div className={styles.section_1_content}>
-                <p>Pengencangan perut, juga dikenal sebagai Abdominoplasty atau Tummy Tuck adalah prosedur bedah kosmetik untuk memperbaiki bentuk dan tampilan perut, Jika Anda memiliki terlalu banyak timbunan lemak atau kulit berlebih di perut Anda yang tidak merespons dengan diet atau olahraga, Anda dapat mempertimbangkan 'tummy tuck', yang oleh dokter disebut 'Abdominoplasty'. </p>
+                <p>Pengencangan perut, juga dikenal sebagai Abdominoplasty atau Tummy Tuck adalah prosedur bedah kosmetik untuk memperbaiki bentuk dan tampilan perut, Jika Anda memiliki terlalu banyak timbunan lemak atau kulit berlebih di perut Anda yang tidak merespons dengan diet atau olahraga, Anda dapat mempertimbangkan tummy tuck, yang oleh dokter disebut Abdominoplasty. </p>
                 <p>Hal yang dapat mempengaruhi harga dalam prosedur abdominoplasty adalah luas area pengerjaan, harga paket total sudah termasuk biaya dokter bedah dan biaya lainnya seperti biaya fasilitas pembedahan dan biaya yang dibutuhkan untuk prosedur operasi.</p>
                 <Link href="#"><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
             </div>
