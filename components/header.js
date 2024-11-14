@@ -7,9 +7,72 @@ import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import Link from "next/link";
 import 'animate.css';
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from "next/router";
+import { IoIosMenu } from "react-icons/io";
+import { CgClose } from "react-icons/cg";
+
 
 // components/Header.js
 export default function Header() {
+    const [dropdownActive, setDropdownActive] = useState(null); // Track active dropdown
+    const router = useRouter();
+    const headerRef = useRef(null); // Reference to header element
+    const [menuActive, setMenuActive] = useState(false);
+
+    // Function to handle click outside of dropdown
+    const handleClickOutside = (event) => {
+        if (headerRef.current && !headerRef.current.contains(event.target)) {
+            setDropdownActive(null); // Close dropdown if clicked outside
+        }
+    };
+
+    // Function to handle scroll event
+    const handleScroll = () => {
+        setDropdownActive(null); // Close dropdown on scroll
+    };
+
+    // Add and remove event listeners
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        document.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // Function to toggle dropdown menu
+    const toggleDropdown = (dropdownName) => {
+        // Close the active dropdown if the user clicks on the same menu
+        if (dropdownActive === dropdownName) {
+            setDropdownActive(null); // Close it
+        } else {
+            setDropdownActive(dropdownName); // Open the clicked menu
+        }
+    };
+
+    
+
+    const handleHamburger = () => {
+        setMenuActive(!menuActive);
+    };
+
+    const clickMenu = () => {
+        closeDropdown();
+        handleHamburger();
+    };
+
+    const closeDropdown = () => {
+        setDropdownActive(null);
+      };
+
+    // Function to highlight active menu based on router path
+    const isActive = (path) => {
+        return router.asPath === path ? styles.active : '';
+    };
+
     return (
         <>
         <Head>
@@ -27,11 +90,11 @@ export default function Header() {
                     </div>
                     <div className={styles.contact_nav_box}>
                         <PiPhoneCall />
-                        <Link href="#"><p>081280360370</p></Link>
+                        <Link href="https://api.whatsapp.com/send?phone=6281280360370" target="blank_"><p>081280360370</p></Link>
                     </div>
                     <div className={styles.contact_nav_box}>
                         <HiOutlineEnvelope />
-                        <Link href="#"><p>hello@nmwclinic.co.id</p></Link>
+                        <Link href="mailto:hello@nmwclinic.co.id" target="blank_"><p>hello@nmwclinic.co.id</p></Link>
                     </div>
                 </div>
                 <div className={styles.sosmed_nav}>
@@ -50,13 +113,49 @@ export default function Header() {
                         <img src="images/logo.svg"/>
                     </Link>
                 </div>
-                <div className={styles.menu}>
-                    <ul>
-                        <li><Link href="/layanan">Layanan</Link></li>
-                        <li><Link href="/artikel">Artikel</Link></li>
-                        <li><Link href="/cabang">Cabang</Link></li>
-                        <li><Link href="/catalog">Katalog</Link></li>
-                    </ul>
+                <button className={styles.hamburger} onClick={handleHamburger}>
+                    <IoIosMenu />
+                </button>
+                <div className={`${styles.menu} ${menuActive ? styles.active : ''}`}>
+                    <div className={styles.menu_layout}>
+                        <img className={styles.logo_mobile} src="images/logo.svg" />
+                        <ul ref={headerRef}>
+                            <li className={isActive('/')} onClick={clickMenu}><Link href="/">Home</Link></li>
+                            <li>
+                                <span onClick={() => toggleDropdown('services')} className={isActive('/layanan')}>Layanan</span>
+                                <div className={`${styles.dropdown_menu} ${dropdownActive === 'services' ? styles.active : ''}`}>
+                                    <ul>
+                                        <li>
+                                            <Link href="/about/team">Plastic Surgery</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/about/history">Spa Treatment</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/about/history">Aesthetic Medicine</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/about/history">Medical Treatment</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/about/history">Cosmetic Dermatology</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/about/history">Slimming Treatment</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li className={isActive('/artikel')} onClick={clickMenu}><Link href="/artikel">Artikel</Link></li>
+                            <li className={isActive('/cabang')} onClick={clickMenu}><Link href="/cabang">Cabang</Link></li>
+                            <li className={isActive('/katalog')} onClick={clickMenu}><Link href="/catalog">Katalog</Link></li>
+                        </ul>
+                        <div className={styles.login_mobile}>
+                            <Link href={""}><button>Masuk</button></Link>
+                        </div>
+                    </div>
+                    <div className={styles.overlay_menu}></div>
+                    <button className={styles.close_btn} onClick={handleHamburger}><CgClose/></button>
                 </div>
                 <div className={styles.login}>
                     <Link href="">
@@ -70,7 +169,7 @@ export default function Header() {
             <div className={`${styles.text_whatsapp} ${styles.bounce_in_up}`}>
                 <span><font>Butuh</font> Bantuan?</span>
             </div>
-            <Link href=""><button>Konsultasi Sekarang! <IoLogoWhatsapp /></button></Link>
+            <Link href="https://api.whatsapp.com/send?phone=6281280360370" target="blank_"><button>Customer Care NMW Clinic <IoLogoWhatsapp /></button></Link>
         </div>
       </>
     );

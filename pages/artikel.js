@@ -86,6 +86,7 @@ export default function Artikel() {
                             </div>
                         </div>
                         <div className={styles.article_sidebar_layout}>
+                            <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
                             <div className={styles.article_sidebar_button}>
                                 <Link href={""}><button>#aging</button></Link>
                                 <Link href={""}><button>#Skincare</button></Link>
@@ -111,6 +112,7 @@ export default function Artikel() {
                             </div>
                         </div>
                         <div className={styles.article_sidebar_layout}>
+                        <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
                             <div className={styles.article_sidebar_button}>
                                 <Link href={""}><button>#aging</button></Link>
                                 <Link href={""}><button>#Skincare</button></Link>
@@ -149,6 +151,7 @@ export default function Artikel() {
                             </div>
                         </div>
                         <div className={styles.article_sidebar_layout}>
+                        <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
                             <div className={styles.article_sidebar_button}>
                                 <Link href={""}><button>#aging</button></Link>
                                 <Link href={""}><button>#Skincare</button></Link>
@@ -198,6 +201,7 @@ export default function Artikel() {
                         </div>
                     </div>
                     <div className={styles.article_sidebar_layout}>
+                    <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
                         <div className={styles.article_sidebar_button}>
                             <Link href={""}><button>#aging</button></Link>
                             <Link href={""}><button>#Skincare</button></Link>
@@ -206,7 +210,7 @@ export default function Artikel() {
                     </div>
                 </div>
                 }
-            </div>
+            </div> 
         </div>
     </div>
     <div className={styles.article_section}>
@@ -217,53 +221,53 @@ export default function Artikel() {
             <div className={styles.article_layout}>
                 <div className={styles.article_box}>
                     <div className={styles.article_image}>
-                        <Link href={"/"}><button>#aging</button></Link>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}><button>#aging</button></Link>
+                        <Link href={"/detail-artikel"}>
                             <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
                         </Link>
                     </div>
                     <div className={styles.article_content}>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}>
                             <div className={styles.article_heading}>
                             <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
                             </div>
                         </Link>
                         <span>Admin, 14-10-2024</span>
-                        <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                        <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                     </div>
                 </div>
                 <div className={styles.article_box}>
                     <div className={styles.article_image}>
-                        <Link href={"/"}><button>#skincare</button></Link>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}><button>#skincare</button></Link>
+                        <Link href={"/detail-artikel"}>
                             <img src="images/article_2.png" alt="Artikel NMW Clinic"/>
                         </Link>
                     </div>
                     <div className={styles.article_content}>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}>
                             <div className={styles.article_heading}>
                             <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
                             </div>
                         </Link>
                         <span>Admin, 14-10-2024</span>
-                        <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                        <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                     </div>
                 </div>
                 <div className={styles.article_box}>
                     <div className={styles.article_image}>
-                        <Link href={"/"}><button>#skincare</button></Link>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}><button>#skincare</button></Link>
+                        <Link href={"/detail-artikel"}>
                             <img src="images/article_3.png" alt="Artikel NMW Clinic"/>
                         </Link>
                     </div>
                     <div className={styles.article_content}>
-                        <Link href={"/"}>
+                        <Link href={"/detail-artikel"}>
                             <div className={styles.article_heading}>
                             <h1>Memperbaiki tekstur kulit wajah dengan prosedur laser fractional</h1>
                             </div>
                         </Link>
                         <span>Admin, 14-10-2024</span>
-                        <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                        <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                     </div>
                 </div>
             </div>

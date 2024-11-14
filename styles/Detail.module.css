@@ -209,3 +209,110 @@
     background-color: #FF851A;
     color:white;
   }
+
+  @media (max-width:768px) {
+    .container{
+      padding: 4vw 4vw;
+      padding-bottom: 7vw;
+    }
+    .container_layout{
+      width: 100%;
+      display: grid;
+      grid-template-columns: 100%;
+      margin-top: 2vw;
+    }
+    .container_content{
+      padding-right: 0;
+    }
+    .detail_tag button{
+      letter-spacing: .06vw;
+      font-size: 2.6vw;
+      padding: .8vw 3vw;
+    }
+    .content_heading{
+      gap: 3vw;
+      margin-bottom: 3vw;
+    }
+    .content_heading h1{
+      font-size: 3.6vw;
+      letter-spacing: .06vw;
+    }
+    .content_heading span{
+      font-size: 2.3vw;
+     }
+     .content_text p{
+      font-size: 2.5vw;
+      letter-spacing: .05vw;
+      line-height: 1.6;
+      padding-right: 0;
+    }
+    .content_text img{
+      border-radius: 2.5vw;
+      margin: 4vw 0;
+    }
+    .content_text h3{
+        font-size: 3.1vw;
+        letter-spacing: .07vw;
+        margin-bottom: 1.3vw;
+    }
+    .content_text ol{
+        margin-left: 3vw;
+    }
+    .content_text ol li{
+        font-size: 2.5vw;
+        letter-spacing: .05vw;
+    }
+
+    .container_sidebar{
+      margin-top: 10vw;
+    }
+    .sidebar_layout{
+      display: flex;
+      flex-direction: column;
+      gap: 6vw;
+      margin-top: 4vw;
+   }
+   .sidebar_heading h4{
+      font-size: 4vw;
+      letter-spacing: .06vw;
+    }
+    .sidebar_heading a{
+        font-size: 2.3vw;
+        letter-spacing: .06vw;
+        margin-bottom: .18vw;
+    }
+    .article_image{
+      height: 50vw;
+      border-radius: 3vw;
+      margin-bottom: 3vw;
+    }
+    .article_heading{
+      height: max-content;
+      margin-bottom: 2vw;
+    }
+    .article_heading h1{
+      font-size: 3.1vw;
+    }
+    .article_content span{
+      font-size: 2.5vw;
+    }
+    .article_image button{
+      left: 2.3vw;
+      top: 2.3vw;
+      font-size: 2.4vw;
+      padding: .7vw 3vw;
+    }
+    .article_section a{
+      text-decoration: none;
+    }
+    .btn_more{
+      font-size: 2.5vw;
+      padding: .8vw 3vw;
+      padding-top: 1vw;
+      margin-top: 5vw;
+    }
+    .btn_more:hover{
+      background-color: #FF851A;
+      color:white;
+    }
+}

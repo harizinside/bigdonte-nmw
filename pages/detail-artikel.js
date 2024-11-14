@@ -47,52 +47,52 @@ export default function DetailArtikel(){
                             <div className={styles.article_box}>
                                 <div className={styles.article_image}>
                                     <Link href={"/"}><button>#aging</button></Link>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <div className={styles.article_heading}>
                                             <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
                                         </div>
                                     </Link>
                                     <span>Admin, 14-10-2024</span>
-                                    <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                                    <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                                 </div>
                             </div>
                             <div className={styles.article_box}>
                                 <div className={styles.article_image}>
                                     <Link href={"/"}><button>#aging</button></Link>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <div className={styles.article_heading}>
                                             <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
                                         </div>
                                     </Link>
                                     <span>Admin, 14-10-2024</span>
-                                    <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                                    <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                                 </div>
                             </div>
                             <div className={styles.article_box}>
                                 <div className={styles.article_image}>
                                     <Link href={"/"}><button>#aging</button></Link>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>
-                                    <Link href={"/"}>
+                                    <Link href={"/detail-artikel"}>
                                         <div className={styles.article_heading}>
                                             <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
                                         </div>
                                     </Link>
                                     <span>Admin, 14-10-2024</span>
-                                    <Link href={"/"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                                    <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                                 </div>
                             </div>
                         </div>

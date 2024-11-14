@@ -81,12 +81,16 @@
     font-family: var(--montserrat);
     color: #5A5A5A;
     letter-spacing: .04vw;
+    display: block;
+}
+.heading_sidebar_mobile{
+  display: none;
 }
 .article_sidebar_button{
     display: flex;
     gap: 1.1vw;
 }
-.article_sidebar_button button{
+.article_sidebar_button button{ 
     font-family: var(--poppins);
     letter-spacing: .03vw;
     font-size: .7vw;
@@ -95,6 +99,11 @@
     color: #FF851A;
     border-radius: 100vw;
     padding: .25vw .7vw;
+    cursor: pointer;
+    transition: .3s all;
+}
+.article_sidebar_button button:hover{
+  transform: scale(1.05);
 }
 .tabcontent_section{
     padding-right: 3.8vw;
@@ -313,3 +322,164 @@
     font-size: 1.1vw;
     margin-top: .3vw;
   }
+
+@media (max-width:768px) {
+  .container{
+    padding: 9vw 4vw;
+  }
+  .heading_section h1{
+    font-size: 6.5vw;
+  }
+  .tabsContainer {
+    margin-top: 7vw;
+  }
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3vw;
+    padding: 0 0;
+    margin-bottom: 8vw;
+  }
+  .tab {
+    padding: 1.6vw 3.4vw;
+    width: 100%;
+    font-size: 2.8vw;
+    letter-spacing: .08vw;
+  }
+  .activeTab {
+    padding: 1.6vw 3.4vw;
+    font-size: 2.8vw;
+    letter-spacing: .08vw;
+    width: 100%;
+  }
+  .tabContent_container{
+    display: grid;
+    grid-template-columns: 100%;
+    align-items: flex-end;
+    margin-bottom: 3.8vw;
+  }
+  .tabcontent_layout{
+    display: grid;
+    grid-template-columns: 100%;
+  }
+  .heading_sidebar h1{
+    display: none;
+  }
+  .tabcontent_section{
+    padding-right:0;
+    gap: 5vw;
+  }
+  .tabcontent_box_img{
+      height: 45vw;
+      border-radius: 3vw;
+      margin-bottom: 3.5vw;
+  }
+  .tag_article_img{
+    left: 3vw;
+    top: 3vw;
+    letter-spacing: .09vw;
+    font-size: 2.3vw;
+    padding: .6vw 2.3vw;
+  }
+  .tabcontent_box_text h1{
+    font-size: 3.7vw;
+    letter-spacing: .07vw;
+    margin-bottom: 1vw;
+  }
+  .tabcontent_box_text span{
+    font-size: 2.5vw;
+  }
+  .tabcontent_box_text p{
+      font-size: 2.5vw;
+      letter-spacing: .06vw;
+      margin-top: 2.4vw;
+  }
+  .tabcontent_box_text button{
+    font-size: 2.5vw;
+    letter-spacing: .07vw;
+    padding: .8vw 3vw;
+    margin-top: 3vw;
+  }
+  .article_sidebar_layout{
+    margin-top: 7vw;
+  }
+  .heading_sidebar_mobile{
+    display: block;
+    font-family: var(--montserrat);
+    font-size: 5vw;
+    color: #5A5A5A;
+  }
+  .article_sidebar_button{
+    gap: 3vw;
+    margin-top: 4vw;
+  }
+  .article_sidebar_button button{
+      letter-spacing: .06vw;
+      font-size: 2.6vw;
+      padding: .8vw 3vw;
+  }
+
+
+  .article_section{
+    padding: 5vw 4vw;
+    padding-top: 3vw;
+  }
+  .article_layout{
+    margin-top: 5vw;
+    grid-gap: 6vw;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .article_image{
+    height: 50vw;
+    border-radius: 3vw;
+    margin-bottom: 3vw;
+  }
+  .article_heading{
+    height: max-content;
+    margin-bottom: 2vw;
+  }
+  .article_heading h1{
+    font-size: 3.1vw;
+  }
+  .article_content span{
+    font-size: 2.5vw;
+  }
+  .article_image button{
+    left: 2.3vw;
+    top: 2.3vw;
+    font-size: 2.4vw;
+    padding: .7vw 3vw;
+  }
+  .article_section a{
+    text-decoration: none;
+  }
+  .btn_more{
+    font-size: 2.5vw;
+    padding: .8vw 3vw;
+    padding-top: 1vw;
+    margin-top: 5vw;
+  }
+  .btn_more:hover{
+    background-color: #FF851A;
+    color:white;
+  }
+  
+  .article_pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+    padding-bottom: 2vw;
+    margin-top: 10vw;
+  }
+  .article_pagination a{
+    font-size: 3.7vw;
+  }
+  .active_pagination{
+    font-size: 4.7vw !important;
+  }
+  .article_pagination a svg{
+    font-size: 3.4vw;
+    margin-top: .3vw;
+  }
+}

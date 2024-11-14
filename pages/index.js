@@ -21,7 +21,7 @@ export default function Home() {
           <div className={styles.banner_content}>
               <h1>Best Beauty <font>And Care</font></h1>
               <p>Overnight Beauty Repair For Every Budget + Skin Detox. Drink That Boost Metabolism. Improved Health.</p>
-              <Link href="#"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
+              <Link href="https://api.whatsapp.com/send?phone=6281280360370" target="blank_"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
           </div>
       </div>
       <div className={styles.section_1}>
@@ -54,7 +54,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </SwiperSlide>
+            </SwiperSlide> 
             <SwiperSlide>
               <div className={styles.box_service_layout}>
                 <div className={`${styles.box_service}`}>
@@ -166,13 +166,13 @@ export default function Home() {
           <div className={styles.article_layout}>
             <div className={styles.article_box}>
               <div className={styles.article_image}>
-                <Link href={"/"}><button>#aging</button></Link>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}><button>#aging</button></Link>
+                <Link href={"/detail-artikel"}>
                   <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
                 </Link>
               </div>
               <div className={styles.article_content}>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}>
                   <div className={styles.article_heading}>
                     <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
                   </div>
@@ -182,13 +182,13 @@ export default function Home() {
             </div>
             <div className={styles.article_box}>
               <div className={styles.article_image}>
-                <Link href={"/"}><button>#skincare</button></Link>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}><button>#skincare</button></Link>
+                <Link href={"/detail-artikel"}>
                   <img src="images/article_2.png" alt="Artikel NMW Clinic"/>
                 </Link>
               </div>
               <div className={styles.article_content}>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}>
                   <div className={styles.article_heading}>
                     <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
                   </div>
@@ -198,13 +198,13 @@ export default function Home() {
             </div>
             <div className={styles.article_box}>
               <div className={styles.article_image}>
-                <Link href={"/"}><button>#skincare</button></Link>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}><button>#skincare</button></Link>
+                <Link href={"/detail-artikel"}>
                   <img src="images/article_3.png" alt="Artikel NMW Clinic"/>
                 </Link>
               </div>
               <div className={styles.article_content}>
-                <Link href={"/"}>
+                <Link href={"/detail-artikel"}>
                   <div className={styles.article_heading}>
                     <h1>Memperbaiki tekstur kulit wajah dengan prosedur laser fractional</h1>
                   </div>
