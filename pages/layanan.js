@@ -21,7 +21,7 @@ export default function Layanan(){
                     <p>NMW Plastic Surgery hadir sebagai bagian dari NMW Klinik guna menjawab kebutuhan masyarakat untuk berkonsultasi dengan dokter-dokter spesialis bedah plastik terbaik seputar layanan bedah plastik baik melalui tindakan operasi maupun tindakan non invasif lainnya.</p>
                 </div>
             </div> 
-            <div className={styles.section_2}>
+            <div className={styles.section_2}> 
                 <div className={`${styles.heading_section}`}> 
                     <h1><font>Galeri</font> Bedah Plastik</h1>
                 </div>
@@ -263,12 +263,12 @@ export default function Layanan(){
                 </div>
                 <div className={styles.section_4_box}>
                     <img src="images/dokter_layanan.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
-                    {/* <img src="images/bg_nmw_dokter.svg" alt="Dokter-dokter NMW Clinic" className={styles.bg_our_dokter} /> */}
+                    <img src="images/nmw_bg.png" alt="Dokter-dokter NMW Clinic" className={styles.bg_our_dokter} />
                     <div className={styles.section_4_content}>
                         <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                         <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
                         <Link href={'/'}><button>Lihat Lebih Lanjut</button></Link>
-                </div>
+                    </div>
                 </div>
             </div>
         </>

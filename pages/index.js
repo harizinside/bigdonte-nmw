@@ -136,10 +136,13 @@ export default function Home() {
           <div className={styles.section_3_content}>
             <p>Dr. Nataliani Mawardi adalah seorang pendiri dari klinik kecantikan NMW yang kini menjadi salah satu klinik kepercayaan artis top nasional dan masyarakat luas untuk perawatan wajah.</p>
             <p>Dr. Nataliani memiliki pendirian “give back to community”. Melihat kurangnya kepedulian ibu-ibu di pasar membuat Dr. Nataliani berinisiatif memberikan konsultasi untuk jaga kesehatan.</p>
-            <Link href={'/'}><button>Lihat Lebih Lanjut</button></Link>
+            <Link href={'/achievment'}><button>Lihat Lebih Lanjut</button></Link>
           </div>
           <img src="images/dr_nataliani.png" alt="Dr. Nataliani Mawardi, dipl. CIBTAC" className={styles.section_3_image}/>
-          <img src="images/bg_dokter.svg" className={styles.section_3_overlay}/>
+          <img src="images/blink_orange.svg" className={styles.section_icon_1} />
+          <img src="images/blink_orange.svg" className={styles.section_icon_2} />
+          <img src="images/blink_grey.svg" className={styles.section_icon_3} />
+          <img src="images/blink_grey.svg" className={styles.section_icon_4} />
         </div>
       </div>
       <div className={styles.section_4}>
@@ -151,11 +154,12 @@ export default function Home() {
         </div>
         <div className={styles.section_4_box}>
           <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
-          <img src="images/bg_nmw_dokter.svg" alt="Dokter-dokter NMW Clinic" className={styles.bg_our_dokter} />
+          <img src="images/blink_orange.svg" className={styles.section_icon_5} />
+          <img src="images/blink_grey.svg" className={styles.section_icon_6} />
           <div className={styles.section_4_content}>
             <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
             <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
-            <Link href={'/'}><button>Lihat Lebih Lanjut</button></Link>
+            <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
           </div>
         </div>
       </div>

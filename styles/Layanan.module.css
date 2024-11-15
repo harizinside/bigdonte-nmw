@@ -61,7 +61,7 @@
 }
 .section_1_content a{
     text-decoration: none;
-}
+} 
 .btn_layanan button svg{
     font-size: 1.3vw;
     transition: .4s all;
@@ -330,10 +330,11 @@
   }
   .bg_our_dokter{
     position: absolute;
-    bottom: 0;
-    left: 14.6vw;
+    bottom: 4.6vw;
+    left: .6vw;
     z-index: 1;
-    width: 9.4vw;
+    width: 35vw;
+    display: block;
   }
   .heading_section_start{
     text-align: start;
@@ -346,6 +347,13 @@
   }
 
   @media (max-width:768px) {
+    .bg_our_dokter{
+        bottom: inherit;
+        top: 2vw;
+        width: 90vw;
+        z-index: 3;
+        display: none;
+    }
     .section_1{
         padding: 10vw 4vw;
         grid-template-columns: 100%;
@@ -561,11 +569,14 @@
         bottom: inherit;
         position: relative;
         z-index: 2;
-        background-color: #F3F3F3;
+        background: url(../public/images/nmw_bg.png) #f3f3f3a8;
         padding: 1.3vw;
         padding-bottom: 0;
         border-radius: 3vw;
+        background-size: contain;
+        background-repeat: no-repeat;
         margin-bottom: 3.3vw;
+        z-index: 5;
       }
       .heading_section p{
         font-size: 3vw;
