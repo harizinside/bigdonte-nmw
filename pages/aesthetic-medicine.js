@@ -70,7 +70,8 @@ export default function AestheticMedicine(){
                 </div>
                 <div className={styles.section_4_box}>
                 <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
-                <img src="images/bg_nmw_dokter.svg" alt="Dokter-dokter NMW Clinic" className={styles.bg_our_dokter} />
+                <img src="images/blink_orange.svg" className={styles.section_icon_5} />
+                <img src="images/blink_grey.svg" className={styles.section_icon_6} />
                 <div className={styles.section_4_content}>
                     <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>

@@ -1,8 +1,31 @@
 import banner from "@/styles/Banner.module.css"
 import styles from "@/styles/Award.module.css"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Achievment(){
+
+    const [achievments, setAchievments] = useState([]);
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/achievment`);
+                const data = await response.json();
+                if (data && data.data) { // Pastikan data dan data.data ada
+                setAchievments(data.data); // Setel data objek banner
+                } else {
+                console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching banners:', error);
+            }
+        };
+ 
+        fetchData();
+    }, []);
+
+
     const [isOpen, setIsOpen] = useState(false);
     const [popupImage, setPopupImage] = useState("");
 
@@ -14,6 +37,7 @@ export default function Achievment(){
     const closeModal = () => {
         setIsOpen(false);
     };
+
     return(
         <>
             <div className={banner.banner}>
@@ -24,84 +48,24 @@ export default function Achievment(){
                     <h1><font>Penghargaan</font> Kami</h1>
                 </div>
                 <div className={styles.cabang_layout}>
+                    {achievments.map(achievment => (
                     <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/achievment_img.png")}>
-                        <img src="images/achievment_img.png" alt="Cabang NMW Clinic" />
+                        <div 
+                            className={styles.cabang_box_image} 
+                            onClick={() => handleImageClick(`https://nmw.prahwa.net/storage/${achievment.image}`)}
+                            >
+                            <img src={`https://nmw.prahwa.net/storage/${achievment.image}`} alt={achievment.heading} />
                         </div>
                         <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/service_1.png")}>
-                        <img src="images/service_1.png" alt="Cabang NMW Clinic" />
-                        </div>
-                        <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
+                            <h1>{achievment.heading}</h1>
+                            <div className={styles.cabang_box_text}>
+                            <div 
+  dangerouslySetInnerHTML={{ __html: achievment.description }} 
+/>
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/detail_artikel.png")}>
-                        <img src="images/detail_artikel.png" alt="Cabang NMW Clinic" />
-                        </div>
-                        <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/achievment_img.png")}>
-                        <img src="images/achievment_img.png" alt="Cabang NMW Clinic" />
-                        </div>
-                        <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/service_1.png")}>
-                        <img src="images/service_1.png" alt="Cabang NMW Clinic" />
-                        </div>
-                        <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className={styles.cabang_box}>
-                        <div className={styles.cabang_box_image} onClick={() => handleImageClick("images/detail_artikel.png")}>
-                        <img src="images/detail_artikel.png" alt="Cabang NMW Clinic" />
-                        </div>
-                        <div className={styles.cabang_box_content}>
-                        <h1>Ibsa Derma Platinum Award 2023</h1>
-                        <div className={styles.cabang_box_text}>
-                            <p>
-                            NMW Clinic mendapatkan penghargaan persembahan dari IBSA, Aliaxin, Neoasia, Profhilo dalam Gala Award Indonesia
-                            </p>
-                        </div>
-                        </div>
-                    </div>
+                    ))}
 
                     {/* Modal Popup */}
                     {isOpen && (

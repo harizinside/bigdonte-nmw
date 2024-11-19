@@ -309,7 +309,7 @@
     border: .1vw solid #FF851A;
     color: #FF851A;
     font-family: var(--poppins);
-    font-size: .8vw;
+    font-size: .8vw; 
     letter-spacing: .05vw;
     border-radius: 100vw;
     padding: .43vw 1.06vw;
@@ -320,6 +320,40 @@
   .section_4_box button:hover{
     background-color: #FF851A;
     color:white;
+  }
+  @keyframes upSmall {
+    0%{
+      transform: scale(1) rotate(0);
+    }
+    100%{
+      transform: scale(1.1) rotate(-30deg);
+    }
+  }
+  
+  .section_icon_5{
+    position: absolute;
+    left: -.4vw;
+    top: 3.3vw;
+    width: 2.3vw;
+    z-index: 10;
+    animation: upEnd .8s alternate infinite ease-in;
+    display: block;
+  }
+  @keyframes upEnd {
+    0%{
+      transform: scale(1) rotate(2deg);
+    }
+    100%{
+      transform: scale(1.1) rotate(-9deg);
+    }
+  }
+  .section_icon_6{
+    position: absolute;
+    left: 35vw;
+    bottom: 6vw;
+    width: 1vw;
+    animation: upSmall 1.2s alternate infinite ease-in;
+    display: block;
   }
   .our_dokter{
     width: 34.7vw;
@@ -346,7 +380,151 @@
     color: #4C4C4C;
   }
 
+  .modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+  }
+  .modal.active{
+    display: flex;
+  }
+  .overlay_modal{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #cfcfcf80;
+    backdrop-filter: blur(18.9000015258789px)
+
+  }
+  .modal_content {
+    position: relative;
+    width: 40%;
+    height: max-content;
+    border-radius: 1.4vw;
+    overflow: hidden;
+    background-color: white;
+    text-align: center;
+    padding: 1.3vw 2vw;
+  }
+
+  .modal_content h1{
+    font-family: var(--fairplay);
+    color: #5A5A5A;
+    font-size: 1.7vw;
+    letter-spacing: .03vw;
+    margin-bottom: 1.5vw;
+  }
+  .modal_content p{
+    font-size: .83vw;
+    color: #4C4C4C;
+    letter-spacing: .03vw;
+    font-family: var(--montserrat);
+    line-height: 1.5;
+  }
+  .button_layout{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.4vw;
+    padding: 0 2.2vw;
+    margin-top: 1.86vw;
+    margin-bottom:1.6vw;
+  }
+  .button_layout button{
+    background-color: #FF851A;
+    outline: none;
+    border:none;
+    color: #fff;
+    font-family: var(--poppins);
+    font-size: .8vw; 
+    letter-spacing: .05vw;
+    border-radius: 100vw;
+    padding: .47vw .5vw;
+    cursor: pointer;
+    transition: .4s all;
+  }
+  .button_layout button:nth-child(2){
+    background-color: #A9A9A9;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .popup_image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
   @media (max-width:768px) {
+      .modal_content {
+        width: 90%;
+        border-radius: 3.6vw;
+        padding: 4vw 5vw;
+      }
+    
+      .modal_content h1{
+        font-size: 5.8vw;
+        letter-spacing: .06vw;
+        margin-bottom: 4vw;
+      }
+      .modal_content p{
+        font-size: 2.8vw;
+        letter-spacing: .05vw;
+      }
+      .button_layout{
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 3vw;
+        padding: 0 3vw;
+        margin-top: 6.5vw;
+        margin-bottom:5.5vw;
+      }
+      .button_layout button{
+        font-size: 2.8vw; 
+        letter-spacing: .07vw;
+        padding: 1.6vw .5vw;
+      }
+      .button_layout button:nth-child(2){
+        background-color: #A9A9A9;
+      }
+
+    .section_icon_5{
+        position: absolute;
+        left: -.5vw;
+        top: 4.8vw;
+        width: 6.3vw;
+        z-index: 10;
+        animation: upEnd .8s alternate infinite ease-in;
+        display: none;
+      }
+      .section_icon_6{
+        position: absolute;
+        left: 83vw;
+        bottom: 84vw;
+        z-index: 10;
+        width: 3.7vw;
+        animation: upSmall 1.2s alternate infinite ease-in;
+        display: none;
+      }
     .bg_our_dokter{
         bottom: inherit;
         top: 2vw;

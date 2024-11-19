@@ -3,19 +3,19 @@ import banner from "@/styles/Banner.module.css"
 import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 
-export default function MedicalTreatment(){
+export default function SpaTreatment(){
     return(
         <>
             <div className={banner.banner}>
-                <img src="images/medical-treatment.png" alt="Layanan Nmw Clinic"/>
+                <img src="images/spa-treatment.png" alt="Layanan Nmw Clinic"/>
             </div>
             <div className={styles.section_1}>
                 <div className={styles.section_1_heading}>
-                    <h1><font>Medical</font> Treatment</h1>
+                    <h1><font>Spa</font> Treatment</h1>
                     <Link href="#"><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
                 </div>
                 <div className={styles.section_1_content}>
-                    <p>NMW Clinic untuk Medical Treatment adanya Meso, Couter,PRP, Intravena Injection, Oxjet dan Trichology Package (untuk rambut)</p>
+                    <p>NMW Clinic dengan Aesthetic Medicine apabila anda ingin Botox Botox, Filler, Thread Lift, maupun Collagen Booster</p>
                 </div>
             </div>
             <div className={styles.section_2}>
@@ -23,51 +23,6 @@ export default function MedicalTreatment(){
                     <h1><font>Jenis</font> Layanan</h1>
                 </div>
                 <div className={styles.box_galeri_layout}>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <div className={styles.box_galeri_overlay}></div>
-                            <img src="images/layanan_spa_treatment.png" alt="Galeri Bedah Plastik NMW Clinic"/>
-                            <div className={`${styles.button_image} ${styles.button_image_sc}`}>
-                                <button>Essential Facial</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <div className={styles.box_galeri_overlay}></div>
-                            <img src="images/layanan_spa_treatment.png" alt="Galeri Bedah Plastik NMW Clinic"/>
-                            <div className={`${styles.button_image} ${styles.button_image_sc}`}>
-                                <button>Essential Facial</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <div className={styles.box_galeri_overlay}></div>
-                            <img src="images/layanan_spa_treatment.png" alt="Galeri Bedah Plastik NMW Clinic"/>
-                            <div className={`${styles.button_image} ${styles.button_image_sc}`}>
-                                <button>Essential Facial</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <div className={styles.box_galeri_overlay}></div>
-                            <img src="images/layanan_spa_treatment.png" alt="Galeri Bedah Plastik NMW Clinic"/>
-                            <div className={`${styles.button_image} ${styles.button_image_sc}`}>
-                                <button>Essential Facial</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <div className={styles.box_galeri_overlay}></div>
-                            <img src="images/layanan_spa_treatment.png" alt="Galeri Bedah Plastik NMW Clinic"/>
-                            <div className={`${styles.button_image} ${styles.button_image_sc}`}>
-                                <button>Essential Facial</button>
-                            </div>
-                        </div>
-                    </div>
                     <div className={styles.box_galeri}>
                         <div className={styles.box_galeri_image}>
                             <div className={styles.box_galeri_overlay}></div>

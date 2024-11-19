@@ -1,8 +1,30 @@
 import banner from "@/styles/Banner.module.css"
 import styles from "@/styles/Catalog.module.css"
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Catalog(){
+    const [catalogs, setCatalogs] = useState([]);
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/catalog`);
+                const data = await response.json();
+                if (data && data.data) { // Pastikan data dan data.data ada
+                setCatalogs(data.data); // Setel data objek banner
+                } else {
+                console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching banners:', error);
+            }
+        };
+ 
+        fetchData();
+    }, []);
+
     return(
         <>
             <div className={banner.banner}>
@@ -13,57 +35,25 @@ export default function Catalog(){
                     <h1><font>Katalog</font> Harga</h1>
                 </div>
                 <div className={styles.box_galeri_layout}>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <img src="images/catalogue_img_1.png" alt="Katalog Harga NMW Clinic"/>
-                        </div>
-                        <div className={styles.box_galeri_content}>
-                            <div className={styles.box_galeri_heading}>
-                                <h1>Katalog Treatment & Packs 2024</h1>
+                    {catalogs.map(catalog => (
+                        <div className={styles.box_galeri} key={catalog.id}>
+                            <div className={styles.box_galeri_image}>
+                                <img src={`https://nmw.prahwa.net/storage/${catalog.image}`} alt={catalog.title}/>
                             </div>
-                            <div className={styles.box_galeri_text}>
-                                <p>Terakhir Diperbaharui</p>
-                                <p>07 October 2024</p>
+                            <div className={styles.box_galeri_content}>
+                                <div className={styles.box_galeri_heading}>
+                                    <h1>{catalog.title}</h1>
+                                </div>
+                                <div className={styles.box_galeri_text}>
+                                    <p>Terakhir Diperbaharui</p>
+                                    <p>{new Date(catalog.date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.box_galeri_button}>
-                            <Link href={""}><button>Unduh</button></Link>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <img src="images/catalogue_img_2.png" alt="Katalog Harga NMW Clinic"/>
-                        </div>
-                        <div className={styles.box_galeri_content}>
-                            <div className={styles.box_galeri_heading}>
-                                <h1>Katalog Plastic Surgery 2024</h1>
-                            </div>
-                            <div className={styles.box_galeri_text}>
-                                <p>Terakhir Diperbaharui</p>
-                                <p>07 October 2024</p>
+                            <div className={styles.box_galeri_button}>
+                                <Link href={`https://nmw.prahwa.net/storage/${catalog.document}`} target="blank_"><button>Unduh</button></Link>
                             </div>
                         </div>
-                        <div className={styles.box_galeri_button}>
-                            <Link href={""}><button>Unduh</button></Link>
-                        </div>
-                    </div>
-                    <div className={styles.box_galeri}>
-                        <div className={styles.box_galeri_image}>
-                            <img src="images/catalogue_img_2.png" alt="Katalog Harga NMW Clinic"/>
-                        </div>
-                        <div className={styles.box_galeri_content}>
-                            <div className={styles.box_galeri_heading}>
-                                <h1>Brosur Produk Terbaru 2024</h1>
-                            </div>
-                            <div className={styles.box_galeri_text}>
-                                <p>Terakhir Diperbaharui</p>
-                                <p>07 October 2024</p>
-                            </div>
-                        </div>
-                        <div className={styles.box_galeri_button}>
-                            <Link href={""}><button>Unduh</button></Link>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
             <div className={styles.section_4}>

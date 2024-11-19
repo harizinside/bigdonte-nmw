@@ -1,6 +1,6 @@
 import styles from "@/styles/Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Controller } from "swiper/modules";
@@ -15,13 +15,40 @@ export default function Home() {
   const [firstSwiper, setFirstSwiper] = useState(null);
   const [secondSwiper, setSecondSwiper] = useState(null);
 
+  const [settings, setSettings] = useState([]);
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await fetch(`${baseUrl}/setting`);
+              const data = await response.json();
+              console.log('Fetched data:', data);  // Log the entire response
+
+              if (data && data.social_media) {
+                  setSettings(data); // Set the entire response object to settings
+              } else {
+                  console.error('No social_media data found:', data);
+              }
+          } catch (error) {
+              console.error('Error fetching settings:', error);
+          }
+      };
+
+      fetchData();
+  }, []);
+
+  const formattedPhone = settings.phone && settings.phone.startsWith('0')
+    ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
+    : settings.phone;
+
   return (
     <>
       <div className={styles.banner}>
           <div className={styles.banner_content}>
               <h1>Best Beauty <font>And Care</font></h1>
               <p>Overnight Beauty Repair For Every Budget + Skin Detox. Drink That Boost Metabolism. Improved Health.</p>
-              <Link href="https://api.whatsapp.com/send?phone=6281280360370" target="blank_"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
+              <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}  target="blank_"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
           </div>
       </div>
       <div className={styles.section_1}>

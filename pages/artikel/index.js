@@ -3,8 +3,30 @@ import styles from "@/styles/Article.module.css"
 import banner from "@/styles/Banner.module.css"
 import Link from 'next/link';
 import { HiArrowLongRight } from "react-icons/hi2";
+import { useEffect } from 'react';
 
 export default function Artikel() {
+    const [achievments, setAchievments] = useState([]);
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/achievment`);
+                const data = await response.json();
+                if (data && data.data) { // Pastikan data dan data.data ada
+                setAchievments(data.data); // Setel data objek banner
+                } else {
+                console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching banners:', error);
+            }
+        };
+ 
+        fetchData();
+    }, []);
+
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {

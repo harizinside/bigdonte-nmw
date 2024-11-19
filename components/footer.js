@@ -1,7 +1,72 @@
 import styles from '@/styles/Footer.module.css'
 import Link from 'next/link'
+import { useState, useEffect } from 'react';
 
 export default function Footer(){
+    const [settings, setSettings] = useState([]);
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState(null);
+    const [message, setMessage] = useState('');
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      setStatus(null);
+      setMessage('');
+  
+      try {
+        const response = await fetch(`${baseUrl}/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setStatus('success');
+          setMessage('Terima Kasih Telah Berlangganan');
+          setEmail(''); // Reset form input
+        } else {
+          const errorData = await response.json();
+          setStatus('error');
+          setMessage(errorData.error || 'Ada Kesalahan');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setStatus('error');
+        setMessage('An unexpected error occurred.');
+      }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/setting`);
+                const data = await response.json();
+   
+                if (data) { // We no longer check data.data, just check if data exists
+                    setSettings(data); // Set the entire response object to settings
+                    console.log(data);  // Check the structure of data in the console
+                } else {
+                    console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching settings:', error);
+            }
+        };
+   
+        fetchData();
+    }, []);
+   
+    const formattedPhone = settings.phone && settings.phone.startsWith('0')
+    ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
+    : settings.phone;
+
+
     return(
         <>
             <div className={styles.footer}>
@@ -10,11 +75,20 @@ export default function Footer(){
                     <div className={styles.footer_form}>
                         <h5>Berlangganan dengan berita terbaru kami</h5>
                         <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Klinik</p>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className={styles.form_layout}>
-                                <input type='email' placeholder='email@gmail.com'/><button>Berlangganan</button>
+                                <input type='email' placeholder='email@gmail.com'  id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/><button type="submit">Berlangganan</button>
                             </div>
                         </form>
+                        {status && (
+                            <div className={styles.eror}
+                            style={{
+                                color: status === 'success' ? '#fff' : '#721c24',
+                            }}
+                            >
+                            {message}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className={styles.contact_footer}>
@@ -22,15 +96,15 @@ export default function Footer(){
                     <div className={styles.contact_footer_layout}>
                         <div className={styles.contact_footer_box}>
                             <h5>Alamat</h5>
-                            <p>Jl. Petogogan II No.29 RT.008 RW.006 Kel. Pulo, Kec. Kebayoran Baru Kota Jakarta Selatan <br/>Prov. DKI Jakarta 12160</p>
+                            <p>{settings.address}</p>
                         </div>
                         <div className={styles.contact_footer_box}>
                             <h5>Layanan Pelanggan</h5>
-                            <p>081280360370</p>
+                            <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target="blank_"><p>{settings.phone}</p></Link>
                         </div>
                         <div className={styles.contact_footer_box}>
                             <h5>Email</h5>
-                            <p>hello@nmwclinic.co.id</p>
+                            <Link href={`mailto:${settings.email}`} target="blank_"><p>{settings.email}</p></Link>
                         </div>
                     </div>
                 </div>

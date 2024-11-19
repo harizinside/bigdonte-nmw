@@ -93,7 +93,7 @@
     width: 100%;
     padding: 0 1vw;
     padding-right: .87vw;
-    height: 2.8vw;
+    height: 2.4vw;
     border-radius: 100vw;
     background-color: #FF851A;
     outline: none;
@@ -111,7 +111,7 @@
     transition: .24s all;
 }
 .cabang_box_button a:first-child button svg{
-    font-size: 1.4vw;
+    font-size: 1.1vw;
 }
 .cabang_box_button a:first-child button:hover{
     background-color: transparent;
@@ -119,13 +119,13 @@
     color: #FF851A;
 }
 .cabang_box_button a:last-child button{
-    width: 2.8vw;
-    height: 2.8vw;
+    width: 2.4vw;
+    height: 2.4vw;
     border-radius: 100vw;
     background-color: #FF851A;
     outline: none;
     border: none;
-    font-size: 1.3vw;
+    font-size: 1.1vw;
     color: white;
     display: flex;
     align-items: center;
