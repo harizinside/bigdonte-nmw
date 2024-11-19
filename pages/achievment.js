@@ -49,7 +49,7 @@ export default function Achievment(){
                 </div>
                 <div className={styles.cabang_layout}>
                     {achievments.map(achievment => (
-                    <div className={styles.cabang_box}>
+                    <div className={styles.cabang_box} key={achievment.id}>
                         <div 
                             className={styles.cabang_box_image} 
                             onClick={() => handleImageClick(`https://nmw.prahwa.net/storage/${achievment.image}`)}
