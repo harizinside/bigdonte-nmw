@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    padding: 2.7vw 13.45vw;
+    padding-bottom: 8vw;
+}
+.heading_section{
+    text-align: center;
+}
+.heading_section_start{
+    text-align: start;
+}
+.heading_section h1{
+    font-family: var(--fairplay);
+    color: #5A5A5A;
+    font-size: 2.93vw;
+}
+.heading_section h1 font{
+    color: #FF851A;
+}
+.kebijakan_layout{
+    margin-top: 2.7vw;
+    font-size: .83vw;
+    font-family: var(--poppins);
+    letter-spacing: .03vw;
+    color: #5A5A5A;
+}
+
+@media (max-width:768px) {
+    .container{
+        padding: 6vw 4vw;
+    }
+    .heading_section h1{
+        font-size: 6.5vw;
+    }
+    .kebijakan_layout{
+        margin-top: 5vw;
+        font-size: 2.8vw;
+        letter-spacing: .06vw;
+    }
+}

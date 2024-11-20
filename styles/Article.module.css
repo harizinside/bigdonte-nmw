@@ -313,7 +313,7 @@
     color: black;
   }
   .active_pagination{
-    font-size: 1.4vw !important;
+    font-size: 1.2vw !important;
     color: #FF851A !important;
     font-weight: 700 !important;
   }
@@ -321,6 +321,26 @@
     color: #939393;
     font-size: 1.1vw;
     margin-top: .3vw;
+  }
+
+  .description{
+    display: -webkit-box;           /* Membuat elemen menjadi flexbox yang berorientasi vertikal */
+    -webkit-box-orient: vertical;   /* Mengatur orientasi box menjadi vertikal */
+    overflow: hidden;               /* Menyembunyikan konten yang melebihi batas */
+    -webkit-line-clamp: 3;          /* Membatasi teks hanya sampai 3 baris */
+    line-height: 1.5em;             /* Menentukan jarak antar baris */
+    max-height: 4.5em;              
+  }
+
+  .article_pagination button{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: .92vw;
+    letter-spacing: .04vw;
+    font-family: var(--poppins);
+    color: #4C4C4C;
+    cursor: pointer;
   }
 
 @media (max-width:768px) {
