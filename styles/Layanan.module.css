@@ -35,6 +35,13 @@
     color: #4C4C4C;
     line-height: 1.5;
 }
+.service_description{
+    font-size: .83vw;
+    letter-spacing: .03vw;
+    font-family: var(--montserrat);
+    color: #4C4C4C;
+    line-height: 1.5;
+}
 .btn_layanan{
     letter-spacing: .05vw;
     font-size: .8vw;
@@ -228,8 +235,19 @@
     grid-template-columns: 100%;
     justify-items: flex-start;
 }
+.box_service_image{
+    width: 100%;
+    height: 5.7vw;
+    position: relative;
+}
 .box_service_image img{
     width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    object-position: center;
 }
 .box_service_content{
     padding: 0 1.8vw;
@@ -251,6 +269,11 @@
     letter-spacing: .02vw;
     color: #4C4C4C;
     line-height: 1.4;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .box_service_layout_sc .box_service_content p{
     margin-bottom: 1.8vw;

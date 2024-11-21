@@ -101,14 +101,20 @@ export default function Artikel() {
                         {articles.map(article => (
                             <div className={styles.tabcontent_box} key={article.id}>
                                 <div className={styles.tabcontent_box_img}>
-                                    <img src={article.image} alt={article.title}/>
+                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <img src={article.image} alt={article.title}/>
+                                    </Link>
                                     <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
-                                    <h1>{article.title}</h1>
+                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <h1>{article.title}</h1>
+                                    </Link>
                                     <span>Admin, {article.date}</span>
                                     <div className={styles.description} dangerouslySetInnerHTML={{ __html: article.description }} />
-                                    <Link href={""}><button>Baca Selengkapnya</button></Link>
+                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <button>Baca Selengkapnya</button>
+                                    </Link>
                                 </div>
                             </div>
                         ))}
@@ -135,18 +141,18 @@ export default function Artikel() {
                     <div className={styles.article_box} key={article.id}>
                         <div className={styles.article_image}>
                             <Link href={"/detail-artikel"}><button>#aging</button></Link>
-                            <Link href={"/detail-artikel"}>
+                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                 <img src={article.image} alt={article.title}/>
                             </Link>
                         </div>
                         <div className={styles.article_content}>
-                            <Link href={"/detail-artikel"}>
+                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                 <div className={styles.article_heading}>
                                     <h1>{article.title}</h1>
                                 </div>
                             </Link>
                             <span>Admin, {article.date}</span>
-                            <Link href={"/detail-artikel"}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                         </div>
                     </div>
                 ))}

@@ -22,7 +22,7 @@ export default function Cabang(){
             } catch (error) {
                 console.error('Error fetching banners:', error);
             }
-        };
+        }; 
  
         fetchData();
     }, []);

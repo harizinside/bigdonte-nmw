@@ -128,6 +128,10 @@
     object-fit: cover;
     object-position: center;
     z-index: 2;
+    transition: .3s all;
+}
+.tabcontent_box:hover .tabcontent_box_img img{
+  transform: scale(1.07);
 }
 .tag_article_img{
     z-index: 3;
@@ -147,6 +151,9 @@
     outline: none;
     cursor: pointer;
 }
+.tabcontent_box_text a{
+  text-decoration: none;
+}
 .tabcontent_box_text h1{
     font-family: var(--montserrat);
     font-size: 1.36vw;
@@ -156,12 +163,15 @@
     font-weight: 600;
     margin-bottom: .1vw;
 }
+.tabcontent_box:hover .tabcontent_box_text h1{
+  color: #FF851A;
+}
 .tabcontent_box_text span{
     font-size: .72vw;
     font-family: var(--montserrat);
     color: #4C4C4C;
 }
-.tabcontent_box_text p{
+.tabcontent_box_text p, .tabcontent_box_text span, .tabcontent_box_text strong, .tabcontent_box_text b{
     font-family: var(--montserrat);
     font-size: .81vw;
     color: #4C4C4C;
@@ -344,6 +354,17 @@
   }
 
 @media (max-width:768px) {
+  .article_pagination button{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 2.8vw;
+    letter-spacing: .06vw;
+    font-family: var(--poppins);
+    color: #4C4C4C;
+    cursor: pointer;
+  }
+
   .container{
     padding: 9vw 4vw;
   }
@@ -409,7 +430,7 @@
   .tabcontent_box_text span{
     font-size: 2.5vw;
   }
-  .tabcontent_box_text p{
+  .tabcontent_box_text p, .tabcontent_box_text span, .tabcontent_box_text strong, .tabcontent_box_text b{
       font-size: 2.5vw;
       letter-spacing: .06vw;
       margin-top: 2.4vw;

@@ -50,7 +50,6 @@ export default function Footer(){
    
                 if (data) { // We no longer check data.data, just check if data exists
                     setSettings(data); // Set the entire response object to settings
-                    console.log(data);  // Check the structure of data in the console
                 } else {
                     console.error('Invalid response data format:', data);
                 }
@@ -71,7 +70,7 @@ export default function Footer(){
         <>
             <div className={styles.footer}>
                 <div className={styles.footer_logo}>
-                    <img src='images/logo.svg' alt='Logo NMW Clinic'/>
+                    <img src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
                     <div className={styles.footer_form}>
                         <h5>Berlangganan dengan berita terbaru kami</h5>
                         <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Klinik</p>
@@ -113,14 +112,14 @@ export default function Footer(){
                     <ul>
                         <li><Link href="#">Karir</Link></li>
                         <li><Link href="#">Bantuan Kami</Link></li>
-                        <li><Link href="#">FAQ</Link></li>
+                        <li><Link href="/faq">FAQ</Link></li>
                     </ul>
                 </div>
                 <div className={styles.contact_footer}>
                     <h4>Legalitas</h4>
                     <ul>
-                        <li><Link href="#">Kebijakan Privasi</Link></li>
-                        <li><Link href="#">Syarat & Ketentuan</Link></li>
+                        <li><Link href="/kebijakan-privasi">Kebijakan Privasi</Link></li>
+                        <li><Link href="/syarat-ketentuan">Syarat & Ketentuan</Link></li>
                     </ul>
                 </div>
             </div>

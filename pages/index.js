@@ -16,7 +16,41 @@ export default function Home() {
   const [secondSwiper, setSecondSwiper] = useState(null);
 
   const [settings, setSettings] = useState([]);
+  const [articles, setArticles] = useState([]);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/article-new`);
+            const data = await response.json();
+            if (data && data.data) { // Pastikan data dan data.data ada
+                // Ambil artikel dari data.data
+                const articles = data.data;
+
+                // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
+                const sortedArticles = articles.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    const createdAtA = new Date(a.created_at);
+                    const createdAtB = new Date(b.created_at);
+
+                    // Urutkan berdasarkan 'date' jika ada, jika tidak, urutkan berdasarkan 'created_at'
+                    return (dateB - dateA) || (createdAtB - createdAtA);
+                });
+
+                // Ambil 3 artikel pertama setelah diurutkan
+                setArticles(sortedArticles.slice(0, 3));
+            } else {
+                console.error('Invalid response data format:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching articles:', error);
+        }
+    };
+
+    fetchData();
+}, []);    
 
   useEffect(() => {
       const fetchData = async () => {
@@ -195,54 +229,24 @@ export default function Home() {
             <h1><font>Artikel</font></h1>
           </div>
           <div className={styles.article_layout}>
-            <div className={styles.article_box}>
-              <div className={styles.article_image}>
-                <Link href={"/detail-artikel"}><button>#aging</button></Link>
-                <Link href={"/detail-artikel"}>
-                  <img src="images/article_1.png" alt="Artikel NMW Clinic"/>
-                </Link>
+            {articles.map(article => (
+              <div className={styles.article_box} key={article.id}> 
+                <div className={styles.article_image}>
+                  <Link href={""}><button>#aging</button></Link>
+                  <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <img src={article.image} alt={article.title}/>
+                  </Link>
+                </div>
+                <div className={styles.article_content}>
+                  <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <div className={styles.article_heading}>
+                      <h1>{article.title}</h1>
+                    </div>
+                  </Link>
+                  <span>Admin, {article.date}</span>
+                </div>
               </div>
-              <div className={styles.article_content}>
-                <Link href={"/detail-artikel"}>
-                  <div className={styles.article_heading}>
-                    <h1>Seni menjaga kecantikan: rutin anti-aging untuk setiap usia</h1>
-                  </div>
-                </Link>
-                <span>Admin, 14-10-2024</span>
-              </div>
-            </div>
-            <div className={styles.article_box}>
-              <div className={styles.article_image}>
-                <Link href={"/detail-artikel"}><button>#skincare</button></Link>
-                <Link href={"/detail-artikel"}>
-                  <img src="images/article_2.png" alt="Artikel NMW Clinic"/>
-                </Link>
-              </div>
-              <div className={styles.article_content}>
-                <Link href={"/detail-artikel"}>
-                  <div className={styles.article_heading}>
-                    <h1>Menghilangkan lemak tubuh tanpa bedah</h1>
-                  </div>
-                </Link>
-                <span>Admin, 14-10-2024</span>
-              </div>
-            </div>
-            <div className={styles.article_box}>
-              <div className={styles.article_image}>
-                <Link href={"/detail-artikel"}><button>#skincare</button></Link>
-                <Link href={"/detail-artikel"}>
-                  <img src="images/article_3.png" alt="Artikel NMW Clinic"/>
-                </Link>
-              </div>
-              <div className={styles.article_content}>
-                <Link href={"/detail-artikel"}>
-                  <div className={styles.article_heading}>
-                    <h1>Memperbaiki tekstur kulit wajah dengan prosedur laser fractional</h1>
-                  </div>
-                </Link>
-                <span>Admin, 14-10-2024</span>
-              </div>
-            </div>
+            ))}
           </div>
           <Link href={"/artikel"}><button className={styles.btn_more}>Lihat Lebih Banyak</button></Link>
       </div>

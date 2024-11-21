@@ -17,8 +17,27 @@ import { CgClose } from "react-icons/cg";
 export default function Header() {
     const [dropdownActive, setDropdownActive] = useState(null); // Track active dropdown
     const router = useRouter();
+    const [services, setServices] = useState([]);
     const headerRef = useRef(null); // Reference to header element
     const [menuActive, setMenuActive] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/service`);
+                const data = await response.json();
+                if (data && data.data) { // Pastikan data dan data.data ada
+                setServices(data.data); // Setel data objek banner
+                } else {
+                console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            }
+        }; 
+ 
+        fetchData();
+    }, []);
 
     // Function to handle click outside of dropdown
     const handleClickOutside = (event) => {
@@ -81,7 +100,6 @@ export default function Header() {
             try {
                 const response = await fetch(`${baseUrl}/setting`);
                 const data = await response.json();
-                console.log('Fetched data:', data);  // Log the entire response
 
                 if (data && data.social_media) {
                     setSettings(data); // Set the entire response object to settings
@@ -155,7 +173,7 @@ export default function Header() {
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
-                        <img src={`https://nmw.prahwa.net/storage/${settings.logo}`}/>
+                        <img src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"/>
                     </Link>
                 </div>
                 <button className={styles.hamburger} onClick={handleHamburger}>
@@ -163,31 +181,18 @@ export default function Header() {
                 </button>
                 <div className={`${styles.menu} ${menuActive ? styles.active : ''}`}>
                     <div className={styles.menu_layout}>
-                        <img className={styles.logo_mobile} src="images/logo.svg" />
+                        <img className={styles.logo_mobile} src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
                         <ul ref={headerRef}>
                             <li className={isActive('/')} onClick={clickMenu}><Link href="/">Home</Link></li>
                             <li>
                                 <span onClick={() => toggleDropdown('services')} className={isActive('/layanan')}>Layanan</span>
                                 <div className={`${styles.dropdown_menu} ${dropdownActive === 'services' ? styles.active : ''}`}>
                                     <ul>
-                                        <li>
-                                            <Link href="/plastic-surgery">Plastic Surgery</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/spa-treatment">Spa Treatment</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/aesthetic-medicine">Aesthetic Medicine</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/medical-treatment">Medical Treatment</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/cosmetic-dermatology">Cosmetic Dermatology</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/slimming-treatment">Slimming Treatment</Link>
-                                        </li>
+                                        {services.map(service => (
+                                            <li onClick={clickMenu} key={service.id}>
+                                                <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>{service.name}</Link>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </li>

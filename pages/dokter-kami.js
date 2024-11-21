@@ -134,7 +134,9 @@ export default function DokterKami() {
                                     </div>
                                     <div className={styles.cabang_box_content}>
                                         <h1>
-                                            <font>{doctor.name}</font>
+                                            dr. 
+                                            <font> {doctor.name.split(' ')[1]} </font>
+                                            {doctor.name.split(' ').slice(2).join(' ')}
                                         </h1>
                                         <span>{doctor.position}</span>
                                     </div>
