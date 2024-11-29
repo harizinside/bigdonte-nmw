@@ -79,6 +79,7 @@
     border-radius: 1.3vw;
     margin-bottom: 1.2vw;
     position: relative;
+    border:.12vw solid #FF851A;
 }
 .cabang_box_image img{
     position: absolute;
@@ -190,6 +191,7 @@
         height: 42vw;
         border-radius: 3vw;
         margin-bottom: 2.5vw;
+        border:.3vw solid #FF851A;
     }
     .cabang_box_content{
         padding: 3.5vw;

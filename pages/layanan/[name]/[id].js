@@ -95,7 +95,7 @@ export default function JenisLayanan() {
 
             <div className={`${styles.section_1} ${styles.section_1_sc}`}>
                 <div className={styles.section_1_heading}>
-                    <h1>
+                    <h1 >
                         {serviceDetail.title.split(' ')[0]}{" "}
                         <font>{serviceDetail.title.split(' ').slice(1).join(' ')}</font>
                     </h1>
