@@ -8,8 +8,9 @@ import { FaWhatsapp } from "react-icons/fa";
 
 export default function JenisLayanan() {
     const router = useRouter();
-    const { id } = router.query;
+    const { name, slug } = router.query;
     const [serviceDetail, setServiceDetail] = useState(null);
+    const [serviceDetailList, setServiceDetailList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState([]);
 
@@ -37,29 +38,54 @@ export default function JenisLayanan() {
     }, []);
 
     useEffect(() => {
-        const fetchServiceDetail = async () => {
-            if (id) {
+        if (slug) {
+            // Fetching service detail
+            const fetchServiceDetail = async () => {
                 try {
-                    const response = await fetch(`${baseUrl}/service_two/${id}`);
+                    const response = await fetch(`${baseUrl}/service_two/${slug}`);
                     if (!response.ok) {
                         throw new Error(`API error: ${response.status} ${response.statusText}`);
                     }
                     const data = await response.json();
-                    if (data?.data) {
+                    if (data.data) {
                         setServiceDetail(data.data);
+                        const serviceId = data.data.id; // Ambil id dari response
+                        fetchServiceDetailList(serviceId); // Panggil fetchServiceDetailList dengan id
                     } else {
                         console.error("Data format is incorrect:", data);
                     }
                 } catch (error) {
-                    console.error("Error fetching service detail:", error);
-                } finally {
-                    setLoading(false);
+                    console.error('Error fetching service detail:', error);
                 }
-            }
-        };
-
-        fetchServiceDetail();
-    }, [id, baseUrl]);
+            };
+        
+            const fetchServiceDetailList = async (serviceId) => {
+                try {
+                    const response = await fetch(`${baseUrl}/sub_service_list/${serviceId}`);
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status} ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    if (data.data) {
+                        setServiceDetailList(data.data);
+                    } else {
+                        console.error("Data format is incorrect:", data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching service detail list:', error);
+                } finally {
+                    setLoading(false); // Set loading false after both API calls are done
+                }
+            };
+        
+            // Call the function to fetch the service detail data
+            fetchServiceDetail();
+            fetchServiceDetailList();
+        } else {
+            setLoading(false); // If service is not found, set loading to false
+        }
+    }, [slug, baseUrl]);
+      
 
     const formattedPhone = settings.phone && settings.phone.startsWith('0')
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
@@ -110,6 +136,27 @@ export default function JenisLayanan() {
                     <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target='blank_' ><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
                 </div>
             </div>
+
+            {serviceDetailList.length > 0 && (
+                <div className={styles.section_3}> 
+                    <div className={`${styles.box_service_layout} ${styles.box_service_layout_sc}`}>
+                        {
+                            serviceDetailList.map((serviceDetailListing) => (
+                                <div className={styles.box_service} key={serviceDetailListing.id}>
+                                    <div className={styles.box_service_content}>
+                                        <h1>{serviceDetailListing.title}</h1>
+                                        <p>{serviceDetailListing.description}</p>
+                                    </div>
+                                    <div className={styles.box_service_btn}>
+                                        <Link href={`/layanan/${name}/${slug}/${serviceDetailListing.slug}`}><button>Lihat Gambar</button></Link>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            )}
+
 
             <div className={styles.section_4}>
                 <div className={styles.heading_section_4}>

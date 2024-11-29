@@ -14,6 +14,7 @@ export default function Layanan() {
     const [services, setServices] = useState([]);
     const [galeriPatients, setGaleriPatients] = useState([]);
     const [typeServices, setTypeServices] = useState([]);
+    const [subServices, setSubServices] = useState([]);
     const [loading, setLoading] = useState(true); // Tambahkan state loading
     const [showPopup, setShowPopup] = useState(false);
 
@@ -86,7 +87,25 @@ export default function Layanan() {
                     }
                 };
 
-                // Fetching patient gallery
+                // Fetching Related Services
+                const fetchSubService = async () => {
+                    try {
+                        const response = await fetch(`${baseUrl}/sub_service_list/${matchedService.id}`);
+                        if (!response.ok) {
+                            throw new Error(`API error: ${response.status} ${response.statusText}`);
+                        }
+                        const data = await response.json();
+                        if (data?.data) {
+                            setSubServices(data.data);
+                        } else {
+                            console.error('Data format is incorrect:', data);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching related services:', error);
+                    }
+                };
+
+                // Fetching Patient Gallery
                 const fetchGaleriPasien = async () => {
                     try {
                         const response = await fetch(`${baseUrl}/patient_galeri?id=${matchedService.id}`);
@@ -94,7 +113,7 @@ export default function Layanan() {
                             throw new Error(`API error: ${response.status} ${response.statusText}`);
                         }
                         const data = await response.json();
-                        if (data && data.data) {
+                        if (data?.data) {
                             setGaleriPatients(data.data);
                         } else {
                             console.error('Data format is incorrect:', data);
@@ -104,11 +123,13 @@ export default function Layanan() {
                     }
                 };
 
+
                 // Run all the fetch functions sequentially
                 const fetchAllData = async () => { 
                     await fetchServiceDetail();
                     await fetchTypeServices();
                     await fetchGaleriPasien();
+                    await fetchSubService();
                     setLoading(false); // All data fetched, stop loading
                 };
 
@@ -183,38 +204,63 @@ export default function Layanan() {
                 </div>
             )}
 
-            {galeriPatients.length > 0 && ( 
-                <div className={styles.section_2}> 
-                    <div className={`${styles.heading_section}`}> 
-                        <h1><font>Galeri</font> Bedah Plastik</h1>
+            {galeriPatients.length > 0 && (
+                <div className={styles.section_2}>
+                    <div className={styles.heading_section}>
+                        <h1>
+                            <font>Galeri</font> Bedah Plastik
+                        </h1>
                     </div>
                     <div className={styles.box_galeri_layout}>
-                        {galeriPatients.map(galeriPatient => (
-                            <div className={styles.box_galeri} key={galeriPatient.id}>
-                                <div className={styles.box_galeri_image}>
-                                    <img src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`} alt={galeriPatient.name}/>
-                                    <div className={styles.button_image}>
-                                        <button>Sebelum</button>
-                                        <button>Sesudah</button>
+                        {galeriPatients.map((galeriPatient) => {
+                            // Cari subService terkait menggunakan matchedService.id
+                            const relatedSubService = subServices.find(
+                                (service) => service.id
+                            );
+
+                            return (
+                                <div className={styles.box_galeri} key={galeriPatient.id}>
+                                    {/* Image Section */}
+                                    <div className={styles.box_galeri_image}>
+                                        <img
+                                            src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`}
+                                            alt={galeriPatient.name || "Galeri Image"}
+                                            loading="lazy"
+                                        />
+                                        <div className={styles.button_image}>
+                                            <button type="button">Sebelum</button>
+                                            <button type="button">Sesudah</button>
+                                        </div>
+                                    </div>
+
+                                    {/* Content Section */}
+                                    <div className={styles.box_galeri_content}>
+                                        <div className={styles.box_galeri_heading}>
+                                            <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
+                                            <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
+                                        </div>
+                                        <div className={styles.box_galeri_text}>
+                                            <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Button Section */}
+                                    <div className={styles.box_galeri_button}>
+                                        <Link href="#">
+                                            <button type="button">
+                                                Lihat Gambar {galeriPatient.name || "Galeri"}
+                                            </button>
+                                        </Link>
                                     </div>
                                 </div>
-                                <div className={styles.box_galeri_content}>
-                                    <div className={styles.box_galeri_heading}>
-                                        <h1>Lower Blepharoplasty</h1>
-                                        <h3>{galeriPatient.name}</h3>
-                                    </div>
-                                    <div className={styles.box_galeri_text}>
-                                        <p>{galeriPatient.description}</p>
-                                    </div>
-                                </div>
-                                <div className={styles.box_galeri_button}>
-                                    <Link href={""}><button>Lihat Gambar {galeriPatient.name}</button></Link>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             )}
+
+
+
 
             {typeServices.services && typeServices.services.length > 0 && (
                 <div className={styles.section_3}>
@@ -247,7 +293,7 @@ export default function Layanan() {
                                         />
                                     </div>
                                     <div className={styles.box_service_btn}>
-                                        <Link href={`/layanan/${name}/${typeService.id}`} >
+                                        <Link href={`/layanan/${name}/${typeService.slug}`} >
                                             <button>Lihat Detail</button>
                                         </Link>
                                     </div>
@@ -259,7 +305,7 @@ export default function Layanan() {
                     {typeServices.template === "1" && (
                         <div className={styles.box_galeri_layout}>
                             {typeServices.services.map((typeService) => (
-                                <Link href={`/layanan/${name}/${typeService.id}`} key={typeService.id}>
+                                <Link href={`/layanan/${name}/${typeService.slug}`} key={typeService.id}>
                                     <div className={styles.box_galeri}>
                                         <div className={styles.box_galeri_image}>
                                             <div className={styles.box_galeri_overlay}></div>
