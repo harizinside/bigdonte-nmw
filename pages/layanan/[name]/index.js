@@ -259,8 +259,8 @@ export default function Layanan() {
                     {typeServices.template === "1" && (
                         <div className={styles.box_galeri_layout}>
                             {typeServices.services.map((typeService) => (
-                                <Link href={`/layanan/${name}/${typeService.id}`}>
-                                    <div className={styles.box_galeri} key={typeService.id}>
+                                <Link href={`/layanan/${name}/${typeService.id}`} key={typeService.id}>
+                                    <div className={styles.box_galeri}>
                                         <div className={styles.box_galeri_image}>
                                             <div className={styles.box_galeri_overlay}></div>
                                             <img
