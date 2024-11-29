@@ -243,13 +243,13 @@
     font-family: var(--montserrat);
     letter-spacing: .03vw;
     font-weight: 600;
-    color: #4C4C4C;
+    color: #d3eee0;
     -webkit-line-clamp: 2;
     display: -webkit-box;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: .4s all;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: .4s all;
   }
   .article_box:hover .article_heading h1{
     color: #FF851A;

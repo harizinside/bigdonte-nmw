@@ -4,14 +4,37 @@ import banner from "@/styles/Banner.module.css";
 import styles from "@/styles/Layanan.module.css";
 import Link from 'next/link';
 import loadingStyles from "@/styles/Loading.module.css";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function JenisLayanan() {
     const router = useRouter();
     const { id } = router.query;
     const [serviceDetail, setServiceDetail] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [settings, setSettings] = useState([]);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    
+    
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await fetch(`${baseUrl}/setting`);
+              const data = await response.json();
+              console.log('Fetched data:', data);  // Log the entire response
+
+              if (data && data.social_media) {
+                  setSettings(data); // Set the entire response object to settings
+              } else {
+                  console.error('No social_media data found:', data);
+              }
+          } catch (error) {
+              console.error('Error fetching settings:', error);
+          }
+      };
+
+      fetchData();
+    }, []);
 
     useEffect(() => {
         const fetchServiceDetail = async () => {
@@ -37,6 +60,10 @@ export default function JenisLayanan() {
 
         fetchServiceDetail();
     }, [id, baseUrl]);
+
+    const formattedPhone = settings.phone && settings.phone.startsWith('0')
+    ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
+    : settings.phone;
 
     if (loading) {
         return (
@@ -66,13 +93,13 @@ export default function JenisLayanan() {
                 />
             </div>
 
-            <div className={styles.section_1}>
-                {/* <div className={styles.section_1_heading}>
+            <div className={`${styles.section_1} ${styles.section_1_sc}`}>
+                <div className={styles.section_1_heading}>
                     <h1>
-                        <font>{serviceDetail.name.split(' ')[0]}</font>{" "}
-                        {serviceDetail.name.split(' ').slice(1).join(' ')}
+                        {serviceDetail.title.split(' ')[0]}{" "}
+                        <font>{serviceDetail.title.split(' ').slice(1).join(' ')}</font>
                     </h1>
-                </div> */}
+                </div>
                 <div className={styles.section_1_content}>
                     <div
                         className={styles.service_description}
@@ -80,6 +107,7 @@ export default function JenisLayanan() {
                             __html: serviceDetail.description || "Deskripsi tidak tersedia.",
                         }}
                     />
+                    <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target='blank_' ><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
                 </div>
             </div>
 
@@ -96,12 +124,12 @@ export default function JenisLayanan() {
                 </div>
                 <div className={styles.section_4_box}>
                     <img
-                        src="../images/dokter_layanan.png"
+                        src="../../images/dokter_layanan.png"
                         alt="Dokter-dokter NMW Clinic"
                         className={styles.our_dokter}
                     />
                     <img
-                        src="../images/nmw_bg.png"
+                        src="../../images/nmw_bg.png"
                         alt="Background Dokter"
                         className={styles.bg_our_dokter}
                     />

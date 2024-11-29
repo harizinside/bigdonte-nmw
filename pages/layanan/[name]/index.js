@@ -15,6 +15,7 @@ export default function Layanan() {
     const [galeriPatients, setGaleriPatients] = useState([]);
     const [typeServices, setTypeServices] = useState([]);
     const [loading, setLoading] = useState(true); // Tambahkan state loading
+    const [showPopup, setShowPopup] = useState(false);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -46,13 +47,16 @@ export default function Layanan() {
                 // Fetching service detail
                 const fetchServiceDetail = async () => {
                     try {
-                        const response = await fetch(`${baseUrl}/service-detail?id=${matchedService.id}`);
+                        const response = await fetch(`${baseUrl}/service_detail/${matchedService.id}`);
                         if (!response.ok) {
                             throw new Error(`API error: ${response.status} ${response.statusText}`);
                         }
                         const data = await response.json();
                         if (data && data.data) {
                             setServiceDetail(data.data);
+                            if (data.data.sensitive_content === 0) {
+                                setShowPopup(true);  // Show the popup if sensitive_content is 0
+                            }
                         } else {
                             console.error('Data format is incorrect:', data);
                         }
@@ -70,7 +74,10 @@ export default function Layanan() {
                         }
                         const data = await response.json();
                         if (data && data.data) {
-                            setTypeServices(data.data);
+                            setTypeServices({
+                                template: data.template || "1", // Default template
+                                services: data.data,          // Related services
+                            });
                         } else {
                             console.error('Data format is incorrect:', data);
                         }
@@ -112,6 +119,16 @@ export default function Layanan() {
         }
     }, [name, services, baseUrl]);
 
+     // Handle closing the modal
+     const closeModal = () => {
+        setShowPopup(false);  // Close the modal
+    };
+
+    // Handle the "back" action if user is under 18
+    const handleBack = () => {
+        router.back();
+    };
+
     if (loading) {
         return (
             <>
@@ -141,13 +158,32 @@ export default function Layanan() {
                         {serviceDetail.name.split(' ').slice(1).join(' ')}
                     </h1>
 
-                    <Link href={`https://api.whatsapp.com/send?phone=${serviceDetail.phone}`}  target="blank_"><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
+                    <Link href={`https://api.whatsapp.com/send?phone=${serviceDetail.phone}`} target="blank_"><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
                 </div>
                 <div className={styles.section_1_content}>
                     <div className={styles.service_description} dangerouslySetInnerHTML={{ __html: serviceDetail.description }} />
                 </div>
             </div>
-            {typeServices.length > 0 && ( 
+            {showPopup && (
+                <div className={`${styles.modal} ${showPopup ? styles.active : ""}`}>
+                    <div className={styles.overlay_modal}></div>
+                    <div className={styles.modal_content}>
+                        <h1>Verifikasi Usia</h1>
+                        <p>
+                            Situs web ini berisi materi yang dibatasi usia yang mengandung unsur dewasa. 
+                            Dengan ini Anda menyatakan bahwa Anda setidaknya berusia 18 tahun atau lebih, 
+                            untuk mengakses situs web dan Anda setuju untuk melihat konten ini.
+                        </p>
+                        <div className={styles.button_layout}>
+                            <button onClick={closeModal}>Saya sudah diatas 18 Tahun</button>
+                            <button onClick={handleBack}>Saya masih dibawah 18 Tahun</button>
+                        </div>
+                        <p>ⓒ PT.HUB 2024</p>
+                    </div>
+                </div>
+            )}
+
+            {galeriPatients.length > 0 && ( 
                 <div className={styles.section_2}> 
                     <div className={`${styles.heading_section}`}> 
                         <h1><font>Galeri</font> Bedah Plastik</h1>
@@ -179,36 +215,72 @@ export default function Layanan() {
                     </div>
                 </div>
             )}
-            {typeServices.length > 0 && (
+
+            {typeServices.services && typeServices.services.length > 0 && (
                 <div className={styles.section_3}>
                     <div className={`${styles.heading_section}`}>
-                        <h1><font>Jenis</font> Layanan</h1>
+                        <h1>
+                            <font>Jenis</font> Layanan
+                        </h1>
                     </div>
-                    <div className={styles.box_service_layout}>
-                        {typeServices.map(typeService => (
-                            <div className={styles.box_service} key={typeService.id}>
-                                <div className={styles.box_service_image}>
-                                    <img src={`https://nmw.prahwa.net/storage/${typeService.image}`} alt={typeService.title}/>
+
+                    {typeServices.template === "2" && (
+                        <div className={styles.box_service_layout}>
+                            {typeServices.services.map((typeService) => (
+                                <div className={styles.box_service} key={typeService.id}>
+                                    <div className={styles.box_service_image}>
+                                        <img
+                                            src={`https://nmw.prahwa.net/storage/${typeService.image}`}
+                                            alt={typeService.title}
+                                        />
+                                    </div>
+                                    <div className={styles.box_service_content}>
+                                        <h1>{typeService.title}</h1>
+                                        <p
+                                            className={styles.service_description}
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    typeService.description === "-"
+                                                        ? "Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini"
+                                                        : typeService.description,
+                                            }}
+                                        />
+                                    </div>
+                                    <div className={styles.box_service_btn}>
+                                        <Link href={`/layanan/${name}/${typeService.id}`} >
+                                            <button>Lihat Detail</button>
+                                        </Link>
+                                    </div>
                                 </div>
-                                <div className={styles.box_service_content}>
-                                    <h1>{typeService.title}</h1>
-                                    <p
-                                        className={styles.service_description}
-                                        dangerouslySetInnerHTML={{
-                                            __html: typeService.description === '-' 
-                                            ? 'Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini' 
-                                            : typeService.description
-                                        }}
-                                    />
-                                </div>
-                                <div className={styles.box_service_btn}>
-                                    <Link href={`/layanan/jenis-layanan/${typeService.id}`}><button>Lihat Detail</button></Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {typeServices.template === "1" && (
+                        <div className={styles.box_galeri_layout}>
+                            {typeServices.services.map((typeService) => (
+                                <Link href={`/layanan/${name}/${typeService.id}`}>
+                                    <div className={styles.box_galeri} key={typeService.id}>
+                                        <div className={styles.box_galeri_image}>
+                                            <div className={styles.box_galeri_overlay}></div>
+                                            <img
+                                                src={`https://nmw.prahwa.net/storage/${typeService.image}`}
+                                                alt={typeService.title}
+                                            />
+                                            <div
+                                                className={`${styles.button_image} ${styles.button_image_sc}`}
+                                            >
+                                                <button>{typeService.title}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
+
 
             <div className={styles.section_4}>
                 <div className={styles.heading_section_4}>

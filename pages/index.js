@@ -17,6 +17,8 @@ export default function Home() {
 
   const [settings, setSettings] = useState([]);
   const [articles, setArticles] = useState([]);
+  const [services, setServices] = useState([]);
+  const [serviceDetails, setServiceDetails] = useState({});
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
@@ -72,6 +74,46 @@ export default function Home() {
       fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchServices = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/service`);
+            const data = await response.json();
+            if (data && data.data) {
+                setServices(data.data); // Simpan layanan di state services
+            }
+        } catch (error) {
+            console.error('Error fetching services:', error);
+        }
+    };
+
+    fetchServices();
+  }, [baseUrl]);
+
+
+  const fetchServiceDetail = async (id) => {
+      if (serviceDetails[id]) {
+          return; // Skip fetch if already loaded
+      }
+
+      try {
+          const response = await fetch(`${baseUrl}/service_detail/${id}`);
+          const data = await response.json();
+          if (data?.data) {
+              setServiceDetails((prev) => ({
+                  ...prev,
+                  [id]: data.data,
+              }));
+          }
+      } catch (error) {
+          console.error(`Error fetching service detail for ID ${id}:`, error);
+      }
+  };
+
+  const midIndex = Math.ceil(services.length / 2);
+  const firstHalf = services.slice(0, midIndex); // First half of the services
+  const secondHalf = services.slice(midIndex); 
+
   const formattedPhone = settings.phone && settings.phone.startsWith('0')
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
     : settings.phone;
@@ -86,95 +128,85 @@ export default function Home() {
           </div>
       </div>
       <div className={styles.section_1}>
-        <div className={styles.heading_section}>
-          <h1><font>Layanan</font> Kami</h1>
-        </div>
-        <div className={styles.slide_section_1}>
-          {/* Second Swiper */}
-          <Swiper
-            dir="rtl"
-            navigation={true}
-            modules={[Navigation, Controller]}
-            className="mySwiper"
-            loop={true}
-            onSwiper={setSecondSwiper}
-            controller={{ control: firstSwiper }}
-          >
-            <SwiperSlide>
-              <div className={styles.box_service_layout}>
-                <div className={`${styles.box_service}`}>
-                  <div className={styles.box_service_content}>
-                    <h1>Plastic Surgery</h1>
-                    <p>
-                      NMW Plastic Surgery hadir sebagai bagian dari NMW Clinic dengan dokter-dokter spesialis bedah plastik terbaik untuk tindakan operasi dan tindakan non invasif lainnya
-                    </p>
-                    <Link href={'/'}><button>Lihat Detail</button></Link>
-                  </div>
-                  <div className={styles.box_service_image}>
-                    <img src="images/service_1.png" alt="Layanan NMW" />
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide> 
-            <SwiperSlide>
-              <div className={styles.box_service_layout}>
-                <div className={`${styles.box_service}`}>
-                  <div className={styles.box_service_content}>
-                    <h1>Plastic Surgery</h1>
-                    <p>
-                      NMW Plastic Surgery hadir sebagai bagian dari NMW Clinic dengan dokter-dokter spesialis bedah plastik terbaik untuk tindakan operasi dan tindakan non invasif lainnya
-                    </p>
-                    <Link href={'/'}><button>Lihat Detail</button></Link>
-                  </div>
-                  <div className={styles.box_service_image}>
-                    <img src="images/service_1.png" alt="Layanan NMW" />
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          </Swiper>
-          <Swiper
-            navigation={true}
-            modules={[Navigation, Controller]}
-            className="mySwiper mySwiperSecond"
-            loop={true}
-            onSwiper={setFirstSwiper}
-            controller={{ control: secondSwiper }}
-          >
-            <SwiperSlide>
-              <div className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}>
-                <div className={`${styles.box_service} ${styles.box_service_second}`}>
-                  <div className={styles.box_service_content}>
-                    <h1>Spa Treatment</h1>
-                    <p>
-                    NMW Clinic punya spa treatment dengan berbagai Facial, PDT, Face Therapy, Contouring, dan Advance Ageless untuk Anti-Aging
-                    </p>
-                    <Link href={'/'}><button>Lihat Detail</button></Link>
-                  </div>
-                  <div className={styles.box_service_image}>
-                    <img src="images/spa_image.png" alt="Layanan NMW" />
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}>
-                <div className={`${styles.box_service} ${styles.box_service_second}`}>
-                  <div className={styles.box_service_content}>
-                    <h1>Spa Treatment</h1>
-                    <p>
-                    NMW Clinic punya spa treatment dengan berbagai Facial, PDT, Face Therapy, Contouring, dan Advance Ageless untuk Anti-Aging
-                    </p>
-                    <Link href={'/'}><button>Lihat Detail</button></Link>
-                  </div>
-                  <div className={styles.box_service_image}>
-                    <img src="images/spa_image.png" alt="Layanan NMW" />
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          </Swiper>
-        </div>
+          <div className={styles.heading_section}>
+              <h1><font>Layanan</font> Kami</h1>
+          </div>
+          <div className={styles.slide_section_1}>
+              <Swiper
+                  dir="rtl"
+                  navigation={true}
+                  modules={[Navigation, Controller]}
+                  className="mySwiper"
+                  loop={true}
+                  onSwiper={setSecondSwiper}
+                  controller={{ control: firstSwiper }}
+              >
+                  {firstHalf.map((service) => (
+                      <SwiperSlide key={service.id}>
+                          <div
+                              className={styles.box_service_layout}
+                              onMouseEnter={() => fetchServiceDetail(service.id)} // Fetch detail on hover
+                          >
+                              <div className={`${styles.box_service}`}>
+                                  <div className={styles.box_service_content}>
+                                      <h1>{service.name}</h1>
+                                      <p>{serviceDetails[service.id]?.description ||
+                                              "Loading..."}</p>
+                                      <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                          <button>Lihat Detail</button>
+                                      </Link>
+                                  </div>
+                                  <div className={styles.box_service_image}>
+                                    <img
+                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image ||
+                                              "Loading..."}`}
+                                          alt={service.name}
+                                      />
+                                  </div>
+                              </div>
+                          </div>
+                      </SwiperSlide>
+                  ))}
+              </Swiper>
+
+              <Swiper
+                  navigation={true}
+                  modules={[Navigation, Controller]}
+                  className="mySwiper mySwiperSecond"
+                  loop={true}
+                  onSwiper={setFirstSwiper}
+                  controller={{ control: secondSwiper }}
+              >
+                  {secondHalf.map((service) => (
+                      <SwiperSlide key={service.id}>
+                          <div
+                              className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}
+                              onMouseEnter={() => fetchServiceDetail(service.id)} // Fetch detail on hover
+                          >
+                              <div className={`${styles.box_service} ${styles.box_service_second}`}>
+                                  <div className={styles.box_service_content}>
+                                      <h1>{serviceDetails[service.id]?.name || service.name}</h1>
+                                      <p>
+                                          {serviceDetails[service.id]?.description ||
+                                              "Loading..."}
+                                      </p>
+                                      <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                          <button>Lihat Detail</button>
+                                      </Link>
+                                  </div>
+                                  <div className={styles.box_service_image}>
+                                      <img
+                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image ||
+                                              "Loading..."}`}
+                                          alt={service.name}
+                                      />
+                                  </div>
+                              </div>
+                          </div>
+                      </SwiperSlide>
+                  ))}
+              </Swiper>
+          </div>
       </div>
       <div className={styles.section_2}>
         <div className={styles.heading_section}>

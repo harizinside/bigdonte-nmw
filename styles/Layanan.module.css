@@ -128,6 +128,10 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    transition: .4s all;
+}
+.box_galeri_image:hover img{
+    transform: scale(1.1);
 }
 .button_image{
     z-index: 2;
@@ -163,6 +167,10 @@
 .button_image_sc button{
     font-size: .82vw;
     padding: .2vw .9vw;
+}
+.box_galeri:hover .button_image_sc button{
+    background-color: white;
+    color: #FF851A;
 }
 .box_galeri_heading h1{
     font-family: var(--montserrat);
