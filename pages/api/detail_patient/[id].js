@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-    const { slug } = req.query; // Ambil ID dari query parameter
-    if (!slug) {
+    const { id } = req.query; // Ambil ID dari query parameter
+    if (!id) {
         return res.status(400).json({ error: 'ID artikel tidak disediakan' });
     }
 
     try {
-        const response = await axios.get(`https://nmw.prahwa.net/api/type-of-services/${slug}`);
+        const response = await axios.get(`https://nmw.prahwa.net/api/patient/${id}`);
         const service = response.data;
         res.status(200).json(service);
     } catch (error) {
@@ -15,4 +15,3 @@ export default async function handler(req, res) {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
- 

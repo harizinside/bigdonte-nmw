@@ -111,7 +111,7 @@ export default function Footer(){
                     <h4>Lainnya</h4>
                     <ul>
                         <li><Link href="#">Karir</Link></li>
-                        <li><Link href="#">Bantuan Kami</Link></li>
+                        <li><Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}  target="blank_">Bantuan Kami</Link></li>
                         <li><Link href="/faq">FAQ</Link></li>
                     </ul>
                 </div>

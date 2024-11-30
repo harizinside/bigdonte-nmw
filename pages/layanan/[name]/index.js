@@ -9,12 +9,13 @@ import not from "@/styles/Not.module.css";
 
 export default function Layanan() {
     const router = useRouter();
-    const { name } = router.query;
+    const { name, } = router.query;
     const [serviceDetail, setServiceDetail] = useState(null);
     const [services, setServices] = useState([]);
     const [galeriPatients, setGaleriPatients] = useState([]);
     const [typeServices, setTypeServices] = useState([]);
     const [subServices, setSubServices] = useState([]);
+    const [subTwoServices, setSubTwoServices] = useState([]);
     const [loading, setLoading] = useState(true); // Tambahkan state loading
     const [showPopup, setShowPopup] = useState(false);
 
@@ -55,9 +56,6 @@ export default function Layanan() {
                         const data = await response.json();
                         if (data && data.data) {
                             setServiceDetail(data.data);
-                            if (data.data.sensitive_content === 0) {
-                                setShowPopup(true);  // Show the popup if sensitive_content is 0
-                            }
                         } else {
                             console.error('Data format is incorrect:', data);
                         }
@@ -65,6 +63,8 @@ export default function Layanan() {
                         console.error('Error fetching service detail:', error);
                     }
                 };
+
+                console.log("matched : " + matchedService.id)
 
                 // Fetching related services
                 const fetchTypeServices = async () => {
@@ -86,6 +86,8 @@ export default function Layanan() {
                         console.error('Error fetching related services:', error);
                     }
                 };
+
+                                         
 
                 // Fetching Related Services
                 const fetchSubService = async () => {
@@ -130,6 +132,7 @@ export default function Layanan() {
                     await fetchTypeServices();
                     await fetchGaleriPasien();
                     await fetchSubService();
+                    
                     setLoading(false); // All data fetched, stop loading
                 };
 
@@ -140,15 +143,21 @@ export default function Layanan() {
         }
     }, [name, services, baseUrl]);
 
-     // Handle closing the modal
-     const closeModal = () => {
-        setShowPopup(false);  // Close the modal
-    };
-
-    // Handle the "back" action if user is under 18
-    const handleBack = () => {
-        router.back();
-    };
+        useEffect(() => {
+            const fetchSubTwoService = async () => {
+                try {
+                    const response = await fetch(`${baseUrl}/service_two_id/`);
+                    const data = await response.json();
+                    if (data && data.data) {
+                        setSubTwoServices(data.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching services or details:', error);
+                }
+            };
+        
+            fetchSubTwoService();
+          }, [baseUrl]);
 
     if (loading) {
         return (
@@ -185,24 +194,6 @@ export default function Layanan() {
                     <div className={styles.service_description} dangerouslySetInnerHTML={{ __html: serviceDetail.description }} />
                 </div>
             </div>
-            {showPopup && (
-                <div className={`${styles.modal} ${showPopup ? styles.active : ""}`}>
-                    <div className={styles.overlay_modal}></div>
-                    <div className={styles.modal_content}>
-                        <h1>Verifikasi Usia</h1>
-                        <p>
-                            Situs web ini berisi materi yang dibatasi usia yang mengandung unsur dewasa. 
-                            Dengan ini Anda menyatakan bahwa Anda setidaknya berusia 18 tahun atau lebih, 
-                            untuk mengakses situs web dan Anda setuju untuk melihat konten ini.
-                        </p>
-                        <div className={styles.button_layout}>
-                            <button onClick={closeModal}>Saya sudah diatas 18 Tahun</button>
-                            <button onClick={handleBack}>Saya masih dibawah 18 Tahun</button>
-                        </div>
-                        <p>ⓒ PT.HUB 2024</p>
-                    </div>
-                </div>
-            )}
 
             {galeriPatients.length > 0 && (
                 <div className={styles.section_2}>
@@ -212,54 +203,52 @@ export default function Layanan() {
                         </h1>
                     </div>
                     <div className={styles.box_galeri_layout}>
-                        {galeriPatients.map((galeriPatient) => {
+                    {galeriPatients.map((galeriPatient) => {
                             // Cari subService terkait menggunakan matchedService.id
-                            const relatedSubService = subServices.find(
-                                (service) => service.id
-                            );
+                        const relatedSubService = subServices.find(
+                            (service) => service.id
+                        );
 
-                            return (
-                                <div className={styles.box_galeri} key={galeriPatient.id}>
-                                    {/* Image Section */}
-                                    <div className={styles.box_galeri_image}>
-                                        <img
-                                            src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`}
-                                            alt={galeriPatient.name || "Galeri Image"}
-                                            loading="lazy"
-                                        />
-                                        <div className={styles.button_image}>
-                                            <button type="button">Sebelum</button>
-                                            <button type="button">Sesudah</button>
-                                        </div>
-                                    </div>
-
-                                    {/* Content Section */}
-                                    <div className={styles.box_galeri_content}>
-                                        <div className={styles.box_galeri_heading}>
-                                            <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
-                                            <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
-                                        </div>
-                                        <div className={styles.box_galeri_text}>
-                                            <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Button Section */}
-                                    <div className={styles.box_galeri_button}>
-                                        <Link href="#">
-                                            <button type="button">
-                                                Lihat Gambar {galeriPatient.name || "Galeri"}
-                                            </button>
-                                        </Link>
+                        return (
+                            <div className={styles.box_galeri} key={galeriPatient.id}>
+                                {/* Image Section */}
+                                <div className={styles.box_galeri_image}>
+                                    <img
+                                        src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`}
+                                        alt={galeriPatient.name || "Galeri Image"}
+                                        loading="lazy"
+                                    />
+                                    <div className={styles.button_image}>
+                                        <button type="button">Sebelum</button>
+                                        <button type="button">Sesudah</button>
                                     </div>
                                 </div>
-                            );
-                        })}
+
+                                {/* Content Section */}
+                                <div className={styles.box_galeri_content}>
+                                    <div className={styles.box_galeri_heading}>
+                                        <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
+                                        <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
+                                    </div>
+                                    <div className={styles.box_galeri_text}>
+                                        <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
+                                    </div>
+                                </div>
+
+                                {/* Button Section */}
+                                <div className={styles.box_galeri_button}>
+                                    <Link href={`/layanan/plastic-surgery/${encodeURIComponent(subTwoServices.title.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(relatedSubService.title.replace(/\s+/g, '-').toLowerCase())}/${galeriPatient.id}`}>
+                                        <button type="button">
+                                            Lihat Gambar {galeriPatient.name || "Galeri"}
+                                        </button>
+                                    </Link>
+                                </div>
+                            </div>
+                        );
+                    })}
                     </div>
                 </div>
             )}
-
-
 
 
             {typeServices.services && typeServices.services.length > 0 && (
@@ -276,7 +265,7 @@ export default function Layanan() {
                                 <div className={styles.box_service} key={typeService.id}>
                                     <div className={styles.box_service_image}>
                                         <img
-                                            src={`https://nmw.prahwa.net/storage/${typeService.image}`}
+                                            src={`https://nmw.prahwa.net/storage/${typeService.image2}`}
                                             alt={typeService.title}
                                         />
                                     </div>

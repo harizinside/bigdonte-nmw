@@ -82,6 +82,14 @@
     padding: 0 13.45vw;
     padding-bottom: 7.4vw;
 }
+.section_2_sc{
+    margin-top: 4vw;
+    padding-bottom: 4vw;
+}
+.section_2_patient{
+    margin-top: 2vw;
+    padding-bottom: 2vw;
+}
 .heading_section{
     text-align: center;
 }
@@ -100,6 +108,14 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin-top: 3vw;
+    grid-gap: 1.7vw;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+.patient_galeri_layout{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 1.7vw;
 }
 .box_galeri_overlay{
@@ -132,6 +148,9 @@
 }
 .box_galeri_image:hover img{
     transform: scale(1.1);
+}
+.patient_galeri_layout .box_galeri_image{
+    height: 22.9vw;
 }
 .button_image{
     z-index: 2;
@@ -167,6 +186,10 @@
 .button_image_sc button{
     font-size: .82vw;
     padding: .2vw .9vw;
+}
+
+.patient_galeri_layout .button_image button{
+    font-size: .86vw;
 }
 .box_galeri:hover .button_image_sc button{
     background-color: white;
@@ -506,7 +529,38 @@
     object-position: center;
   }
 
+  .empty{
+    transform: translateX(18vw);
+    text-align: center;
+  }
+  .empty h1{
+    font-family: var(--montserrat);
+    font-size: 1vw;
+    color: #4C4C4C;
+    letter-spacing: .04vw;
+    margin-top: 1vw;
+  }
+  .empty img{
+    width: 34vw;
+    
+  }
+
   @media (max-width:768px) {
+    .empty{
+        transform: translateX(0);
+        text-align: center;
+      }
+      .empty h1{
+        font-family: var(--montserrat);
+        font-size: 3vw;
+        color: #4C4C4C;
+        letter-spacing: .04vw;
+        margin-top: 2vw;
+      }
+      .empty img{
+        width: 64vw;
+        
+      }
       .modal_content {
         width: 90%;
         border-radius: 3.6vw;
@@ -627,6 +681,19 @@
         padding: 4vw 4vw;
         padding-bottom: 13vw;
     }
+    .section_2_patient{
+        padding: 1vw 4vw;
+        padding-bottom: 8vw;
+    }
+    
+    .service_description{
+        font-size: 2.5vw;
+        letter-spacing: .03vw;
+        font-family: var(--montserrat);
+        color: #4C4C4C;
+        line-height: 1.5;
+        margin-bottom: 1vw;
+    }
     .heading_section h1{
         font-size: 6.5vw;
     }
@@ -635,10 +702,18 @@
         margin-top: 5vw;
         grid-gap: 4vw;
     }
+    .patient_galeri_layout{
+        grid-template-columns: repeat(1, 1fr);
+        margin-top: 5vw;
+        grid-gap: 4vw;
+    }
     .box_galeri_image{
         height: 50vw;
         border-radius: 2vw;
         margin-bottom: 3vw;
+    }
+    .patient_galeri_layout .box_galeri_image{
+        height:55vw;
     }
     .button_image{
         bottom: 3vw;
@@ -657,6 +732,9 @@
         font-size: 3vw;
         letter-spacing: .1vw;
         padding: .8vw 3vw;
+    }
+    .patient_galeri_layout .button_image button{
+        font-size: 3.5vw;
     }
     .box_galeri_heading h1{
         font-size: 4.3vw;
@@ -706,9 +784,15 @@
         grid-template-columns: 100%;
         justify-items: flex-start;
     }
-    .box_service_image img{
+    .box_service_image{
         width: 50%;
+        height: 19vw;
+        position: relative;
         margin-bottom: 2.5vw;
+    }
+    .box_service_image img{
+        width: 100%;
+        
     }
     .box_service_content{
         padding: 0 0;

@@ -6,10 +6,11 @@ import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 
-export default function SubJenisLayanan() {
+export default function Patient() {
   const router = useRouter();
-  const { slug_sc } = router.query;
+  const { slug_sc, id } = router.query;
   const [serviceDetail, setServiceDetail] = useState(null);
+  const [patientDetail, setPatientDetail] = useState(null); // Changed to object
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState({ phone: "" });
 
@@ -31,26 +32,47 @@ export default function SubJenisLayanan() {
   }, [baseUrl]);
 
   useEffect(() => {
-    const fetchServiceDetail = async () => {
-      if (!slug_sc) {
-        setLoading(false);
-        return;
-      }
-
+    const fetchDetails = async () => {
       try {
-        const response = await fetch(`${baseUrl}/stos/${slug_sc}`);
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-        const data = await response.json();
-        setServiceDetail(data?.data || null);
+        setLoading(true);
+
+        // Fetch service detail if slug_sc exists
+        if (slug_sc) {
+          const responseService = await fetch(`${baseUrl}/stos/${slug_sc}`);
+          if (!responseService.ok) {
+            throw new Error(`Error API: ${responseService.status} ${responseService.statusText}`);
+          }
+          const dataService = await responseService.json();
+          if (dataService.data) {
+            setServiceDetail(dataService.data); // Set service details
+          } else {
+            console.error("Data layanan tidak ditemukan:", dataService);
+          }
+        }
+
+        // Fetch patient details if id exists
+        if (id) {
+          const responsePatient = await fetch(`${baseUrl}/detail_patient/${id}`);
+          if (!responsePatient.ok) {
+            throw new Error(`API error: ${responsePatient.status} ${responsePatient.statusText}`);
+          }
+          const dataPatient = await responsePatient.json();
+          if (dataPatient && dataPatient.data) {
+            setPatientDetail(dataPatient.data); // Set patient details
+            console.log("Pasien: ", dataPatient.data); // Display patient data in console
+          } else {
+            console.error("Data pasien tidak ditemukan:", dataPatient);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching service detail:", error);
+        console.error('Error saat mengambil data:', error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Ensure loading is set to false after fetch
       }
     };
 
-    fetchServiceDetail();
-  }, [slug_sc, baseUrl]);
+    fetchDetails(); // Call the function to fetch data
+  }, [slug_sc, id, baseUrl]);
 
   const formattedPhone = settings.phone?.startsWith("0")
     ? "62" + settings.phone.slice(1)
@@ -88,18 +110,20 @@ export default function SubJenisLayanan() {
       {/* Section 1 */}
       <div className={`${styles.section_1} ${styles.section_1_sc}`}>
         <div className={styles.section_1_heading}>
-          <h1>
-            {serviceDetail.title.split(" ")[0]}{" "}
-            <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font>
+          <h1> 
+             {patientDetail.name.split(" ")[0]}{" "}
+            <font>{patientDetail.name.split(" ").slice(1).join(" ")}</font>
           </h1>
         </div>
         <div className={styles.section_1_content}>
           <div
             className={styles.service_description}
             dangerouslySetInnerHTML={{
-              __html: serviceDetail.description || "Deskripsi tidak tersedia.",
+              __html: patientDetail.description || "Deskripsi tidak tersedia.",
             }}
           />
+          <p>Hasil individu bervariasi <br/> <br/>
+          Dibawah ini adalah gambar sebelum dan sesudah pasien yang melalukan tindakan operasi Blepharoplasty di NMW Bedah Plastik. Harap diperhatikan bahwa setiap hasil pasien sebelum dan sesudah berbeda. Silahkan hubungi Customer Service kami apabila ingin bertanya lebih lanjut.</p>
           <Link
             href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}
             target="_blank"
@@ -108,6 +132,47 @@ export default function SubJenisLayanan() {
               Buat Janji Temu Sekarang <FaWhatsapp />
             </button>
           </Link>
+        </div>
+      </div>
+
+      {/* Section 2 - Pasien */}
+      <div className={`${styles.section_2} ${styles.section_2_sc} ${styles.section_2_patient}`}>
+        <div className={styles.patient_galeri_layout}>
+          {/* Map over the patient data */}
+          {patientDetail ? (
+            <>
+            <div className={styles.box_galeri} key={patientDetail.id}>
+              {/* Gambar Pasien */}
+              <div className={styles.box_galeri_image}>
+                <img
+                  src={`https://nmw.prahwa.net/storage/${patientDetail.image}`}
+                  alt={patientDetail.name || "Galeri Image"}
+                  loading="lazy"
+                />
+                <div className={styles.button_image}>
+                  <button type="button">Sebelum</button>
+                  <button type="button">Sesudah</button>
+                </div>
+              </div>
+            </div>
+            <div className={styles.box_galeri} key={patientDetail.id}>
+              {/* Gambar Pasien */}
+              <div className={styles.box_galeri_image}>
+                <img
+                  src={`https://nmw.prahwa.net/storage/${patientDetail.image2}`}
+                  alt={patientDetail.name || "Galeri Image"}
+                  loading="lazy"
+                />
+                <div className={styles.button_image}>
+                  <button type="button">Sebelum</button>
+                  <button type="button">Sesudah</button>
+                </div>
+              </div>
+            </div>
+            </>
+          ) : (
+            <p>Data pasien tidak tersedia.</p>
+          )}
         </div>
       </div>
 

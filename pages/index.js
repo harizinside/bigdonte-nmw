@@ -80,35 +80,31 @@ export default function Home() {
             const response = await fetch(`${baseUrl}/service`);
             const data = await response.json();
             if (data && data.data) {
-                setServices(data.data); // Simpan layanan di state services
+                setServices(data.data);
+
+                // Ambil detail untuk semua layanan
+                const serviceDetailsPromises = data.data.map(async (service) => {
+                    const responseDetail = await fetch(`${baseUrl}/service_detail/${service.id}`);
+                    const detailData = await responseDetail.json();
+                    return { id: service.id, detail: detailData?.data };
+                });
+
+                const resolvedDetails = await Promise.all(serviceDetailsPromises);
+                const detailsMap = resolvedDetails.reduce((acc, { id, detail }) => {
+                    if (detail) acc[id] = detail;
+                    return acc;
+                }, {});
+
+                setServiceDetails(detailsMap); // Simpan semua detail di state
             }
         } catch (error) {
-            console.error('Error fetching services:', error);
+            console.error('Error fetching services or details:', error);
         }
     };
 
     fetchServices();
   }, [baseUrl]);
 
-
-  const fetchServiceDetail = async (id) => {
-      if (serviceDetails[id]) {
-          return; // Skip fetch if already loaded
-      }
-
-      try {
-          const response = await fetch(`${baseUrl}/service_detail/${id}`);
-          const data = await response.json();
-          if (data?.data) {
-              setServiceDetails((prev) => ({
-                  ...prev,
-                  [id]: data.data,
-              }));
-          }
-      } catch (error) {
-          console.error(`Error fetching service detail for ID ${id}:`, error);
-      }
-  };
 
   const midIndex = Math.ceil(services.length / 2);
   const firstHalf = services.slice(0, midIndex); // First half of the services
@@ -132,6 +128,7 @@ export default function Home() {
               <h1><font>Layanan</font> Kami</h1>
           </div>
           <div className={styles.slide_section_1}>
+          {firstHalf.length > 0 &&
               <Swiper
                   dir="rtl"
                   navigation={true}
@@ -143,23 +140,20 @@ export default function Home() {
               >
                   {firstHalf.map((service) => (
                       <SwiperSlide key={service.id}>
-                          <div
-                              className={styles.box_service_layout}
-                              onMouseEnter={() => fetchServiceDetail(service.id)} // Fetch detail on hover
-                          >
+                          <div className={styles.box_service_layout}>
                               <div className={`${styles.box_service}`}>
                                   <div className={styles.box_service_content}>
                                       <h1>{service.name}</h1>
-                                      <p>{serviceDetails[service.id]?.description ||
-                                              "Loading..."}</p>
+                                      <p>
+                                          {serviceDetails[service.id]?.description || "Loading..."}
+                                      </p>
                                       <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
                                           <button>Lihat Detail</button>
                                       </Link>
                                   </div>
                                   <div className={styles.box_service_image}>
-                                    <img
-                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image ||
-                                              "Loading..."}`}
+                                      <img
+                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image || "placeholder.png"}`}
                                           alt={service.name}
                                       />
                                   </div>
@@ -168,6 +162,8 @@ export default function Home() {
                       </SwiperSlide>
                   ))}
               </Swiper>
+              
+          }
 
               <Swiper
                   navigation={true}
@@ -181,7 +177,6 @@ export default function Home() {
                       <SwiperSlide key={service.id}>
                           <div
                               className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}
-                              onMouseEnter={() => fetchServiceDetail(service.id)} // Fetch detail on hover
                           >
                               <div className={`${styles.box_service} ${styles.box_service_second}`}>
                                   <div className={styles.box_service_content}>

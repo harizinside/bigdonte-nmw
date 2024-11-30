@@ -3,11 +3,13 @@ import styles from "@/styles/Dokter.module.css";
 import banner from "@/styles/Banner.module.css";
 import Link from "next/link";
 import { HiArrowLongRight } from "react-icons/hi2";
+import loadingStyles from "@/styles/Loading.module.css";
 
 export default function DokterKami() {
     const [doctors, setDoctors] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const [loading, setLoading] = useState(true); // Tambahkan state loading
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
@@ -143,7 +145,12 @@ export default function DokterKami() {
                                 </div>
                             ))
                         ) : (
-                            <p>No doctors available for this department.</p>
+                            <div className={loadingStyles.box}>
+                                <div className={loadingStyles.content}>
+                                    <img src="../images/logo.svg"/>
+                                    <span>Loading</span>
+                                </div>
+                            </div>
                         )}
                     </div>
 

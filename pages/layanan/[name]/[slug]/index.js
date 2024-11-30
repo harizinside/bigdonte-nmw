@@ -13,6 +13,7 @@ export default function JenisLayanan() {
     const [serviceDetailList, setServiceDetailList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     
@@ -37,7 +38,7 @@ export default function JenisLayanan() {
       fetchData();
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { 
         if (slug) {
             // Fetching service detail
             const fetchServiceDetail = async () => {
@@ -51,6 +52,9 @@ export default function JenisLayanan() {
                         setServiceDetail(data.data);
                         const serviceId = data.data.id; // Ambil id dari response
                         fetchServiceDetailList(serviceId); // Panggil fetchServiceDetailList dengan id
+                        if (data.data.sensitive_content === 1) {
+                            setShowPopup(true);  // Show the popup if sensitive_content is 0
+                        }
                     } else {
                         console.error("Data format is incorrect:", data);
                     }
@@ -90,6 +94,16 @@ export default function JenisLayanan() {
     const formattedPhone = settings.phone && settings.phone.startsWith('0')
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
     : settings.phone;
+
+    // Handle closing the modal
+    const closeModal = () => {
+        setShowPopup(false);  // Close the modal
+    };
+
+    // Handle the "back" action if user is under 18
+    const handleBack = () => {
+        router.back();
+    };
 
     if (loading) {
         return (
@@ -136,6 +150,25 @@ export default function JenisLayanan() {
                     <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target='blank_' ><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
                 </div>
             </div>
+
+            {showPopup && (
+                <div className={`${styles.modal} ${showPopup ? styles.active : ""}`}>
+                    <div className={styles.overlay_modal}></div>
+                    <div className={styles.modal_content}>
+                        <h1>Verifikasi Usia</h1>
+                        <p>
+                            Situs web ini berisi materi yang dibatasi usia yang mengandung unsur dewasa. 
+                            Dengan ini Anda menyatakan bahwa Anda setidaknya berusia 18 tahun atau lebih, 
+                            untuk mengakses situs web dan Anda setuju untuk melihat konten ini.
+                        </p>
+                        <div className={styles.button_layout}>
+                            <button onClick={closeModal}>Saya sudah diatas 18 Tahun</button>
+                            <button onClick={handleBack}>Saya masih dibawah 18 Tahun</button>
+                        </div>
+                        <p>ⓒ PT.HUB 2024</p>
+                    </div>
+                </div>
+            )}
 
             {serviceDetailList.length > 0 && (
                 <div className={styles.section_3}> 

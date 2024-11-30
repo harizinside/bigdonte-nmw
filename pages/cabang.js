@@ -3,11 +3,13 @@ import banner from "@/styles/Banner.module.css"
 import { FaWhatsapp } from "react-icons/fa";
 import { SlLocationPin } from "react-icons/sl";
 import Link from "next/link";
+import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 
 export default function Cabang(){
     const [branchs, setBranchs] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const [loading, setLoading] = useState(true); // Tambahkan state loading
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,11 +23,26 @@ export default function Cabang(){
                 }
             } catch (error) {
                 console.error('Error fetching banners:', error);
+            } finally {
+                setLoading(false);
             }
         }; 
  
         fetchData();
     }, []);
+
+    if (loading) {
+        return (
+            <>
+                <div className={loadingStyles.box}>
+                    <div className={loadingStyles.content}>
+                        <img src="../images/logo.svg"/>
+                        <span>Loading</span>
+                    </div>
+                </div>
+            </>
+        );
+    }
 
     return(
         <>
