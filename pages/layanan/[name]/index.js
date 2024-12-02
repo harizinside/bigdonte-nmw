@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 import loadingStyles from "@/styles/Loading.module.css";
 import not from "@/styles/Not.module.css";
+import Head from 'next/head';
 
 export default function Layanan() {
     const router = useRouter();
@@ -20,6 +21,7 @@ export default function Layanan() {
     const [showPopup, setShowPopup] = useState(false);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
     // Fetch data layanan lainnya
     useEffect(() => {
@@ -178,8 +180,17 @@ export default function Layanan() {
 
     return (
         <>
+            <Head>
+                <title>{serviceDetail.name} | NMW Clinic</title>
+                <meta name="description" content={serviceDetail.description} />
+                <meta property="og:title" content={serviceDetail.name} />
+                <meta property="og:description" content={serviceDetail.description} />
+                <meta property="og:type" content="Layanan" />
+                <meta name="twitter:title" content={serviceDetail.name} />
+                <meta name="twitter:description" content={serviceDetail.description} />
+            </Head>
             <div className={banner.banner}>
-                <img src={`https://nmw.prahwa.net/storage/${serviceDetail.image}`} alt={serviceDetail.name} />
+                <img src={`${storageUrl}/${serviceDetail.image}`} alt={serviceDetail.name} />
             </div>
             <div className={styles.section_1}>
                 <div className={styles.section_1_heading}>
@@ -214,7 +225,7 @@ export default function Layanan() {
                                 {/* Image Section */}
                                 <div className={styles.box_galeri_image}>
                                     <img
-                                        src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`}
+                                        src={`${storageUrl}/${galeriPatient.image}`}
                                         alt={galeriPatient.name || "Galeri Image"}
                                         loading="lazy"
                                     />
@@ -265,7 +276,7 @@ export default function Layanan() {
                                 <div className={styles.box_service} key={typeService.id}>
                                     <div className={styles.box_service_image}>
                                         <img
-                                            src={`https://nmw.prahwa.net/storage/${typeService.image2}`}
+                                            src={`${storageUrl}/${typeService.image2}`}
                                             alt={typeService.title}
                                         />
                                     </div>
@@ -299,7 +310,7 @@ export default function Layanan() {
                                         <div className={styles.box_galeri_image}>
                                             <div className={styles.box_galeri_overlay}></div>
                                             <img
-                                                src={`https://nmw.prahwa.net/storage/${typeService.image}`}
+                                                src={`${storageUrl}/${typeService.image}`}
                                                 alt={typeService.title}
                                             />
                                             <div
@@ -330,7 +341,7 @@ export default function Layanan() {
                     <div className={styles.section_4_content}>
                         <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                         <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
-                        <Link href={'/'}><button>Lihat Lebih Lanjut</button></Link>
+                        <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
                     </div>
                 </div>
             </div>

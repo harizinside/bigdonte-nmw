@@ -6,6 +6,7 @@ import stylesAll from "@/styles/Article.module.css"
 import loadingStyles from "@/styles/Loading.module.css";
 import not from "@/styles/Not.module.css";
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function DetailArtikel() {
     const router = useRouter();
@@ -208,14 +209,32 @@ export default function DetailArtikel() {
         );
     }
 
+    const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
+
     return (
         <>
+            <Head>
+                <title>{articleDetail.title} - NMW Clinic</title>
+                <meta name="description" content={articleDetail.description} />
+                <meta name="keywords" content={tags.join(', ')} /> {/* SEO meta untuk tags */}
+                <meta property="og:title" content={articleDetail.title} />
+                <meta property="og:description" content={articleDetail.description} />
+                <meta property="og:type" content="article" />
+                <meta name="twitter:title" content={articleDetail.title} />
+                <meta name="twitter:description" content={articleDetail.description} />
+            </Head>
             <div className={banner.banner}>
                 <img src={articleDetail.image} alt={articleDetail.title} />
             </div>
             <div className={styles.container}>
                 <div className={styles.detail_tag}>
-                    <Link href={""}><button>#Skincare</button></Link>
+                {tags.map((tag, index) => (
+                    <Link href={`tag/${tag.trim()}`} key={index}>
+                    <button>
+                        #{tag.trim()}
+                    </button>
+                    </Link>
+                ))}
                 </div>
                 <div className={styles.container_layout}>
                     <div className={styles.container_content}>
@@ -233,27 +252,35 @@ export default function DetailArtikel() {
                             <Link href={"/artikel"}>Lihat lebih banyak</Link>
                         </div>
                         <div className={styles.sidebar_layout}>
-                            {articles.map(article => (
-                                <div className={styles.article_box} key={article.id}>
-                                    <div className={styles.article_image}>
-                                        <Link href={"/"}><button>#aging</button></Link>
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                            <img src={article.image} alt={article.title} />
-                                        </Link>
+                            {articles.map(article => {
+                                const tagsList = article.tags ? article.tags.split(',') : [];
+
+                                return(
+                                    <div className={styles.article_box} key={article.id}>
+                                        <div className={styles.article_image}>
+                                            {tagsList.length > 0 && (
+                                                <Link href={`tag/${tagsList[0].trim()}`}>
+                                                    <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                                                </Link>
+                                            )}
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                                <img src={article.image} alt={article.title} />
+                                            </Link>
+                                        </div>
+                                        <div className={styles.article_content}>
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                                <div className={styles.article_heading}>
+                                                    <h1>{article.title}</h1>
+                                                </div>
+                                            </Link>
+                                            <span>Admin, {article.date}</span>
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                                <button className={styles.btn_more}>Baca Selengkapnya</button>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    <div className={styles.article_content}>
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                            <div className={styles.article_heading}>
-                                                <h1>{article.title}</h1>
-                                            </div>
-                                        </Link>
-                                        <span>Admin, {article.date}</span>
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                            <button className={styles.btn_more}>Baca Selengkapnya</button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
+                                )
+                            })}
                         </div>
                     </div>
                 </div>

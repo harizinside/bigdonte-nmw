@@ -94,6 +94,7 @@ export default function Header() {
 
     const [settings, setSettings] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -136,7 +137,7 @@ export default function Header() {
             <title>NMW Clinic</title>
             <meta name="description" content={settings.meta_description} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="icon" href={`https://nmw.prahwa.net/storage/${settings.favicon}`} />
+            <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
         </Head>
         <div className={styles.header}>
             <div className={styles.nav_top}>
@@ -173,7 +174,7 @@ export default function Header() {
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
-                        <img src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"/>
+                        <img src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"/>
                     </Link>
                 </div>
                 <button className={styles.hamburger} onClick={handleHamburger}>
@@ -181,7 +182,7 @@ export default function Header() {
                 </button>
                 <div className={`${styles.menu} ${menuActive ? styles.active : ''}`}>
                     <div className={styles.menu_layout}>
-                        <img className={styles.logo_mobile} src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
+                        <img className={styles.logo_mobile} src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
                         <ul ref={headerRef}>
                             <li className={isActive('/')} onClick={clickMenu}><Link href="/">Home</Link></li>
                             <li>

@@ -20,6 +20,7 @@ export default function Home() {
   const [services, setServices] = useState([]);
   const [serviceDetails, setServiceDetails] = useState({});
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,7 +154,7 @@ export default function Home() {
                                   </div>
                                   <div className={styles.box_service_image}>
                                       <img
-                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image || "placeholder.png"}`}
+                                          src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
                                           alt={service.name}
                                       />
                                   </div>
@@ -191,7 +192,7 @@ export default function Home() {
                                   </div>
                                   <div className={styles.box_service_image}>
                                       <img
-                                          src={`https://nmw.prahwa.net/storage/${serviceDetails[service.id]?.image ||
+                                          src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
                                               "Loading..."}`}
                                           alt={service.name}
                                       />

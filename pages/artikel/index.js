@@ -4,10 +4,12 @@ import banner from "@/styles/Banner.module.css"
 import Link from 'next/link';
 import { HiArrowLongRight } from "react-icons/hi2";
 import { useEffect } from 'react';
+import Head from 'next/head';
 
 export default function Artikel() {
     const [articles, setArticles] = useState([]);
     const [articlesAll, setArticlesAll] = useState([]);
+    const [tags, setTags] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); // Menyimpan halaman yang aktif
     const [totalPages, setTotalPages] = useState(1); 
     
@@ -64,6 +66,20 @@ export default function Artikel() {
     
         fetchData();
       }, [currentPage]); // Fetch ulang saat currentPage berubah
+
+      useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/get-tag`);
+                const data = await response.json();
+                setTags(data); // Langsung mengatur data JSON yang diterima
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            }
+        };
+
+        fetchData();
+      }, []);
     
       // Fungsi untuk menangani klik halaman berikutnya
       const handleNextPage = () => {
@@ -82,6 +98,15 @@ export default function Artikel() {
 
   return (
     <>
+    <Head>
+        <title>Artikel | NMW Clinic</title>
+        <meta name="description" content="Artikel NMW Clinic" />
+        <meta property="og:title" content="Artikel" />
+        <meta property="og:description" content="Artikel NMW Clinic" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:title" content="Artikel" />
+        <meta name="twitter:description" content="Artikel NMW Clinic" />
+    </Head>
     <div className={banner.banner}>
         <img src="images/slimming-treatment.png" alt="Layanan Nmw Clinic"/>
     </div>
@@ -98,13 +123,20 @@ export default function Artikel() {
             <div className={styles.tabContent}>
                 <div className={styles.tabcontent_layout}>
                     <div className={styles.tabcontent_section}>
-                        {articles.map(article => (
+                    {articles.map((article) => {
+                        const tagsList = article.tags ? article.tags.split(',') : [];
+
+                        return (
                             <div className={styles.tabcontent_box} key={article.id}>
                                 <div className={styles.tabcontent_box_img}>
                                     <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <img src={article.image} alt={article.title}/>
+                                        <img src={article.image} alt={article.title} />
                                     </Link>
-                                    <Link href={""}><button className={styles.tag_article_img}>#aging</button></Link>
+                                    {tagsList.length > 0 && (
+                                        <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                            <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                                        </Link>
+                                    )}
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
                                     <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
@@ -117,14 +149,26 @@ export default function Artikel() {
                                     </Link>
                                 </div>
                             </div>
-                        ))}
+                        );
+                    })}
+
                     </div>
                     <div className={styles.article_sidebar_layout}>
                         <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
                         <div className={styles.article_sidebar_button}>
-                            <Link href={""}><button>#aging</button></Link>
-                            <Link href={""}><button>#Skincare</button></Link>
-                            <Link href={""}><button>#Aging</button></Link>
+                        {tags.length > 0 ? (
+                            tags.map((tag, index) => {
+                                // Buat URL dengan format artikel/[tag]
+                                const tagUrl = `/artikel/tag/${tag.trim()}`;
+                                return (
+                                    <Link href={tagUrl} key={index}>
+                                        <button>{tag.trim()}</button>
+                                    </Link>
+                                );
+                            })
+                        ) : (
+                            <p>No tags available</p>
+                        )}
                         </div>
                     </div>
                 </div>
@@ -137,25 +181,33 @@ export default function Artikel() {
         </div>
         <div className={styles.article_container}>
             <div className={styles.article_layout}>
-                {articlesAll.map(article => (
-                    <div className={styles.article_box} key={article.id}>
-                        <div className={styles.article_image}>
-                            <Link href={"/detail-artikel"}><button>#aging</button></Link>
-                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                <img src={article.image} alt={article.title}/>
-                            </Link>
+                {articlesAll.map(article => {
+                    const tagsList = article.tags ? article.tags.split(',') : [];
+
+                    return(
+                        <div className={styles.article_box} key={article.id}>
+                            <div className={styles.article_image}>
+                                {tagsList.length > 0 && (
+                                    <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                        <button>#{tagsList[0].trim()}</button>
+                                    </Link>
+                                )}
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <img src={article.image} alt={article.title}/>
+                                </Link>
+                            </div>
+                            <div className={styles.article_content}>
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <div className={styles.article_heading}>
+                                        <h1>{article.title}</h1>
+                                    </div>
+                                </Link>
+                                <span>Admin, {article.date}</span>
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                            </div>
                         </div>
-                        <div className={styles.article_content}>
-                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                <div className={styles.article_heading}>
-                                    <h1>{article.title}</h1>
-                                </div>
-                            </Link>
-                            <span>Admin, {article.date}</span>
-                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
-                        </div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
             <div className={styles.article_pagination}>
                 <button onClick={handlePrevPage} disabled={currentPage === 1}>

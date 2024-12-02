@@ -5,6 +5,7 @@ import { SlLocationPin } from "react-icons/sl";
 import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
+import Head from "next/head";
 
 export default function Cabang(){
     const [branchs, setBranchs] = useState([]);
@@ -46,6 +47,17 @@ export default function Cabang(){
 
     return(
         <>
+            <Head>
+                <title>Cabang | NMW Clinic</title>
+                <meta name="description" content="Alamat Cabang & Kantor NMW Clinic" />
+                <meta property="og:title" content="Cabang NMW Clinic" />
+                <meta property="og:description" content="Alamat Cabang & Kantor NMW Clinic" />
+                <meta property="og:type" content="Cabang NMW Clinic" />
+                <meta name="twitter:title" content="Cabang NMW Clinic" />
+                <meta name="twitter:description" content="Alamat Cabang & Kantor NMW Clinic" />
+                <meta property="og:url" content="{{ url()->current() }}" />
+                <meta property="og:image" content="{{ asset('images/cabang-banner.png') }}" />
+            </Head>
             <div className={banner.banner}>
                 <img src="images/cabang-banner.png" alt="Layanan Nmw Clinic"/>
             </div>

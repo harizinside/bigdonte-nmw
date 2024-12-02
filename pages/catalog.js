@@ -2,10 +2,12 @@ import banner from "@/styles/Banner.module.css"
 import styles from "@/styles/Catalog.module.css"
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 export default function Catalog(){
     const [catalogs, setCatalogs] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +29,17 @@ export default function Catalog(){
 
     return(
         <>
+            <Head>
+                <title>Katalog | NMW Clinic</title>
+                <meta name="description" content="Lihat dan download katalog NMW Clinic" />
+                <meta property="og:title" content="Katalog" />
+                <meta property="og:description" content="Lihat dan download katalog NMW Clinic" />
+                <meta property="og:type" content="Katalog" />
+                <meta name="twitter:title" content="Katalog" />
+                <meta name="twitter:description" content="Lihat dan download katalog NMW Clinic" />
+                <meta property="og:url" content="{{ url()->current() }}" />
+                <meta property="og:image" content="{{ asset('images/catalogue-banner.png') }}" />
+            </Head>
             <div className={banner.banner}>
                 <img src="images/catalogue-banner.png" alt="Layanan Nmw Clinic"/>
             </div>
@@ -38,7 +51,7 @@ export default function Catalog(){
                     {catalogs.map(catalog => (
                         <div className={styles.box_galeri} key={catalog.id}>
                             <div className={styles.box_galeri_image}>
-                                <img src={`https://nmw.prahwa.net/storage/${catalog.image}`} alt={catalog.title}/>
+                                <img src={`${storageUrl}/${catalog.image}`} alt={catalog.title}/>
                             </div>
                             <div className={styles.box_galeri_content}>
                                 <div className={styles.box_galeri_heading}>
@@ -50,7 +63,7 @@ export default function Catalog(){
                                 </div>
                             </div>
                             <div className={styles.box_galeri_button}>
-                                <Link href={`https://nmw.prahwa.net/storage/${catalog.document}`} target="blank_"><button>Unduh</button></Link>
+                                <Link href={`${storageUrl}/${catalog.document}`} target="blank_"><button>Unduh</button></Link>
                             </div>
                         </div>
                     ))}
@@ -70,7 +83,7 @@ export default function Catalog(){
                 <div className={styles.section_4_content}>
                     <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
-                    <Link href={'/'}><button>Lihat Lebih Lanjut</button></Link>
+                    <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
                 </div>
                 </div>
             </div>

@@ -12,6 +12,10 @@
 .container_content{
     padding-right: 4vw;
 }
+.detail_tag{
+  display: flex;
+  gap: .6vw;
+}
 .detail_tag button{
     font-family: var(--poppins);
     letter-spacing: .03vw;
@@ -229,6 +233,13 @@
     }
     .container_content{
       padding-right: 0;
+    }
+    .detail_tag{
+      display: flex;
+      gap: 2vw;
+      width: 100%;
+      overflow-x: scroll;
+      margin-bottom: 3vw;
     }
     .detail_tag button{
       letter-spacing: .06vw;

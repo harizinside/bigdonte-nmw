@@ -76,6 +76,9 @@
     grid-template-columns: 76.4% 24.6%;
 }
 
+.tag_heading{
+  text-transform: capitalize;
+}
 .heading_sidebar h1{
     font-size: 1.6vw;
     font-family: var(--montserrat);
@@ -89,6 +92,8 @@
 .article_sidebar_button{
     display: flex;
     gap: 1.1vw;
+    width: 100%;
+    flex-wrap: wrap;
 }
 .article_sidebar_button button{ 
     font-family: var(--poppins);
@@ -243,7 +248,7 @@
     font-family: var(--montserrat);
     letter-spacing: .03vw;
     font-weight: 600;
-    color: #d3eee0;
+    color: #4C4C4C;
     -webkit-line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;

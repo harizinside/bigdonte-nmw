@@ -5,6 +5,7 @@ import styles from "@/styles/Layanan.module.css";
 import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
+import Head from "next/head";
 
 export default function Patient() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function Patient() {
   const [settings, setSettings] = useState({ phone: "" });
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -99,10 +101,19 @@ export default function Patient() {
 
   return (
     <>
+        <Head>
+            <title>{patientDetail.name} | NMW Clinic</title>
+            <meta name="description" content={patientDetail.description} />
+            <meta property="og:title" content={patientDetail.name} />
+            <meta property="og:description" content={patientDetail.description} />
+            <meta property="og:type" content="Layanan"/>
+            <meta name="twitter:title" content={patientDetail.name} />
+            <meta name="twitter:description" content={patientDetail.description} />
+        </Head>
       {/* Banner */}
       <div className={banner.banner}>
         <img
-          src={`https://nmw.prahwa.net/storage/${serviceDetail.image}`}
+          src={`${storageUrl}/${serviceDetail.image}`}
           alt={serviceDetail.name || "Banner image"}
         />
       </div>
@@ -145,7 +156,7 @@ export default function Patient() {
               {/* Gambar Pasien */}
               <div className={styles.box_galeri_image}>
                 <img
-                  src={`https://nmw.prahwa.net/storage/${patientDetail.image}`}
+                  src={`${storageUrl}/${patientDetail.image}`}
                   alt={patientDetail.name || "Galeri Image"}
                   loading="lazy"
                 />
@@ -159,7 +170,7 @@ export default function Patient() {
               {/* Gambar Pasien */}
               <div className={styles.box_galeri_image}>
                 <img
-                  src={`https://nmw.prahwa.net/storage/${patientDetail.image2}`}
+                  src={`${storageUrl}/${patientDetail.image2}`}
                   alt={patientDetail.name || "Galeri Image"}
                   loading="lazy"
                 />
@@ -211,7 +222,7 @@ export default function Patient() {
               keahlian untuk memberikan hasil luar biasa sekaligus memastikan
               keselamatan pasien.
             </p>
-            <Link href="/">
+            <Link href="/dokter-kami">
               <button>Lihat Lebih Lanjut</button>
             </Link>
           </div>

@@ -4,6 +4,7 @@ import banner from "@/styles/Banner.module.css";
 import Link from "next/link";
 import { HiArrowLongRight } from "react-icons/hi2";
 import loadingStyles from "@/styles/Loading.module.css";
+import Head from "next/head";
 
 export default function DokterKami() {
     const [doctors, setDoctors] = useState([]);
@@ -89,6 +90,16 @@ export default function DokterKami() {
 
     return (
         <>
+            <Head>
+                <title>Dokter Kami | NMW Clinic</title>
+                <meta name="description" content="Kenali tim dokter profesional di NMW Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda." />
+                <meta property="og:title" content="Dokter Kami - NMW Clinic" />
+                <meta property="og:description" content="Temui dokter-dokter berpengalaman di NMW Clinic yang siap memberikan pelayanan medis terbaik dengan pendekatan yang personal dan profesional." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="{{ url()->current() }}" />
+                <meta property="og:image" content="{{ asset('images/dokter_banner.png') }}" />
+            </Head>
+
             <div className={banner.banner}>
                 <img src="/images/dokter_banner.png" alt="Layanan NMW Clinic" />
             </div>

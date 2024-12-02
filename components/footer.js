@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 export default function Footer(){
     const [settings, setSettings] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(null);
@@ -70,7 +71,7 @@ export default function Footer(){
         <>
             <div className={styles.footer}>
                 <div className={styles.footer_logo}>
-                    <img src={`https://nmw.prahwa.net/storage/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
+                    <img src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
                     <div className={styles.footer_form}>
                         <h5>Berlangganan dengan berita terbaru kami</h5>
                         <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Klinik</p>

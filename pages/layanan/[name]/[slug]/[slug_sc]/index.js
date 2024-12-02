@@ -5,6 +5,7 @@ import styles from "@/styles/Layanan.module.css";
 import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
+import Head from "next/head";
 
 export default function SubJenisLayanan() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function SubJenisLayanan() {
   const [serviceDetailList, setServiceDetailList] = useState([]);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -127,10 +129,19 @@ export default function SubJenisLayanan() {
 
   return (
     <>
+        <Head>
+            <title>{serviceDetail.title} | NMW Clinic</title>
+            <meta name="description" content={serviceDetail.description} />
+            <meta property="og:title" content={serviceDetail.title} />
+            <meta property="og:description" content={serviceDetail.description} />
+            <meta property="og:type" content="Layanan"/>
+            <meta name="twitter:title" content={serviceDetail.title} />
+            <meta name="twitter:description" content={serviceDetail.description} />
+        </Head>
       {/* Banner */}
       <div className={banner.banner}>
         <img
-          src={`https://nmw.prahwa.net/storage/${serviceDetail.image}`}
+          src={`${storageUrl}/${serviceDetail.image}`}
           alt={serviceDetail.name || "Banner image"}
         />
       </div>
@@ -174,7 +185,7 @@ export default function SubJenisLayanan() {
                       {/* Image Section */}
                       <div className={styles.box_galeri_image}>
                           <img
-                              src={`https://nmw.prahwa.net/storage/${galeriPatient.image}`}
+                              src={`${storageUrl}/${galeriPatient.image}`}
                               alt={galeriPatient.name || "Galeri Image"}
                               loading="lazy"
                           />
