@@ -134,9 +134,9 @@ export default function Header() {
     return (
         <>
         <Head>
-            <title>NMW Clinic Official Website</title>
+            <title>Official NMW - Klinik Aesthetic, Skincare, Dermatologi Jakarta</title>
 
-            <meta name="description" content={settings.meta_description} />
+            <meta name="description" content="NMW Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Jam Operasional Klinik 09:00 - 20:00" />
 
             <meta name="google-site-verification" content="iYG_LhQQBgtnR0eh5LxjemSAR_8cAHBnM7WZ_Dqq_N8" />
             
@@ -156,6 +156,8 @@ export default function Header() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
             <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+
+            <meta name="robots" content="index, follow" />
 
             <link rel="canonical" href="https://www.nmwclinic.co.id/" />
         </Head>

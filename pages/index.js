@@ -126,7 +126,7 @@ export default function Home() {
       </div>
       <div className={styles.section_1}>
           <div className={styles.heading_section}>
-              <h1><font>Layanan</font> Kami</h1>
+              <h2><font>Layanan</font> Kami</h2>
           </div>
           <div className={styles.slide_section_1}>
           {firstHalf.length > 0 &&
@@ -206,7 +206,7 @@ export default function Home() {
       </div>
       <div className={styles.section_2}>
         <div className={styles.heading_section}>
-          <h1><font>Tentang</font> Kami</h1>
+          <h2><font>Tentang</font> Kami</h2>
         </div>
         <div className={styles.section_2_text}>
           <img src="images/about_image.png" alt="Tentang NMW Clinic"/>
@@ -217,7 +217,7 @@ export default function Home() {
       <div className={styles.section_3}>
         <div className={styles.heading_section_3}>
           <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h1><font>Pendiri</font></h1>
+            <h2><font>Pendiri</font></h2>
             <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
           </div>
         </div>
@@ -237,7 +237,7 @@ export default function Home() {
       <div className={styles.section_4}>
         <div className={styles.heading_section_4}>
           <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h1><font>Dokter Kami</font></h1>
+            <h2><font>Dokter Kami</font></h2>
             <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function Home() {
       </div>
       <div className={styles.article_section}>
           <div className={`${styles.heading_section}`}>
-            <h1><font>Artikel</font></h1>
+            <h2><font>Artikel</font></h2>
           </div>
           <div className={styles.article_layout}>
             {articles.map(article => (
