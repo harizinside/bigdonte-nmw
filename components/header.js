@@ -134,11 +134,32 @@ export default function Header() {
     return (
         <>
         <Head>
-            <title>NMW Clinic</title>
+            <title>NMW Clinic Official Website</title>
+
             <meta name="description" content={settings.meta_description} />
+
+            <meta name="google-site-verification" content="iYG_LhQQBgtnR0eh5LxjemSAR_8cAHBnM7WZ_Dqq_N8" />
+            
+            <meta name="keywords" content="klinik kesehatan, layanan medis, konsultasi kesehatan, NMW Clinic, perawatan medis, bedah plastik" />
+
+            <meta property="og:title" content="NMW Clinic" />
+            <meta property="og:description" content={settings.meta_description} />
+            <meta property="og:image" content={`${storageUrl}/${settings.favicon}`} />
+            <meta property="og:url" content={settings.site_url} />
+            <meta property="og:type" content="website" />
+            
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="NMW Clinic" />
+            <meta name="twitter:description" content={settings.meta_description} />
+            <meta name="twitter:image" content={`${storageUrl}/${settings.favicon}`} />
+
             <meta name="viewport" content="width=device-width, initial-scale=1" />
+
             <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+
+            <link rel="canonical" href="https://www.nmwclinic.co.id/" />
         </Head>
+
         <div className={styles.header}>
             <div className={styles.nav_top}>
                 <div className={styles.contact_nav}>
@@ -209,7 +230,7 @@ export default function Header() {
                     <button className={styles.close_btn} onClick={handleHamburger}><CgClose/></button>
                 </div>
                 <div className={styles.login}>
-                    <Link href="">
+                    <Link href={`${settings.direct_link}`} target="blank_">
                         <button>Masuk</button>
                     </Link>
                 </div>
