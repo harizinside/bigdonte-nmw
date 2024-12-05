@@ -183,7 +183,7 @@ export default function Header() {
                     <div className={styles.sosmed_nav_box}>
                         {socialMediaLinks.length > 0 ? (
                             socialMediaLinks.map((social, index) => (
-                                <Link key={index} href={social.link} target="blank_">
+                                <Link key={index} href={social.link} target="blank_" aria-label={social.name}>
                                     {/* Render the correct icon */}
                                     <div>{iconMapping[social.name]}</div>
                                 </Link>
