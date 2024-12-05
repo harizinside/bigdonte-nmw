@@ -211,6 +211,11 @@ export default function DetailArtikel() {
 
     const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
 
+    const shortDescription = articleDetail.description.length > 100 
+    ? articleDetail.description.substring(0, 100) + "..." 
+    : articleDetail.description;
+
+
     return (
         <>
             <Head>
@@ -222,6 +227,21 @@ export default function DetailArtikel() {
                 <meta property="og:type" content="article" />
                 <meta name="twitter:title" content={articleDetail.title} />
                 <meta name="twitter:description" content={articleDetail.description} />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'Article',
+                        headline: `${articleDetail.title}`,
+                        description: `${shortDescription}`,
+                        datePublished: `${articleDetail.created_at}`,
+                        dateModified: `${articleDetail.updated_at}`,
+                        image: `${articleDetail.image}`,
+                        author: {
+                        '@type': 'Person',
+                        name: 'Admin',
+                        },
+                    })}
+                </script>
             </Head>
             <div className={banner.banner}>
                 <img src={articleDetail.image} alt={articleDetail.title} />
