@@ -211,9 +211,12 @@ export default function DetailArtikel() {
 
     const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
 
-    const shortDescription = articleDetail.description.length > 100 
-    ? articleDetail.description.substring(0, 100) + "..." 
-    : articleDetail.description;
+    const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
+
+    const shortDescription = cleanDescription.length > 100 
+    ? cleanDescription.substring(0, 100) + "..." 
+    : cleanDescription;
+
 
 
     return (
