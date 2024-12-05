@@ -10,6 +10,7 @@ import { HiOutlineArrowLongRight } from "react-icons/hi2";
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import Head from "next/head";
 
 export default function Home() {
   const [firstSwiper, setFirstSwiper] = useState(null);
@@ -115,8 +116,42 @@ export default function Home() {
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
     : settings.phone;
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Home - NMW Aesthetic Clinic",
+    description: "NMW Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Jam Operasional Klinik 09:00 - 20:00",
+    url: "https://nmw-clinic.vercel.app/",
+    publisher: {
+      "@type": "Organization",
+      name: "NMW Aesthetic Clinic",
+      logo: {
+        "@type": "ImageObject",
+        url: `${settings.logo}`
+      }
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://nmw-clinic.vercel.app/"
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [{
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://nmw-clinic.vercel.app/"
+      }]
+    }
+  };
+
   return (
     <>
+      <Head>
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Head>
       <div className={styles.banner}>
           <div className={styles.banner_content}>
               <h1>Best Beauty <font>And Care</font></h1>
