@@ -479,13 +479,15 @@ export default function DetailArtikel() {
                             <div className={styles.box_service_layout}>
                                 <div className={styles.box_service} key={tos.id}>
                                     <div className={styles.box_service_image}>
-                                        <img
-                                            src={`${storageUrl}/${tos.image}`}
-                                            alt={tos.title}
-                                        />
+                                        <Link href={`/jenis-layanan/${tos.slug}`} >
+                                            <img
+                                                src={`${storageUrl}/${tos.image}`}
+                                                alt={tos.title}
+                                            />
+                                        </Link>
                                     </div>
                                     <div className={styles.box_service_content}>
-                                        <h1>{tos.title}</h1>
+                                        <Link href={`/jenis-layanan/${tos.slug}`} ><h1>{tos.title}</h1></Link>
                                         <p
                                             className={styles.service_description}
                                             dangerouslySetInnerHTML={{

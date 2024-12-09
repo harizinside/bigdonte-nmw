@@ -298,6 +298,9 @@
     border-radius: 1vw;
     overflow: hidden;
   }
+  .box_service_content a{
+    text-decoration: none;
+  }
   .box_service_image img{
     position: absolute;
     left: 0;
@@ -306,6 +309,10 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    transition: .4s all;
+  }
+  .box_service:hover .box_service_image img{
+    transform: scale(1.1);
   }
   .box_service_content{
     padding-left: 1.3vw;
@@ -320,7 +327,11 @@
     display: -webkit-box;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      transition: .3s all;
       text-overflow: ellipsis;
+  }
+  .box_service:hover .box_service_content h1{
+    color: #FF851A;
   }
   .box_service_content p{
     font-size: .8vw;
