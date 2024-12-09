@@ -43,18 +43,18 @@ export default function Achievment(){
     return(
         <>
             <Head>
-                <title>Achievment | NMW Clinic</title>
-                <meta name="description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional." />
-                <meta property="og:title" content="Achievment NMW Clinic" />
-                <meta property="og:description" content="NMW Clinic dengan bangga mempersembahkan penghargaan yang telah kami terima atas dedikasi dan kualitas layanan kami di dunia medis." />
+                <title>Achievment | NMW Aesthetic Clinic</title>
+                <meta name="description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional." />
+                <meta property="og:title" content="Achievment NMW Aesthetic Clinic" />
+                <meta property="og:description" content="NMW Aesthetic Clinic dengan bangga mempersembahkan penghargaan yang telah kami terima atas dedikasi dan kualitas layanan kami di dunia medis." />
                 <meta property="og:type" content="Achievment Website"/>
-                <meta name="twitter:title" content="Achievment NMW Clinic" />
-                <meta name="twitter:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional." />
+                <meta name="twitter:title" content="Achievment NMW Aesthetic Clinic" />
+                <meta name="twitter:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional." />
                 <meta property="og:url" content="{{ url()->current() }}" />
                 <meta property="og:image" content="{{ asset('images/banner_award.png') }}" />
             </Head>
             <div className={banner.banner}>
-                <img src="images/banner_award.png" alt="Layanan Nmw Clinic"/>
+                <img src="images/banner_award.png" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
             <div className={styles.container}>
                 <div className={`${styles.heading_section}`}>

@@ -29,7 +29,7 @@ export default function SyaratKetentuan() {
       <div className={banner.banner}>
         <img
           src="/images/term-condition.png"
-          alt="Kebijakan Privasi NMW Clinic"
+          alt="Kebijakan Privasi NMW Aesthetic Clinic"
         />
       </div>
       <div className={styles.container}>

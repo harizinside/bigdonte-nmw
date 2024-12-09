@@ -29,7 +29,7 @@ export default function KebijakanPrivasi() {
       <div className={banner.banner}>
         <img
           src="/images/kebijakan-privasi.png"
-          alt="Kebijakan Privasi NMW Clinic"
+          alt="Kebijakan Privasi NMW Aesthetic Clinic"
         />
       </div>
       <div className={styles.container}>

@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { HiArrowLongRight } from "react-icons/hi2";
 import { useEffect } from 'react';
 import Head from 'next/head';
+import loadingStyles from "@/styles/Loading.module.css";
 
 export default function Artikel() {
     const [articles, setArticles] = useState([]);
     const [articlesAll, setArticlesAll] = useState([]);
     const [tags, setTags] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Menyimpan halaman yang aktif
+    const [currentPage, setCurrentPage] = useState(2); // Menyimpan halaman yang aktif
     const [totalPages, setTotalPages] = useState(1); 
+    const [loading, setLoading] = useState(true); // Tambahkan state loading
     
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -42,6 +44,8 @@ export default function Artikel() {
                 }
             } catch (error) {
                 console.error('Error fetching articles:', error);
+            } finally {
+                setLoading(false);
             }
         };
     
@@ -82,33 +86,51 @@ export default function Artikel() {
       }, []);
     
       // Fungsi untuk menangani klik halaman berikutnya
-      const handleNextPage = () => {
-        if (currentPage < totalPages) {
-          setCurrentPage(currentPage + 1);
+        const handleNextPage = () => {
+            if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+            }
+        };
+
+        // Fungsi untuk menangani klik halaman sebelumnya
+        const handlePrevPage = () => {
+            if (currentPage > 2) {
+            setCurrentPage(currentPage - 1); // Mulai dari halaman 2
+            }
+        };
+
+        // Fungsi untuk menangani klik halaman tertentu
+        const handlePageClick = (page) => {
+            setCurrentPage(page + 1); // Map angka halaman mulai dari 1 ke halaman asli
+        };
+
+      if (loading) {
+            return (
+                <>
+                    <div className={loadingStyles.box}>
+                        <div className={loadingStyles.content}>
+                            <img src="../images/logo.svg"/>
+                            <span>Loading</span>
+                        </div>
+                    </div>
+                </>
+            );
         }
-      };
-    
-      // Fungsi untuk menangani klik halaman sebelumnya
-      const handlePrevPage = () => {
-        if (currentPage > 1) {
-          setCurrentPage(currentPage - 1);
-        }
-      };
     
 
   return (
     <>
     <Head>
-        <title>Artikel | NMW Clinic</title>
-        <meta name="description" content="Artikel NMW Clinic" />
+        <title>Artikel | NMW Aesthetic Clinic</title>
+        <meta name="description" content="Artikel NMW Aesthetic Clinic" />
         <meta property="og:title" content="Artikel" />
-        <meta property="og:description" content="Artikel NMW Clinic" />
+        <meta property="og:description" content="Artikel NMW Aesthetic Clinic" />
         <meta property="og:type" content="article" />
         <meta name="twitter:title" content="Artikel" />
-        <meta name="twitter:description" content="Artikel NMW Clinic" />
+        <meta name="twitter:description" content="Artikel NMW Aesthetic Clinic" />
     </Head>
     <div className={banner.banner}>
-        <img src="images/slimming-treatment.png" alt="Layanan Nmw Clinic"/>
+        <img src="images/slimming-treatment.png" alt="Layanan Nmw Aesthetic Clinic"/>
     </div>
     <div className={styles.container}>
         <div className={styles.tabsContainer}>
@@ -210,23 +232,34 @@ export default function Artikel() {
                 })}
             </div>
             <div className={styles.article_pagination}>
-                <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            {/* Tombol "Sebelumnya" */}
+            <button onClick={handlePrevPage} disabled={currentPage === 2}>
                 Sebelumnya
-                </button>
-                {/* Menampilkan nomor halaman */}
-                {[...Array(totalPages)].map((_, index) => (
+            </button>
+
+            {/* Menampilkan nomor halaman */}
+            {[...Array(totalPages - 1)].map((_, index) => {
+                const pageNumber = index + 2; // Menampilkan halaman mulai dari 2, tetapi treat itu sebagai halaman 1
+
+                return (
                 <button
                     key={index}
-                    className={currentPage === index + 1 ? styles.active_pagination : ''}
-                    onClick={() => setCurrentPage(index + 1)}
+                    className={currentPage === pageNumber ? styles.active_pagination : ''}
+                    onClick={() => setCurrentPage(pageNumber)} // Navigasi ke halaman yang benar
                 >
-                    {index + 1}
+                    {index + 1} {/* Menampilkan halaman mulai dari 1, tetapi tetap berfungsi untuk navigasi ke page 2 */}
                 </button>
-                ))}
-                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                );
+            })}
+
+            {/* Tombol "Selanjutnya" */}
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
                 Selanjutnya
-                </button>
+            </button>
             </div>
+
+
+            
         </div>
     </div>
     </>

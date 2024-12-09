@@ -226,7 +226,7 @@ export default function JenisLayanan() {
                     />
                     <div className={styles.section_4_content}>
                         <p>
-                            Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional,
+                            Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional,
                             dan terpercaya untuk melakukan bedah plastik, dermatologi, spesialis
                             kulit dan kelamin, serta perawatan kulit estetik.
                         </p>

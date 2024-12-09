@@ -76,13 +76,13 @@ export default function TagsPage() {
     return (
         <>
             <Head>
-                <title>{`Tag ${tag}`} | NMW Clinic</title>
-                <meta name="description" content="Artikel NMW Clinic" />
+                <title>{`Tag ${tag}`} | NMW Aesthetic Clinic</title>
+                <meta name="description" content="Artikel NMW Aesthetic Clinic" />
                 <meta property="og:title" content="Artikel" />
-                <meta property="og:description" content="Artikel NMW Clinic" />
+                <meta property="og:description" content="Artikel NMW Aesthetic Clinic" />
                 <meta property="og:type" content="article" />
                 <meta name="twitter:title" content="Artikel" />
-                <meta name="twitter:description" content="Artikel NMW Clinic" />
+                <meta name="twitter:description" content="Artikel NMW Aesthetic Clinic" />
             </Head>
             <div className={styles.article_section}>
                 <div className={`${styles.heading_section} ${styles.heading_section_start}`}>

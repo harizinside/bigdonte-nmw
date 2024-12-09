@@ -48,18 +48,18 @@ export default function Cabang(){
     return(
         <>
             <Head>
-                <title>Cabang | NMW Clinic</title>
-                <meta name="description" content="Alamat Cabang & Kantor NMW Clinic" />
-                <meta property="og:title" content="Cabang NMW Clinic" />
-                <meta property="og:description" content="Alamat Cabang & Kantor NMW Clinic" />
-                <meta property="og:type" content="Cabang NMW Clinic" />
-                <meta name="twitter:title" content="Cabang NMW Clinic" />
-                <meta name="twitter:description" content="Alamat Cabang & Kantor NMW Clinic" />
+                <title>Cabang | NMW Aesthetic Clinic</title>
+                <meta name="description" content="Alamat Cabang & Kantor NMW Aesthetic Clinic" />
+                <meta property="og:title" content="Cabang NMW Aesthetic Clinic" />
+                <meta property="og:description" content="Alamat Cabang & Kantor NMW Aesthetic Clinic" />
+                <meta property="og:type" content="Cabang NMW Aesthetic Clinic" />
+                <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic" />
+                <meta name="twitter:description" content="Alamat Cabang & Kantor NMW Aesthetic Clinic" />
                 <meta property="og:url" content="{{ url()->current() }}" />
                 <meta property="og:image" content="{{ asset('images/cabang-banner.png') }}" />
             </Head>
             <div className={banner.banner}>
-                <img src="images/cabang-banner.png" alt="Layanan Nmw Clinic"/>
+                <img src="images/cabang-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
             <div className={styles.container}>
                 <div className={`${styles.heading_section}`}>
@@ -90,7 +90,7 @@ export default function Cabang(){
                                     </div>
                                 </div>
                                 <div className={styles.cabang_box_button}>
-                                    <Link href={`https://api.whatsapp.com/send/?phone=${branch.phone}&text=Hallo+admin+NMW+${branch.name}%2C+saya+pasien+baru+ingin+mendaftarkan+dan+melakukan+pembelian+produk+di+E-Commerce+Web+NMW+Clinic&type=phone_number&app_absent=0`} target="blank_"><button>Pesan Sekarang <FaWhatsapp/></button></Link>
+                                    <Link href={`https://api.whatsapp.com/send/?phone=${branch.phone}&text=Hallo+admin+NMW+${branch.name}%2C+saya+pasien+baru+ingin+mendaftarkan+dan+melakukan+pembelian+produk+di+E-Commerce+Web+NMW+Aesthetic+Clinic&type=phone_number&app_absent=0`} target="blank_"><button>Pesan Sekarang <FaWhatsapp/></button></Link>
                                     <Link href={branch.location} target="blank_"><button><SlLocationPin/></button></Link>
                                 </div>
                             </div>

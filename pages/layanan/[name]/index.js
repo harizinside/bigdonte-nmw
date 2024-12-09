@@ -181,7 +181,7 @@ export default function Layanan() {
     return (
         <>
             <Head>
-                <title>{serviceDetail.name} | NMW Clinic</title>
+                <title>{serviceDetail.name} | NMW Aesthetic Clinic</title>
                 <meta name="description" content={serviceDetail.description} />
                 <meta property="og:title" content={serviceDetail.name} />
                 <meta property="og:description" content={serviceDetail.description} />
@@ -331,15 +331,14 @@ export default function Layanan() {
             <div className={styles.section_4}>
                 <div className={styles.heading_section_4}>
                 <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                    <h1><font>Dokter Kami</font></h1>
-                    <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
+                    <h1><font>Dokter</font> Kami</h1>
                 </div>
                 </div>
                 <div className={styles.section_4_box}>
-                    <img src="../images/dokter_layanan.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
-                    <img src="../images/nmw_bg.png" alt="Dokter-dokter NMW Clinic" className={styles.bg_our_dokter} />
+                    <img src="../images/dokter_layanan.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
+                    <img src="../images/nmw_bg.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.bg_our_dokter} />
                     <div className={styles.section_4_content}>
-                        <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
+                        <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                         <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
                         <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
                     </div>

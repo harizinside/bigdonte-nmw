@@ -27,23 +27,6 @@ const FAQPage = () => {
 
   const [activeIndex, setActiveIndex] = useState(null);
 
-//   const faqs = [
-//     {
-//       question: "Apa itu layanan kami?",
-//       answer:
-//         "Kami menyediakan layanan digital terbaik seperti aplikasi, website, dan digital marketing.",
-//     },
-//     {
-//       question: "Bagaimana cara menghubungi kami?",
-//       answer:
-//         "Anda dapat menghubungi kami melalui email di admin@example.com atau telepon di +628123456789.",
-//     },
-//     {
-//       question: "Apakah layanan kami mendukung berbagai platform?",
-//       answer: "Ya, layanan kami mendukung berbagai platform seperti web, iOS, dan Android.",
-//     },
-//   ];
-
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -51,7 +34,7 @@ const FAQPage = () => {
   return (
     <>
     <div className={banner.banner}>
-        <img src="images/faq_banner.png" alt="Layanan Nmw Clinic"/>
+        <img src="images/faq_banner.png" alt="Faq Nmw Aesthetic Clinic"/>
     </div>
     <div className={styles.faqPage}>
         <div className={`${styles.heading_section}`}>
@@ -74,7 +57,7 @@ const FAQPage = () => {
                     activeIndex === index ? styles.show : ""
                 }`}
                 >
-                <p>{faq.answer}</p>
+                <p>{faq.answer.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '')}</p>
                 </div>
             </div>
             ))}

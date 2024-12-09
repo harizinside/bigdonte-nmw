@@ -10,7 +10,9 @@ import { HiOutlineArrowLongRight } from "react-icons/hi2";
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import Head from "next/head";
+import { Pagination, Autoplay } from 'swiper/modules';
 
 export default function Home() {
   const [firstSwiper, setFirstSwiper] = useState(null);
@@ -19,9 +21,11 @@ export default function Home() {
   const [settings, setSettings] = useState([]);
   const [articles, setArticles] = useState([]);
   const [services, setServices] = useState([]);
+  const [promos, setPromos] = useState([]);
   const [serviceDetails, setServiceDetails] = useState({});
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+  const url = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,6 +111,23 @@ export default function Home() {
     fetchServices();
   }, [baseUrl]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`${baseUrl}/promo`);
+            const data = await response.json();
+            if (data && data.data) { // Pastikan data dan data.data ada
+            setPromos(data.data); // Setel data objek banner
+            } else {
+            console.error('Invalid response data format:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching banners:', error);
+        }
+    };
+
+    fetchData();
+}, []);
 
   const midIndex = Math.ceil(services.length / 2);
   const firstHalf = services.slice(0, midIndex); // First half of the services
@@ -145,6 +166,8 @@ export default function Home() {
     }
   };
 
+  
+
   return (
     <>
       <Head>
@@ -152,13 +175,32 @@ export default function Home() {
           {JSON.stringify(schemaData)}
         </script>
       </Head>
-      <div className={styles.banner}>
-          <div className={styles.banner_content}>
-              <h1>Best Beauty <font>And Care</font></h1>
-              <p>Overnight Beauty Repair For Every Budget + Skin Detox. Drink That Boost Metabolism. Improved Health.</p>
-              <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}  target="blank_"><button>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
-          </div>
-      </div>
+      <Swiper
+        pagination={{
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[Pagination, Autoplay]}
+        className="myBanner"
+        
+      >
+        {promos.map(promo => (
+          <SwiperSlide key={promo.id}>
+            <Link href={promo.link ? promo.link : `/promo/${encodeURIComponent(promo.title.replace(/\s+/g, '-').toLowerCase())}`} target="blank_">
+              <div
+                className={styles.banner}
+                style={{ backgroundImage: `url(${storageUrl}/${promo.image})` }}
+              >
+                {/* Konten lainnya */}
+              </div>
+            </Link>
+
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <div className={styles.section_1}>
           <div className={styles.heading_section}>
               <h2><font>Layanan</font> Kami</h2>
@@ -181,8 +223,9 @@ export default function Home() {
                                   <div className={styles.box_service_content}>
                                       <h1>{service.name}</h1>
                                       <p>
-                                          {serviceDetails[service.id]?.description || "Loading..."}
+                                        {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
                                       </p>
+
                                       <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
                                           <button>Lihat Detail</button>
                                       </Link>
@@ -218,9 +261,9 @@ export default function Home() {
                                   <div className={styles.box_service_content}>
                                       <h1>{serviceDetails[service.id]?.name || service.name}</h1>
                                       <p>
-                                          {serviceDetails[service.id]?.description ||
-                                              "Loading..."}
+                                        {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
                                       </p>
+
                                       <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
                                           <button>Lihat Detail</button>
                                       </Link>
@@ -244,7 +287,7 @@ export default function Home() {
           <h2><font>Tentang</font> Kami</h2>
         </div>
         <div className={styles.section_2_text}>
-          <img src="images/about_image.png" alt="Tentang NMW Clinic"/>
+          <img src="images/about_image.png" alt="Tentang NMW Aesthetic Clinic"/>
           <p>Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Nama NMW Skin Care berasal dari pendiri perusahaan dr. Nataliani Mawardi - dengan kata Mawar yang menandakan dan mewakili Mawar yang secara universal disamakan dengan keindahan dan keanggunan, dua nilai inti yang dengan bangga diperjuangkan NMW dan diwakili oleh pelanggan di Indonesia.</p>
           <Link href={"/cabang"}><button>Lihat Cabang Kami</button></Link>
         </div>
@@ -272,16 +315,15 @@ export default function Home() {
       <div className={styles.section_4}>
         <div className={styles.heading_section_4}>
           <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h2><font>Dokter Kami</font></h2>
-            <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
+            <h2><font>Dokter</font> Kami</h2>
           </div>
         </div>
         <div className={styles.section_4_box}>
-          <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
+          <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
           <img src="images/blink_orange.svg" className={styles.section_icon_5} alt="Blink Material" />
           <img src="images/blink_grey.svg" className={styles.section_icon_6} alt="Blink Material"/>
           <div className={styles.section_4_content}>
-            <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
+            <p>Dokter NMW Aesthetic klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
             <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
             <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
           </div>
@@ -292,24 +334,32 @@ export default function Home() {
             <h2><font>Artikel</font></h2>
           </div>
           <div className={styles.article_layout}>
-            {articles.map(article => (
-              <div className={styles.article_box} key={article.id}> 
-                <div className={styles.article_image}>
-                  <Link href={""}><button>#aging</button></Link>
-                  <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                    <img src={article.image} alt={article.title}/>
-                  </Link>
+            {articles.map(article => {
+              const tagsList = article.tags ? article.tags.split(',') : [];
+
+              return(
+                <div className={styles.article_box} key={article.id}> 
+                  <div className={styles.article_image}>
+                    {tagsList.length > 0 && (
+                        <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                            <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                        </Link>
+                    )}
+                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                      <img src={article.image} alt={article.title}/>
+                    </Link>
+                  </div>
+                  <div className={styles.article_content}>
+                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                      <div className={styles.article_heading}>
+                        <h1>{article.title}</h1>
+                      </div>
+                    </Link>
+                    <span>Admin, {article.date}</span>
+                  </div>
                 </div>
-                <div className={styles.article_content}>
-                  <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                    <div className={styles.article_heading}>
-                      <h1>{article.title}</h1>
-                    </div>
-                  </Link>
-                  <span>Admin, {article.date}</span>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
           <Link href={"/artikel"}><button className={styles.btn_more}>Lihat Lebih Banyak</button></Link>
       </div>
@@ -318,23 +368,35 @@ export default function Home() {
           <div className={styles.section_5_layout}>
             <h4>Metode Pembayaran</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/logo_payment.png" alt="Metode Pembayaran NMW Clinic"/>
+              <img src="images/logo_payment.png" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Bank Transfer</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/bank_transfer.png" alt="Metode Pembayaran NMW Clinic"/>
+              <img src="images/bank_transfer.png" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Terdaftar dan diawasi oleh</h4>
             <div className={`${styles.section_5_logo} ${styles.section_5_logo_small}`}>
-              <img src="images/legality.png" alt="Legalitas NMW Clinic"/>
+              <img src="images/legality.png" alt="Legalitas NMW Aesthetic Clinic"/>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .mySwiperSecond .swiper-button-prev {
+          background-image: url(../images/nav_left.svg) !important;
+          transition: .3s all;
+        }
+
+        .mySwiperSecond .swiper-button-next {
+          background-image: url(../images/nav_right.svg) !important;
+          transition: .3s all;
+        }
+      `}</style>
     </>
   );
 }

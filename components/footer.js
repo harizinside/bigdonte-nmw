@@ -71,10 +71,10 @@ export default function Footer(){
         <>
             <div className={styles.footer}>
                 <div className={styles.footer_logo}>
-                    <img src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
+                    <img src={`${storageUrl}/${settings.logo}`} alt="NMW Aesthetic Clinic Logo" />
                     <div className={styles.footer_form}>
                         <h5>Berlangganan dengan berita terbaru kami</h5>
-                        <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Klinik</p>
+                        <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Aesthetic Clinic</p>
                         <form onSubmit={handleSubmit}>
                             <div className={styles.form_layout}>
                                 <input type='email' placeholder='email@gmail.com'  id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/><button type="submit">Berlangganan</button>

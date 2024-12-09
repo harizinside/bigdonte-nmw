@@ -579,9 +579,12 @@
   width:19.7vw;
 }
 
+
+
+
 @media (max-width:768px) {
   .banner{
-    height: 68vw;
+    height: 39.5vw;
   }
   .banner_content{
     width: 100%;
@@ -620,7 +623,7 @@
   .heading_section_start{
     text-align: start;
   }
-  .heading_section h1{
+  .heading_section h2{
     font-size: 6.5vw;
   }
   .heading_section p{

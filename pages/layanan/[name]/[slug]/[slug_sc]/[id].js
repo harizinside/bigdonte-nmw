@@ -102,7 +102,7 @@ export default function Patient() {
   return (
     <>
         <Head>
-            <title>{patientDetail.name} | NMW Clinic</title>
+            <title>{patientDetail.name} | NMW Aesthetic Clinic</title>
             <meta name="description" content={patientDetail.description} />
             <meta property="og:title" content={patientDetail.name} />
             <meta property="og:description" content={patientDetail.description} />
@@ -194,15 +194,15 @@ export default function Patient() {
             className={`${styles.heading_section} ${styles.heading_section_start}`}
           >
             <h1>
-              <font>Dokter Kami</font>
+              <font>Dokter </font>
+              Kami
             </h1>
-            <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
           </div>
         </div>
         <div className={styles.section_4_box}>
           <img
             src="/images/dokter_layanan.png"
-            alt="Dokter-dokter NMW Clinic"
+            alt="Dokter-dokter NMW Aesthetic Clinic"
             className={styles.our_dokter}
           />
           <img
@@ -212,7 +212,7 @@ export default function Patient() {
           />
           <div className={styles.section_4_content}>
             <p>
-              Dokter NMW klinik adalah dokter terpilih, terlatih secara
+              Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara
               profesional, dan terpercaya untuk melakukan bedah plastik,
               dermatologi, spesialis kulit dan kelamin, serta perawatan kulit
               estetik.

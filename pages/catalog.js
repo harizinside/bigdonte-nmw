@@ -30,18 +30,18 @@ export default function Catalog(){
     return(
         <>
             <Head>
-                <title>Katalog | NMW Clinic</title>
-                <meta name="description" content="Lihat dan download katalog NMW Clinic" />
+                <title>Katalog | NMW Aesthetic Clinic</title>
+                <meta name="description" content="Lihat dan download katalog NMW Aesthetic Clinic" />
                 <meta property="og:title" content="Katalog" />
-                <meta property="og:description" content="Lihat dan download katalog NMW Clinic" />
+                <meta property="og:description" content="Lihat dan download katalog NMW Aesthetic Clinic" />
                 <meta property="og:type" content="Katalog" />
                 <meta name="twitter:title" content="Katalog" />
-                <meta name="twitter:description" content="Lihat dan download katalog NMW Clinic" />
+                <meta name="twitter:description" content="Lihat dan download katalog NMW Aesthetic Clinic" />
                 <meta property="og:url" content="{{ url()->current() }}" />
                 <meta property="og:image" content="{{ asset('images/catalogue-banner.png') }}" />
             </Head>
             <div className={banner.banner}>
-                <img src="images/catalogue-banner.png" alt="Layanan Nmw Clinic"/>
+                <img src="images/catalogue-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
             <div className={styles.container}>
                 <div className={`${styles.heading_section}`}>
@@ -72,16 +72,15 @@ export default function Catalog(){
             <div className={styles.section_4}>
                 <div className={styles.heading_section_4}>
                     <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                        <h1><font>Dokter Kami</font></h1>
-                        <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
+                        <h1><font>Dokter </font>Kami</h1>
                     </div>
                 </div>
                 <div className={styles.section_4_box}>
-                <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Clinic" className={styles.our_dokter} />
+                <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
                 <img src="images/blink_orange.svg" className={styles.section_icon_5} />
                 <img src="images/blink_grey.svg" className={styles.section_icon_6} />
                 <div className={styles.section_4_content}>
-                    <p>Dokter NMW klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
+                    <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
                     <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
                 </div>

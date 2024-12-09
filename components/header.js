@@ -11,15 +11,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/router";
 import { IoIosMenu } from "react-icons/io";
 import { CgClose } from "react-icons/cg";
-
+import { IoMdClose } from "react-icons/io";
+import popup from "@/styles/Popup.module.css"
 
 // components/Header.js
 export default function Header() {
     const [dropdownActive, setDropdownActive] = useState(null); // Track active dropdown
     const router = useRouter();
     const [services, setServices] = useState([]);
+    const [popupData, setPopupData] = useState([]);
     const headerRef = useRef(null); // Reference to header element
     const [menuActive, setMenuActive] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -115,6 +118,27 @@ export default function Header() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/popup`);
+                const data = await response.json();
+                console.log("Popup Data:", data); // Cek isi data
+                
+                if (data) {
+                    setPopupData(data);
+                    setShowPopup(true);
+                    localStorage.setItem("popupShown", "true");
+                }
+            } catch (error) {
+                console.error("Error fetching popup data:", error);
+            }
+        };
+    
+        fetchData();
+    }, [baseUrl]);
+      
+
     const socialMediaLinks = settings?.social_media ? JSON.parse(settings.social_media) : [];
 
     const iconMapping = {
@@ -130,6 +154,21 @@ export default function Header() {
     const formattedPhone = settings.phone && settings.phone.startsWith('0')
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
     : settings.phone;
+
+    // Show the popup after 2 seconds
+    useEffect(() => {
+        const timer = setTimeout(() => {
+        setShowPopup(true);
+        }, 2000);
+
+        // Cleanup the timer if the component unmounts
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Handle closing the modal
+    const closeModal = () => {
+        setShowPopup(false);  // Close the modal
+    };
 
     return (
         <>
@@ -194,6 +233,19 @@ export default function Header() {
                     </div>
                 </div>
             </div>
+            {showPopup && popupData?.link && (
+                <div className={`${popup.modal} ${popup.active}`}>
+                    <div className={popup.modal_overlay}></div>
+                    <div className={popup.modal_content}>
+                        <span className={popup.close} onClick={closeModal}>
+                            <IoMdClose />
+                        </span>
+                        <Link href={popupData.link} target="_blank">
+                            <img src={`${storageUrl}/${popupData.image}`} alt="Promo NMW Skincare" />
+                        </Link>
+                    </div>
+                </div>
+            )}
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
@@ -243,7 +295,7 @@ export default function Header() {
             <div className={`${styles.text_whatsapp} ${styles.bounce_in_up}`}>
                 <span><font>Butuh</font> Bantuan?</span>
             </div>
-            <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target="blank_"><button>Customer Care NMW Clinic <IoLogoWhatsapp /></button></Link>
+            <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target="blank_"><button>Customer Care NMW Aesthetic Clinic <IoLogoWhatsapp /></button></Link>
         </div>
       </>
     );
