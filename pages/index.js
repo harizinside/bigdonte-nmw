@@ -179,9 +179,11 @@ export default function Home() {
         pagination={{
           clickable: true,
         }}
+        cssMode={true}
+        loop={true}
         autoplay={{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         modules={[Pagination, Autoplay]}
         className="myBanner"
@@ -194,7 +196,6 @@ export default function Home() {
                 className={styles.banner}
                 style={{ backgroundImage: `url(${storageUrl}/${promo.image})` }}
               >
-                {/* Konten lainnya */}
               </div>
             </Link>
 
@@ -385,18 +386,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .mySwiperSecond .swiper-button-prev {
-          background-image: url(../images/nav_left.svg) !important;
-          transition: .3s all;
-        }
-
-        .mySwiperSecond .swiper-button-next {
-          background-image: url(../images/nav_right.svg) !important;
-          transition: .3s all;
-        }
-      `}</style>
     </>
   );
 }

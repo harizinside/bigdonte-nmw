@@ -24,6 +24,8 @@ export default function Header() {
     const [menuActive, setMenuActive] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true); // State to track loading state
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -112,6 +114,8 @@ export default function Header() {
                 }
             } catch (error) {
                 console.error('Error fetching settings:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -132,6 +136,8 @@ export default function Header() {
                 }
             } catch (error) {
                 console.error("Error fetching popup data:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
     
@@ -202,54 +208,71 @@ export default function Header() {
         </Head>
 
         <div className={styles.header}>
-            <div className={styles.nav_top}>
-                <div className={styles.contact_nav}>
-                    <div className={styles.contact_nav_box}>
-                        <HiOutlineMapPin />
-                        <p>Jl. Petogogan II No.29 RT.008 RW.006, Jakarta Selatan</p>
+            {isLoading ? (
+                <div className="skeleton-logo skeleton-logo-100" />
+            ) : (
+                <div className={styles.nav_top}>
+                    <div className={styles.contact_nav}>
+                        <div className={styles.contact_nav_box}>
+                            <HiOutlineMapPin />
+                            <p>Jl. Petogogan II No.29 RT.008 RW.006, Jakarta Selatan</p>
+                        </div>
+                        <div className={styles.contact_nav_box}>
+                            <PiPhoneCall />
+                            <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target="blank_"><p>{settings.phone}</p></Link>
+                        </div>
+                        <div className={styles.contact_nav_box}>
+                            <HiOutlineEnvelope />
+                            <Link href={`mailto:${settings.email}`} target="blank_"><p>{settings.email}</p></Link>
+                        </div>
                     </div>
-                    <div className={styles.contact_nav_box}>
-                        <PiPhoneCall />
-                        <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target="blank_"><p>{settings.phone}</p></Link>
-                    </div>
-                    <div className={styles.contact_nav_box}>
-                        <HiOutlineEnvelope />
-                        <Link href={`mailto:${settings.email}`} target="blank_"><p>{settings.email}</p></Link>
+                    <div className={styles.sosmed_nav}>
+                        <p>Ikuti Kami di </p>
+                        <div className={styles.sosmed_nav_box}>
+                            {socialMediaLinks.length > 0 ? (
+                                socialMediaLinks.map((social, index) => (
+                                    <Link key={index} href={social.link} target="blank_" aria-label={social.name}>
+                                        {/* Render the correct icon */}
+                                        <div>{iconMapping[social.name]}</div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <p>No social media data available.</p>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className={styles.sosmed_nav}>
-                    <p>Ikuti Kami di </p>
-                    <div className={styles.sosmed_nav_box}>
-                        {socialMediaLinks.length > 0 ? (
-                            socialMediaLinks.map((social, index) => (
-                                <Link key={index} href={social.link} target="blank_" aria-label={social.name}>
-                                    {/* Render the correct icon */}
-                                    <div>{iconMapping[social.name]}</div>
-                                </Link>
-                            ))
-                        ) : (
-                            <p>No social media data available.</p>
-                        )}
-                    </div>
-                </div>
-            </div>
+            )}
             {showPopup && popupData?.link && (
                 <div className={`${popup.modal} ${popup.active}`}>
                     <div className={popup.modal_overlay}></div>
-                    <div className={popup.modal_content}>
-                        <span className={popup.close} onClick={closeModal}>
-                            <IoMdClose />
-                        </span>
-                        <Link href={popupData.link} target="_blank">
-                            <img src={`${storageUrl}/${popupData.image}`} alt="Promo NMW Skincare" />
-                        </Link>
-                    </div>
+                    {isLoading ? (
+                        <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
+                    ) : (
+                        <div className={popup.modal_content}>
+                            <span className={popup.close} onClick={closeModal}>
+                                <IoMdClose />
+                            </span>
+                            <Link href={popupData.link} target="_blank">
+                                <img src={`${storageUrl}/${popupData.image}`} alt="Promo NMW Skincare" />
+                            </Link>
+                        </div>
+                    )}
                 </div>
             )}
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
-                        <img src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"/>
+                        {isLoading ? (
+                        // Show skeleton loader if the image is loading
+                            <div className="skeleton-logo" />
+                        ) : (
+                        // Show logo after it's loaded
+                            <img
+                                src={`${storageUrl}/${settings.logo}`}
+                                alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"
+                            />
+                        )}
                     </Link>
                 </div>
                 <button className={styles.hamburger} onClick={handleHamburger}>

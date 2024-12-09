@@ -112,7 +112,45 @@
   opacity: 1;
 }
 
+.skeleton-logo {
+  width: 6.9vw;
+  height: 2vw;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: .7vw; /* Optional, to match the logo shape */
+}
+.skeleton-logo-100 {
+  width: 100%;
+  height: 3vw;
+}
+.skeleton-logo-fit{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+
 @media (max-width:768px) {
+  .skeleton-logo {
+    width: 8vw;
+    height: 3.8vw;
+  }
+  .skeleton-logo-100 {
+    width: 100%;
+    height: 4.7vw;
+  }
   .myProduct .swiper-pagination-bullet{
     width: 6vw;
     height: .8vw;
