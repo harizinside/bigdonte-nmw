@@ -25,6 +25,9 @@ export default function Header() {
     const [showPopup, setShowPopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true); // State to track loading state
+    const [settings, setSettings] = useState([]);
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
@@ -99,9 +102,7 @@ export default function Header() {
         return router.asPath === path ? styles.active : '';
     };
 
-    const [settings, setSettings] = useState([]);
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+    
 
     useEffect(() => {
         const fetchData = async () => {
