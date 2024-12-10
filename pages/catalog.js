@@ -148,8 +148,8 @@ export default function Catalog(){
                 </div>
                 <div className={styles.section_4_box}>
                 <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
-                <img src="images/blink_orange.svg" className={styles.section_icon_5} />
-                <img src="images/blink_grey.svg" className={styles.section_icon_6} />
+                <img src="images/blink_orange.svg" alt="Blink Material" className={styles.section_icon_5} />
+                <img src="images/blink_grey.svg" alt="Blink Material" className={styles.section_icon_6} />
                 <div className={styles.section_4_content}>
                     <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
