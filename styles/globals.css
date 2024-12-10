@@ -132,6 +132,12 @@
   height: 100%;
 }
 
+.skeleton-logo-banner{
+  width: 100%;
+  height: 39.77vw;
+  position: relative;
+}
+
 @keyframes loading {
   0% {
     background-position: 200% 0;
@@ -150,6 +156,11 @@
   .skeleton-logo-100 {
     width: 100%;
     height: 4.7vw;
+  }
+  .skeleton-logo-banner{
+    width: 100%;
+    height: 39.5vw;
+    position: relative;
   }
   .myProduct .swiper-pagination-bullet{
     width: 6vw;

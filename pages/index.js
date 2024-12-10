@@ -27,6 +27,8 @@ export default function Home() {
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
   const url = process.env.NEXT_PUBLIC_API_URL;
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -105,6 +107,8 @@ export default function Home() {
             }
         } catch (error) {
             console.error('Error fetching services or details:', error);
+        } finally {
+          setIsLoading(false);
         }
     };
 
@@ -123,6 +127,8 @@ export default function Home() {
             }
         } catch (error) {
             console.error('Error fetching banners:', error);
+        } finally {
+          setIsLoading(false);
         }
     };
 
@@ -175,6 +181,9 @@ export default function Home() {
           {JSON.stringify(schemaData)}
         </script>
       </Head>
+      {isLoading ? (
+            <div className="skeleton-logo skeleton-logo-100 skeleton-logo-banner" />
+        ) : (
       <Swiper
         pagination={{
           clickable: true,
@@ -202,12 +211,12 @@ export default function Home() {
           </SwiperSlide>
         ))}
       </Swiper>
+      )}
       <div className={styles.section_1}>
           <div className={styles.heading_section}>
               <h2><font>Layanan</font> Kami</h2>
           </div>
           <div className={styles.slide_section_1}>
-          {firstHalf.length > 0 &&
               <Swiper
                   dir="rtl"
                   navigation={true}
@@ -232,18 +241,20 @@ export default function Home() {
                                       </Link>
                                   </div>
                                   <div className={styles.box_service_image}>
+                                    {isLoading ? (
+                                        <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
+                                    ) : (
                                       <img
                                           src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
                                           alt={service.name}
                                       />
+                                    )}
                                   </div>
                               </div>
                           </div>
                       </SwiperSlide>
                   ))}
               </Swiper>
-              
-          }
 
               <Swiper
                   navigation={true}
