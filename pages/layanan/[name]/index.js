@@ -204,7 +204,7 @@ export default function Layanan() {
         "@type": "WebPage",
         name: `${serviceDetail.name} - NMW Aesthetic Clinic`,
         description: `${serviceDetail.description}`,
-        url: `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name)}`,
+        url: `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
@@ -215,7 +215,7 @@ export default function Layanan() {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name)}`
+          "@id": `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -236,7 +236,7 @@ export default function Layanan() {
                 "@type": "ListItem",
                 position: 3,
                 name: `${serviceDetail.name}`,
-                item:  `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name)}`
+                item:  `${mainUrl}layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`
               }
             ]
         }
@@ -252,7 +252,7 @@ export default function Layanan() {
                 <meta property="og:title" content={serviceDetail.name} />
                 <meta property="og:description" content={serviceDetail.description} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}${encodeURIComponent(serviceDetail.name)}`}  />
+                <meta property="og:url" content={`${mainUrl}${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`}  />
                 <meta property="og:image" content={`${storageUrl}/${serviceDetail.image}`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
@@ -260,7 +260,7 @@ export default function Layanan() {
                 <meta name="twitter:description" content={serviceDetail.description} />
                 <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image}`} />
 
-                <link rel="canonical" href={`${mainUrl}${encodeURIComponent(serviceDetail.name)}`} />
+                <link rel="canonical" href={`${mainUrl}${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`} /> 
 
                 <script type="application/ld+json">
                 {JSON.stringify(schemaData)}

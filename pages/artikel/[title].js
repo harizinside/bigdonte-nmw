@@ -365,6 +365,7 @@ export default function DetailArtikel() {
           name: `${articleDetail.author}`
         },
         breadcrumb: {
+            "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
               {
@@ -376,8 +377,8 @@ export default function DetailArtikel() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Cabang",
-                item: `${mainUrl}cabang`
+                name: "Artikel",
+                item: `${mainUrl}artikel`
               },
               {
                 "@type": "ListItem",
