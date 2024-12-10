@@ -338,7 +338,7 @@ export default function DetailArtikel() {
 
     console.log("products : " + articleDetail.products)
 
-    const schemaData = {
+    const articleSchema = {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: `${articleDetail.title} - NMW Aesthetic Clinic`,
@@ -353,44 +353,45 @@ export default function DetailArtikel() {
           }
         },
         mainEntityOfPage: {
-          "@type": "Article",
+          "@type": "WebPage",
           "@id": `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
         },
         image: {
           "@type": "ImageObject",
-          url: `${articleDetail.image}}`
+          url: `${articleDetail.image}`
         },
         author: {
           "@type": "Person",
           name: `${articleDetail.author}`
         },
-        breadcrumb: {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Beranda",
-                item: `${mainUrl}`
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Artikel",
-                item: `${mainUrl}artikel`
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: `${articleDetail.title}}`,
-                item: `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
-              }
-            ]
+        "datePublished": `${articleDetail.date}`,
+        "dateModified": `${articleDetail.date}`
+      };
+      
+      const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Beranda",
+            item: `${mainUrl}`
           },
-        "datePublished": `${articleDetail.date}`, // Ganti dengan tanggal publikasi artikel
-        "dateModified": `${articleDetail.date}` // Ganti dengan tanggal update artikel jika ada
-    };
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Artikel",
+            item: `${mainUrl}artikel`
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: `${articleDetail.title}`,
+            item: `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+          }
+        ]
+      };
 
 
     return (
@@ -413,9 +414,8 @@ export default function DetailArtikel() {
 
                 <link rel="canonical" href={`${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}/>
 
-                <script type="application/ld+json">
-                {JSON.stringify(schemaData)}
-                </script>
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
             </Head>
             <div className={banner.banner}>
                 <img src={articleDetail.image} alt={articleDetail.title} /> 
