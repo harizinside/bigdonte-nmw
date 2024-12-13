@@ -2,6 +2,7 @@ import banner from "@/styles/Banner.module.css"
 import styles from "@/styles/Award.module.css"
 import { useState, useEffect } from 'react';
 import Head from "next/head";
+import not from "@/styles/Not.module.css";
 
 export default function Achievment(){
 
@@ -99,6 +100,19 @@ export default function Achievment(){
             ]
         }
     };
+
+    if (!achievments || achievments.length === 0) {
+        return (
+            <>
+                <div className={not.box}>
+                    <div className={not.content}>
+                        <img src="../images/not-found.png" alt='Artikel Tidak Ditemukan' />
+                        <span>Penghargaan Tidak Ditemukan</span>
+                    </div>
+                </div>
+            </>
+        );
+    }
 
     return(
         <>
