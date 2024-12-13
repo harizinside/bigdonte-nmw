@@ -163,7 +163,7 @@ export default function Cabang(){
                 },
                 {
                 "@type": "ListItem",
-                position: 2,
+                    position: 2,
                     name: "Cabang",
                     item: `${mainUrl}/cabang`
                 }
