@@ -101,7 +101,7 @@ export default function TagsPage() {
         "@type": "WebPage",
         name: `Tag ${tag}}`, // Pastikan nama halaman atau artikel yang relevan
         description: "Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic.", // Tambahkan deskripsi yang relevan untuk SEO
-        url: `${mainUrl}artikel/tag/${tag}`, // URL halaman saat ini
+        url: `${mainUrl}/artikel/tag/${tag}`, // URL halaman saat ini
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
@@ -112,7 +112,7 @@ export default function TagsPage() {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}artikel/tag/${tag}` // Mengidentifikasi URL halaman ini
+          "@id": `${mainUrl}/artikel/tag/${tag}` // Mengidentifikasi URL halaman ini
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -127,13 +127,13 @@ export default function TagsPage() {
                 "@type": "ListItem",
                 position: 2,
                 name: "Artikel",
-                item: `${mainUrl}artikel`
+                item: `${mainUrl}/artikel`
               },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: `${tag}`,
-                item: `${mainUrl}artikel/${tag}`
+                item: `${mainUrl}/artikel/${tag}`
               }
             ]
           }
@@ -149,7 +149,7 @@ export default function TagsPage() {
                 <meta property="og:title" content={`Tag ${tag}`} />
                 <meta property="og:description" content="Artikel NMW Aesthetic Clinic" />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}artikel/tag/${tag}`} />
+                <meta property="og:url" content={`${mainUrl}/artikel/tag/${tag}`} />
                 <meta property="og:image" content={`${storageUrl}/${settings.favicon}`}/>
 
                 <meta name="twitter:card" content="summary_large_image" />
@@ -157,7 +157,7 @@ export default function TagsPage() {
                 <meta name="twitter:description" content="Artikel NMW Aesthetic Clinic" />
                 <meta name="twitter:image" content={`${storageUrl}/${settings.favicon}`}/>
 
-                <link rel="canonical" href={`${mainUrl}artikel/tag/${tag}`} />
+                <link rel="canonical" href={`${mainUrl}/artikel/tag/${tag}`} />
 
                 <script type="application/ld+json">
                     {JSON.stringify(schemaData)}

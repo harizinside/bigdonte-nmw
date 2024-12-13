@@ -343,7 +343,7 @@ export default function DetailArtikel() {
         "@type": "Article",
         headline: `${articleDetail.title} - NMW Aesthetic Clinic`,
         description: `${articleDetail.description}`,
-        url: `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
+        url: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
@@ -354,7 +354,7 @@ export default function DetailArtikel() {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+          "@id": `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
         },
         image: {
           "@type": "ImageObject",
@@ -382,13 +382,13 @@ export default function DetailArtikel() {
             "@type": "ListItem",
             position: 2,
             name: "Artikel",
-            item: `${mainUrl}artikel`
+            item: `${mainUrl}/artikel`
           },
           {
             "@type": "ListItem",
             position: 3,
             name: `${articleDetail.title}`,
-            item: `${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+            item: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
           }
         ]
       };
@@ -404,7 +404,7 @@ export default function DetailArtikel() {
                 <meta property="og:title" content={articleDetail.title} />
                 <meta property="og:description" content={articleDetail.description} />
                 <meta property="og:type" content="article" />
-                <meta property="og:url" content={`${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
+                <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
                 <meta property="og:image" content={articleDetail.image} />
 
                 <meta name="twitter:card" content="summary_large_image" />
@@ -412,7 +412,7 @@ export default function DetailArtikel() {
                 <meta name="twitter:description" content={articleDetail.description} />
                 <meta name="twitter:image" content={articleDetail.image} />
 
-                <link rel="canonical" href={`${mainUrl}artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}/>
+                <link rel="canonical" href={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}/>
 
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />

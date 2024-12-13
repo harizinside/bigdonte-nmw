@@ -133,7 +133,7 @@ export default function SubJenisLayanan() {
       "@type": "WebPage",
       name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
       description: `${serviceDetail.description}`,
-      url: `${mainUrl}layanan/${name}/${slug}/${serviceDetail.slug}`,
+      url: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`,
       publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
@@ -144,7 +144,7 @@ export default function SubJenisLayanan() {
       },
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `${mainUrl}layanan/${name}/${slug}/${serviceDetail.slug}`
+        "@id": `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
       },
       breadcrumb: {
         "@type": "BreadcrumbList",
@@ -159,25 +159,25 @@ export default function SubJenisLayanan() {
             "@type": "ListItem",
             position: 2,
             name: "Layanan",
-            item: `${mainUrl}layanan`
+            item: `${mainUrl}/layanan`
           },
           {
             "@type": "ListItem",
             position: 3,
             name: `${name}`,
-            item:  `${mainUrl}layanan/${name}`
+            item:  `${mainUrl}/layanan/${name}`
           },
           {
             "@type": "ListItem",
             position: 4,
             name: `${slug}`,
-            item: `${mainUrl}layanan/${name}/${slug}`
+            item: `${mainUrl}/layanan/${name}/${slug}`
           },
           {
             "@type": "ListItem",
             position: 5,
             name: `${serviceDetail.title}`,
-            item: `${mainUrl}layanan/${name}/${slug}/${serviceDetail.slug}`
+            item: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
           }
         ]
       }
@@ -193,7 +193,7 @@ export default function SubJenisLayanan() {
             <meta property="og:title" content={serviceDetail.title} />
             <meta property="og:description" content={serviceDetail.description} />
             <meta property="og:type" content="website" />
-            <meta property="og:url" content={`${mainUrl}layanan/${name}/${slug}/${serviceDetail.slug}`} />
+            <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
             <meta property="og:image" content={`${storageUrl}/${serviceDetail.image}`} />
 
             <meta name="twitter:card" content="summary_large_image" />
@@ -201,7 +201,7 @@ export default function SubJenisLayanan() {
             <meta name="twitter:description" content={serviceDetail.description} />
             <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image}`} />
 
-            <link rel="canonical" href={`${mainUrl}layanan/${name}/${slug}/${serviceDetail.slug}`} />
+            <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
 
             <script type="application/ld+json">
               {JSON.stringify(schemaData)}

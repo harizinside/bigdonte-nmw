@@ -131,7 +131,7 @@ export default function JenisLayanan() {
         "@type": "WebPage",
         name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
         description: `${serviceDetail.description}`,
-        url: `${mainUrl}layanan/${name}/${slug}`,
+        url: `${mainUrl}/layanan/${name}/${slug}`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
@@ -142,7 +142,7 @@ export default function JenisLayanan() {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}layanan/${name}/${slug}`
+          "@id": `${mainUrl}/layanan/${name}/${slug}`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -157,19 +157,19 @@ export default function JenisLayanan() {
                 "@type": "ListItem",
                 position: 2,
                 name: "Layanan",
-                item: `${mainUrl}layanan`
+                item: `${mainUrl}/layanan`
               },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: `${name}`,
-                item:  `${mainUrl}layanan/${name}`
+                item:  `${mainUrl}/layanan/${name}`
               },
               {
                 "@type": "ListItem",
                 position: 4,
                 name: `${serviceDetail.title}`,
-                item: `${mainUrl}layanan/${name}/${slug}`
+                item: `${mainUrl}/layanan/${name}/${slug}`
               }
             ]
         }
@@ -185,7 +185,7 @@ export default function JenisLayanan() {
                 <meta property="og:title" content={serviceDetail.title} />
                 <meta property="og:description" content={serviceDetail.description} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}layanan/${name}/${slug}`} />
+                <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}`} />
                 <meta property="og:image" content={`${storageUrl}/${serviceDetail.image2}`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
@@ -193,7 +193,7 @@ export default function JenisLayanan() {
                 <meta name="twitter:description" content={serviceDetail.description} />
                 <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image2}`} />
 
-                <link rel="canonical" href={`${mainUrl}layanan/${name}/${slug}`} />
+                <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}`} />
 
                 <script type="application/ld+json">
                 {JSON.stringify(schemaData)}

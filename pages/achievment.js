@@ -68,18 +68,18 @@ export default function Achievment(){
         "@type": "WebPage",
         name: `Penghargaan - NMW Aesthetic Clinic`,
         description: `Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional`,
-        url: `${mainUrl}achievment`,
+        url: `${mainUrl}/achievment`,
         publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
         logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}images/banner_award.png`
+            url: `${mainUrl}/images/banner_award.png`
         }
         },
         mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `${mainUrl}achievment`
+        "@id": `${mainUrl}/achievment`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -94,7 +94,7 @@ export default function Achievment(){
                 "@type": "ListItem",
                 position: 2,
                     name: "Achievment",
-                    item: `${mainUrl}achievment`
+                    item: `${mainUrl}/achievment`
                 }
             ]
         }
@@ -110,15 +110,15 @@ export default function Achievment(){
                 <meta property="og:title" content="Achievment NMW Aesthetic Clinic"  />
                 <meta property="og:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional" />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}achievment`} />
-                <meta property="og:image" content={`${mainUrl}images/banner_award.png`} />
+                <meta property="og:url" content={`${mainUrl}/achievment`} />
+                <meta property="og:image" content={`${mainUrl}/images/banner_award.png`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Achievment NMW Aesthetic Clinic" />
                 <meta name="twitter:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional" />
-                <meta name="twitter:image" content={`${mainUrl}images/banner_award.png`} />
+                <meta name="twitter:image" content={`${mainUrl}/images/banner_award.png`} />
 
-                <link rel="canonical" href={`${mainUrl}achievment`} />
+                <link rel="canonical" href={`${mainUrl}/achievment`} />
 
                 <script type="application/ld+json">
                 {JSON.stringify(schemaData)}

@@ -137,6 +137,11 @@
   height: 39.77vw;
   position: relative;
 }
+.skeleton-logo-service{
+  width: 100%;
+  height: 20vw;
+  position: relative;
+}
 
 @keyframes loading {
   0% {
@@ -160,6 +165,11 @@
   .skeleton-logo-banner{
     width: 100%;
     height: 39.5vw;
+    position: relative;
+  }
+  .skeleton-logo-service{
+    width: 100%;
+    height: 68vw;
     position: relative;
   }
   .myProduct .swiper-pagination-bullet{

@@ -95,9 +95,11 @@
 }
  .box_service_layout{
   padding-left: 13.43vw;
+  position: relative;
  }
  .box_service_layout_second{
   padding-right: 13.43vw;
+  position: relative;
  }
 .box_service{
   width: 64vw;

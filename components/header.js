@@ -29,8 +29,6 @@ export default function Header() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
-    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -102,18 +100,55 @@ export default function Header() {
         return router.asPath === path ? styles.active : '';
     };
 
-    
-
     useEffect(() => {
         const fetchData = async () => {
+            const cachedSetting = localStorage.getItem('settingCache');
+            const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+            const now = new Date().getTime();
+    
+            // Cek apakah cache valid
+            if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+                setSettings(JSON.parse(cachedSetting));
+                setIsLoading(false);
+                
+                // Lakukan pengecekan data API untuk pembaruan data
+                try {
+                    const response = await fetch(`${baseUrl}/setting`);
+                    const data = await response.json();
+    
+                    if (data && data.social_media) {
+                        const cachedData = JSON.parse(cachedSetting);
+                        
+                        // Bandingkan data baru dengan cache
+                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                            setSettings(data);
+                            localStorage.setItem('settingCache', JSON.stringify(data));
+                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                            console.log('Cache updated after API check');
+                        } else {
+                            console.log('No changes detected in API data');
+                        }
+                    } else {
+                        console.error('Invalid API response:', data);
+                    }
+                } catch (error) {
+                    console.error('Error checking API for updates:', error);
+                }
+                return;
+            }
+    
+            // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
                 const response = await fetch(`${baseUrl}/setting`);
                 const data = await response.json();
-
+    
                 if (data && data.social_media) {
-                    setSettings(data); // Set the entire response object to settings
+                    setSettings(data);
+                    localStorage.setItem('settingCache', JSON.stringify(data));
+                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                    console.log('Fetched and cached from API');
                 } else {
-                    console.error('No social_media data found:', data);
+                    console.error('Invalid API response:', data);
                 }
             } catch (error) {
                 console.error('Error fetching settings:', error);
@@ -121,21 +156,35 @@ export default function Header() {
                 setIsLoading(false);
             }
         };
-
+    
         fetchData();
     }, [baseUrl]);
 
     useEffect(() => {
         const fetchData = async () => {
+            const cachedPopup = localStorage.getItem('popupCache');
+            const popupTimestamp = localStorage.getItem('popupTimestamp');
+            const popupShown = localStorage.getItem('popupShown');
+            const now = new Date().getTime();
+            
+            // If the popup has been shown and it's less than 1 hour since last shown, don't show the popup again
+            if (popupShown === 'true' && popupTimestamp && now - parseInt(popupTimestamp) < 60 * 60 * 1000) {
+                setPopupData(JSON.parse(cachedPopup)); // Use cached data
+                setIsLoading(false);
+                return;
+            }
+    
+            // Otherwise, fetch new popup data
             try {
                 const response = await fetch(`${baseUrl}/popup`);
                 const data = await response.json();
-                console.log("Popup Data:", data); // Cek isi data
-                
+    
                 if (data) {
                     setPopupData(data);
-                    setShowPopup(true);
-                    localStorage.setItem("popupShown", "true");
+                    localStorage.setItem('popupCache', JSON.stringify(data)); // Cache the popup data
+                    localStorage.setItem('popupTimestamp', now.toString()); // Store the timestamp when the popup is shown
+                    localStorage.setItem('popupShown', 'true'); // Mark the popup as shown
+                    setShowPopup(true); // Show the popup
                 }
             } catch (error) {
                 console.error("Error fetching popup data:", error);
@@ -146,7 +195,6 @@ export default function Header() {
     
         fetchData();
     }, [baseUrl]);
-      
 
     const socialMediaLinks = settings?.social_media ? JSON.parse(settings.social_media) : [];
 
@@ -164,15 +212,6 @@ export default function Header() {
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
     : settings.phone;
 
-    // Show the popup after 2 seconds
-    useEffect(() => {
-        const timer = setTimeout(() => {
-        setShowPopup(true);
-        }, 2000);
-
-        // Cleanup the timer if the component unmounts
-        return () => clearTimeout(timer);
-    }, []);
 
     // Handle closing the modal
     const closeModal = () => {
@@ -230,7 +269,7 @@ export default function Header() {
             {showPopup && popupData?.link && (
                 <div className={`${popup.modal} ${popup.active}`}>
                     <div className={popup.modal_overlay}></div>
-                    {isLoading ? (
+                    {isLoading || !popupData.image ? (
                         <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
                     ) : (
                         <div className={popup.modal_content}>
@@ -247,14 +286,15 @@ export default function Header() {
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
-                        {isLoading ? (
-                        // Show skeleton loader if the image is loading
+                        {isLoading || !settings.logo ? (
+                            // Tampilkan skeleton loader saat loading atau logo belum tersedia
                             <div className="skeleton-logo" />
                         ) : (
-                        // Show logo after it's loaded
+                            // Tampilkan logo setelah tersedia
                             <img
                                 src={`${storageUrl}/${settings.logo}`}
                                 alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"
+                                loading="lazy"
                             />
                         )}
                     </Link>

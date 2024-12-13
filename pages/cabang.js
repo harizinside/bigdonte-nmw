@@ -18,43 +18,108 @@ export default function Cabang(){
 
     useEffect(() => {
         const fetchData = async () => {
+            const cachedSetting = localStorage.getItem('settingCache');
+            const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+            const now = new Date().getTime();
+    
+            // Cek apakah cache valid
+            if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+                setSettings(JSON.parse(cachedSetting));
+                
+                // Lakukan pengecekan data API untuk pembaruan data
+                try {
+                    const response = await fetch(`${baseUrl}/setting`);
+                    const data = await response.json();
+    
+                    if (data && data.social_media) {
+                        const cachedData = JSON.parse(cachedSetting);
+                        
+                        // Bandingkan data baru dengan cache
+                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                            setSettings(data);
+                            localStorage.setItem('settingCache', JSON.stringify(data));
+                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                            console.log('Cache updated after API check');
+                        } else {
+                            console.log('No changes detected in API data');
+                        }
+                    } else {
+                        console.error('Invalid API response:', data);
+                    }
+                } catch (error) {
+                    console.error('Error checking API for updates:', error);
+                }
+                return;
+            }
+    
+            // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
                 const response = await fetch(`${baseUrl}/setting`);
                 const data = await response.json();
-                console.log('Fetched data:', data);  // Log the entire response
-  
+    
                 if (data && data.social_media) {
-                    setSettings(data); // Set the entire response object to settings
+                    setSettings(data);
+                    localStorage.setItem('settingCache', JSON.stringify(data));
+                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                    console.log('Fetched and cached from API');
                 } else {
-                    console.error('No social_media data found:', data);
+                    console.error('Invalid API response:', data);
                 }
             } catch (error) {
                 console.error('Error fetching settings:', error);
-            }
-        };
-  
-        fetchData();
-      }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/branch`);
-                const data = await response.json();
-                if (data && data.data) { // Pastikan data dan data.data ada
-                setBranchs(data.data); // Setel data objek banner
-                } else {
-                console.error('Invalid response data format:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching banners:', error);
             } finally {
                 setLoading(false);
             }
-        }; 
- 
+        };
+    
         fetchData();
-    }, []);
+      }, [baseUrl]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const cachedData = localStorage.getItem('promoCache');
+            const cacheExpiry = localStorage.getItem('promoCacheExpiry');
+            const now = new Date().getTime();
+    
+            try {
+                const response = await fetch(`${baseUrl}/branch`);
+                const data = await response.json();
+    
+                if (data && data.data) {
+                    if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
+                        const parsedCache = JSON.parse(cachedData);
+                        
+                        if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
+                            console.log('Data updated from API');
+                            setBranchs(data.data);
+                            localStorage.setItem('promoCache', JSON.stringify(data.data));
+                            localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                        } else {
+                            console.log('Loaded from cache');
+                            setBranchs(parsedCache);
+                        }
+                    } else {
+                        console.log('Fetched from API');
+                        setBranchs(data.data);
+                        localStorage.setItem('promoCache', JSON.stringify(data.data));
+                        localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                    }
+                } else {
+                    console.error('Invalid response data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching banners:', error);
+                if (cachedData) {
+                    setBranchs(JSON.parse(cachedData));
+                    console.log('Loaded from cache after API error');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchData();
+      }, [baseUrl]);
 
     if (loading) {
         return (
@@ -74,18 +139,18 @@ export default function Cabang(){
         "@type": "WebPage",
         name: `Cabang - NMW Aesthetic Clinic`,
         description: `Alamat Cabang & Kantor NMW Aesthetic Clinic`,
-        url: `${mainUrl}cabang`,
+        url: `${mainUrl}/cabang`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}images/cabang-banner.png`
+            url: `${mainUrl}/images/cabang-banner.png`
           }
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}cabang`
+          "@id": `${mainUrl}/cabang`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -100,7 +165,7 @@ export default function Cabang(){
                 "@type": "ListItem",
                 position: 2,
                     name: "Cabang",
-                    item: `${mainUrl}cabang`
+                    item: `${mainUrl}/cabang`
                 }
             ]
         }
@@ -116,15 +181,15 @@ export default function Cabang(){
                 <meta property="og:title" content="Cabang NMW Aesthetic Clinic"  />
                 <meta property="og:description" content="Alamat Cabang & Kantor NMW Aesthetic Clinic" />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}cabang`} />
-                <meta property="og:image" content={`${mainUrl}images/cabang-banner.png`} />
+                <meta property="og:url" content={`${mainUrl}/cabang`} />
+                <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic"  />
                 <meta name="twitter:description" content="Alamat Cabang & Kantor NMW Aesthetic Clinic" />
-                <meta name="twitter:image" content={`${mainUrl}images/cabang-banner.png`} />
+                <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
-                <link rel="canonical" href={`${mainUrl}cabang`} />
+                <link rel="canonical" href={`${mainUrl}/cabang`} />
 
                 <script type="application/ld+json">
                 {JSON.stringify(schemaData)}
@@ -148,13 +213,12 @@ export default function Cabang(){
                                 <div className={styles.cabang_box_text}>
                                     <div className={styles.cabang_box_detail}>
                                         <h3>Alamat</h3>
-                                        <p>{branch.address}</p>
+                                        <p>{branch.address.replace(/<\/?p>/g, '')}</p>
                                     </div>
                                     <div className={styles.cabang_box_detail}>
                                         <h3>Operasional</h3>
                                         <p>{branch.operasional[0]}</p>
                                         <p>{branch.operasional[1]}</p>
-                                        {/* <p>Sabtu - Minggu : 00.09-17.00</p> */}
                                     </div>
                                     <div className={styles.cabang_box_detail}>
                                         <h3>Telepon</h3>

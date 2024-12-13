@@ -64,77 +64,166 @@ export default function Home() {
 }, []);    
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch(`${baseUrl}/setting`);
-              const data = await response.json();
-              console.log('Fetched data:', data);  // Log the entire response
-
-              if (data && data.social_media) {
-                  setSettings(data); // Set the entire response object to settings
-              } else {
-                  console.error('No social_media data found:', data);
-              }
-          } catch (error) {
-              console.error('Error fetching settings:', error);
-          }
-      };
-
-      fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchServices = async () => {
-        try {
-            const response = await fetch(`${baseUrl}/service`);
-            const data = await response.json();
-            if (data && data.data) {
-                setServices(data.data);
-
-                // Ambil detail untuk semua layanan
-                const serviceDetailsPromises = data.data.map(async (service) => {
-                    const responseDetail = await fetch(`${baseUrl}/service_detail/${service.id}`);
-                    const detailData = await responseDetail.json();
-                    return { id: service.id, detail: detailData?.data };
-                });
-
-                const resolvedDetails = await Promise.all(serviceDetailsPromises);
-                const detailsMap = resolvedDetails.reduce((acc, { id, detail }) => {
-                    if (detail) acc[id] = detail;
-                    return acc;
-                }, {});
-
-                setServiceDetails(detailsMap); // Simpan semua detail di state
-            }
-        } catch (error) {
-            console.error('Error fetching services or details:', error);
-        } finally {
-          setIsLoading(false);
-        }
-    };
-
-    fetchServices();
-  }, [baseUrl]);
-
-  useEffect(() => {
     const fetchData = async () => {
+        const cachedSetting = localStorage.getItem('settingCache');
+        const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+        const now = new Date().getTime();
+
+        // Cek apakah cache valid
+        if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+            setSettings(JSON.parse(cachedSetting));
+            setIsLoading(false);
+            
+            // Lakukan pengecekan data API untuk pembaruan data
+            try {
+                const response = await fetch(`${baseUrl}/setting`);
+                const data = await response.json();
+
+                if (data && data.social_media) {
+                    const cachedData = JSON.parse(cachedSetting);
+                    
+                    // Bandingkan data baru dengan cache
+                    if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                        setSettings(data);
+                        localStorage.setItem('settingCache', JSON.stringify(data));
+                        localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                        console.log('Cache updated after API check');
+                    } else {
+                        console.log('No changes detected in API data');
+                    }
+                } else {
+                    console.error('Invalid API response:', data);
+                }
+            } catch (error) {
+                console.error('Error checking API for updates:', error);
+            }
+            return;
+        }
+
+        // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
         try {
-            const response = await fetch(`${baseUrl}/promo`);
+            const response = await fetch(`${baseUrl}/setting`);
             const data = await response.json();
-            if (data && data.data) { // Pastikan data dan data.data ada
-            setPromos(data.data); // Setel data objek banner
+
+            if (data && data.social_media) {
+                setSettings(data);
+                localStorage.setItem('settingCache', JSON.stringify(data));
+                localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                console.log('Fetched and cached from API');
             } else {
-            console.error('Invalid response data format:', data);
+                console.error('Invalid API response:', data);
             }
         } catch (error) {
-            console.error('Error fetching banners:', error);
+            console.error('Error fetching settings:', error);
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
     };
 
     fetchData();
-}, []);
+  }, [baseUrl]);
+
+  useEffect(() => {
+      const fetchServices = async () => {
+          setIsLoading(true); // Tambahkan ini di awal
+          const cachedServices = localStorage.getItem('servicesCache');
+          const cachedDetails = localStorage.getItem('serviceDetailsCache');
+          const cacheExpiry = localStorage.getItem('servicesCacheExpiry');
+          const now = new Date().getTime();
+
+          if (cachedServices && cachedDetails && cacheExpiry && now < parseInt(cacheExpiry)) {
+              setServices(JSON.parse(cachedServices));
+              setServiceDetails(JSON.parse(cachedDetails));
+              setIsLoading(false); 
+              console.log('Loaded from cache');
+              return;
+          }
+
+          try {
+              const response = await fetch(`${baseUrl}/service`);
+              const data = await response.json();
+
+              if (data && data.data) {
+                  setServices(data.data);
+
+                  const serviceDetailsPromises = data.data.map(async (service) => {
+                      const responseDetail = await fetch(`${baseUrl}/service_detail/${service.id}`);
+                      const detailData = await responseDetail.json();
+                      return { id: service.id, detail: detailData?.data };
+                  });
+
+                  const resolvedDetails = await Promise.all(serviceDetailsPromises);
+                  const detailsMap = resolvedDetails.reduce((acc, { id, detail }) => {
+                      if (detail) acc[id] = detail;
+                      return acc;
+                  }, {});
+
+                  setServiceDetails(detailsMap);
+
+                  localStorage.setItem('servicesCache', JSON.stringify(data.data));
+                  localStorage.setItem('serviceDetailsCache', JSON.stringify(detailsMap));
+                  localStorage.setItem('servicesCacheExpiry', (now + 6 * 60 * 60 * 1000).toString()); 
+                  console.log('Fetched from API and updated cache');
+              } else {
+                  console.error('Invalid response data format:', data);
+              }
+          } catch (error) {
+              console.error('Error fetching services or details:', error);
+          } finally {
+              setIsLoading(false); 
+          }
+      };
+
+      fetchServices();
+  }, [baseUrl]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const cachedData = localStorage.getItem('promoCache');
+        const cacheExpiry = localStorage.getItem('promoCacheExpiry');
+        const now = new Date().getTime();
+
+        try {
+            const response = await fetch(`${baseUrl}/promo`);
+            const data = await response.json();
+
+            if (data && data.data) {
+                if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
+                    const parsedCache = JSON.parse(cachedData);
+                    
+                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
+                        console.log('Data updated from API');
+                        setPromos(data.data);
+                        localStorage.setItem('promoCache', JSON.stringify(data.data));
+                        localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                    } else {
+                        console.log('Loaded from cache');
+                        setPromos(parsedCache);
+                    }
+                } else {
+                    console.log('Fetched from API');
+                    setPromos(data.data);
+                    localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                }
+            } else {
+                console.error('Invalid response data format:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching banners:', error);
+            if (cachedData) {
+                setPromos(JSON.parse(cachedData));
+                console.log('Loaded from cache after API error');
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    fetchData();
+  }, [baseUrl]);
+
 
   const midIndex = Math.ceil(services.length / 2);
   const firstHalf = services.slice(0, midIndex); // First half of the services
@@ -201,115 +290,153 @@ export default function Home() {
       {isLoading ? (
             <div className="skeleton-logo skeleton-logo-100 skeleton-logo-banner" />
         ) : (
-      <Swiper
-        pagination={{
-          clickable: true,
-        }}
-        cssMode={true}
-        loop={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: true,
-        }}
-        modules={[Pagination, Autoplay]}
-        className="myBanner"
-        
-      >
-        {promos.map(promo => (
-          <SwiperSlide key={promo.id}>
-            <Link href={promo.link ? promo.link : `/promo/${encodeURIComponent(promo.title.replace(/\s+/g, '-').toLowerCase())}`} target="blank_">
-              <div
-                className={styles.banner}
-                style={{ backgroundImage: `url(${storageUrl}/${promo.image})` }}
-              >
-              </div>
-            </Link>
+        <Swiper
+          pagination={{
+            clickable: true,
+          }}
+          cssMode={true}
+          loop={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: true,
+          }}
+          modules={[Pagination, Autoplay]}
+          className="myBanner"
+          
+        >
+          {promos.map(promo => (
+            <SwiperSlide key={promo.id}>
+              <Link href={promo.link ? promo.link : `/promo/${encodeURIComponent(promo.title.replace(/\s+/g, '-').toLowerCase())}`} target="blank_">
+                <div
+                  className={styles.banner}
+                  style={{ backgroundImage: `url(${storageUrl}/${promo.image})` }}
+                >
+                </div>
+              </Link>
 
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       )}
       <div className={styles.section_1}>
           <div className={styles.heading_section}>
               <h2><font>Layanan</font> Kami</h2>
           </div>
-          <div className={styles.slide_section_1}>
-              <Swiper
-                  dir="rtl"
-                  navigation={true}
-                  modules={[Navigation, Controller]}
-                  className="mySwiper"
-                  loop={true}
-                  onSwiper={setSecondSwiper}
-                  controller={{ control: firstSwiper }}
-              >
-                  {firstHalf.map((service) => (
-                      <SwiperSlide key={service.id}>
+          {isLoading ? (
+            
+            <div className={styles.slide_section_1}>
+                <Swiper
+                    dir="rtl"
+                    navigation={true}
+                    modules={[Navigation, Controller]}
+                    className="mySwiper"
+                    loop={true}
+                    onSwiper={setSecondSwiper}
+                    controller={{ control: firstSwiper }}
+                >
+                        <SwiperSlide>
                           <div className={styles.box_service_layout}>
-                              <div className={`${styles.box_service}`}>
-                                  <div className={styles.box_service_content}>
-                                      <h1>{service.name}</h1>
-                                      <p>
-                                        {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
-                                      </p>
-
-                                      <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
-                                          <button>Lihat Detail</button>
-                                      </Link>
-                                  </div>
-                                  <div className={styles.box_service_image}>
-                                    {isLoading ? (
-                                        <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
-                                    ) : (
-                                      <img
-                                          src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
-                                          alt={service.name}
-                                      />
-                                    )}
-                                  </div>
-                              </div>
+                            <div className={`${styles.box_service}`}>
+                              <div className="skeleton-logo skeleton-logo-100 skeleton-logo-service" />
+                            </div>
                           </div>
-                      </SwiperSlide>
-                  ))}
-              </Swiper>
+                        </SwiperSlide>
+                </Swiper>
 
-              <Swiper
-                  navigation={true}
-                  modules={[Navigation, Controller]}
-                  className="mySwiper mySwiperSecond"
-                  loop={true}
-                  onSwiper={setFirstSwiper}
-                  controller={{ control: secondSwiper }}
-              >
-                  {secondHalf.map((service) => (
-                      <SwiperSlide key={service.id}>
+                <Swiper
+                    navigation={true}
+                    modules={[Navigation, Controller]}
+                    className="mySwiper mySwiperSecond"
+                    loop={true}
+                    onSwiper={setFirstSwiper}
+                    controller={{ control: secondSwiper }}
+                >
+                        <SwiperSlide>
                           <div
                               className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}
-                          >
-                              <div className={`${styles.box_service} ${styles.box_service_second}`}>
-                                  <div className={styles.box_service_content}>
-                                      <h1>{serviceDetails[service.id]?.name || service.name}</h1>
-                                      <p>
-                                        {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
-                                      </p>
-
-                                      <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
-                                          <button>Lihat Detail</button>
-                                      </Link>
-                                  </div>
-                                  <div className={styles.box_service_image}>
-                                      <img
-                                          src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
-                                              "Loading..."}`}
-                                          alt={service.name}
-                                      />
-                                  </div>
-                              </div>
+                            >
+                            <div className={`${styles.box_service} ${styles.box_service_second}`}>
+                              <div className="skeleton-logo skeleton-logo-100 skeleton-logo-service" />
+                            </div>
                           </div>
-                      </SwiperSlide>
-                  ))}
-              </Swiper>
-          </div>
+                        </SwiperSlide>
+                </Swiper>
+            </div>
+            ) : (
+            <div className={styles.slide_section_1}>
+                <Swiper
+                    dir="rtl"
+                    navigation={true}
+                    modules={[Navigation, Controller]}
+                    className="mySwiper"
+                    loop={true}
+                    onSwiper={setSecondSwiper}
+                    controller={{ control: firstSwiper }}
+                >
+                    {firstHalf.map((service) => (
+                        <SwiperSlide key={service.id}>
+                            <div className={styles.box_service_layout}>
+                                <div className={`${styles.box_service}`}>
+                                    <div className={styles.box_service_content}>
+                                        <h1>{service.name}</h1>
+                                        <p>
+                                          {serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '')}
+                                        </p>
+
+                                        <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <button>Lihat Detail</button>
+                                        </Link>
+                                    </div>
+                                    <div className={styles.box_service_image}>
+                                        <img
+                                            src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
+                                            alt={service.name}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                <Swiper
+                    navigation={true}
+                    modules={[Navigation, Controller]}
+                    className="mySwiper mySwiperSecond"
+                    loop={true}
+                    onSwiper={setFirstSwiper}
+                    controller={{ control: secondSwiper }}
+                >
+                    {secondHalf.map((service) => (
+                        <SwiperSlide key={service.id}>
+                            <div
+                                className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}
+                            >
+                                <div className={`${styles.box_service} ${styles.box_service_second}`}>
+                                    <div className={styles.box_service_content}>
+                                        <h1>{serviceDetails[service.id]?.name || service.name}</h1>
+                                        <p>
+                                          {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
+                                        </p>
+
+                                        <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <button>Lihat Detail</button>
+                                        </Link>
+                                    </div>
+                                    <div className={styles.box_service_image}>
+                                        <img
+                                            src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
+                                                "Loading..."}`}
+                                            alt={service.name}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+            )}
       </div>
       <div className={styles.section_2}>
         <div className={styles.heading_section}>

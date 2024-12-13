@@ -119,7 +119,7 @@ export default function DetailArtikel() {
         "@type": "WebPage",
         name: `Promo - NMW Aesthetic Clinic`,
         description: `Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!`,
-        url: `${mainUrl}${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
+        url: `${mainUrl}/${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
@@ -130,7 +130,7 @@ export default function DetailArtikel() {
         },
         mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `${mainUrl}${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+        "@id": `${mainUrl}/${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -145,7 +145,7 @@ export default function DetailArtikel() {
                 "@type": "ListItem",
                 position: 2,
                     name: "Promo",
-                    item: `${mainUrl}${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+                    item: `${mainUrl}/${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`
                 }
             ]
         }
@@ -162,7 +162,7 @@ export default function DetailArtikel() {
           <meta property="og:title" content="Promo NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
+          <meta property="og:url" content={`${mainUrl}/${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
           <meta property="og:image" content={`${storageUrl}/${promoDetail.image}`} />
 
           <meta name="twitter:card" content="summary_large_image" />
@@ -170,7 +170,7 @@ export default function DetailArtikel() {
           <meta name="twitter:description" content="Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!" />
           <meta name="twitter:image" content={`${storageUrl}/${promoDetail.image}`} />
 
-          <link rel="canonical" href={`${mainUrl}${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
+          <link rel="canonical" href={`${mainUrl}/${encodeURIComponent(promoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
 
           <script type="application/ld+json">
           {JSON.stringify(schemaData)}

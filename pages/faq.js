@@ -61,7 +61,7 @@ const FAQPage = () => {
         "@type": "WebPage",
         name: `FaQ - NMW Aesthetic Clinic`,
         description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-        url: `${mainUrl}faq`,
+        url: `${mainUrl}/faq`,
         publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
@@ -72,7 +72,7 @@ const FAQPage = () => {
         },
         mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `${mainUrl}faq`
+        "@id": `${mainUrl}/faq`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -87,7 +87,7 @@ const FAQPage = () => {
                 "@type": "ListItem",
                 position: 2,
                     name: "FAQ",
-                    item: `${mainUrl}faq`
+                    item: `${mainUrl}/faq`
                 }
             ]
         }
@@ -103,15 +103,15 @@ const FAQPage = () => {
         <meta property="og:title" content="FAQ NMW Aesthetic Clinic"  />
         <meta property="og:description" content="Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${mainUrl}faq`} />
-        <meta property="og:image" content={`${mainUrl}images/faq_banner.png`} />
+        <meta property="og:url" content={`${mainUrl}/faq`} />
+        <meta property="og:image" content={`${mainUrl}/images/faq_banner.png`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="FAQ NMW Aesthetic Clinic" />
         <meta name="twitter:description" content="Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda." />
-        <meta name="twitter:image" content={`${mainUrl}images/faq_banner.png`} />
+        <meta name="twitter:image" content={`${mainUrl}/images/faq_banner.png`} />
 
-        <link rel="canonical" href={`${mainUrl}faq`} />
+        <link rel="canonical" href={`${mainUrl}/faq`} />
 
         <script type="application/ld+json">
         {JSON.stringify(schemaData)}

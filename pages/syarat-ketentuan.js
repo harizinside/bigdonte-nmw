@@ -31,18 +31,18 @@ export default function SyaratKetentuan() {
       "@type": "WebPage",
       name: `Syarat Ketentuan - NMW Aesthetic Clinic`,
       description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-      url: `${mainUrl}syarat-ketentuan`,
+      url: `${mainUrl}/syarat-ketentuan`,
       publisher: {
       "@type": "Organization",
       name: "NMW Aesthetic Clinic",
       logo: {
           "@type": "ImageObject",
-          url: `${mainUrl}images/term-condition.png`
+          url: `${mainUrl}/images/term-condition.png`
       }
       },
       mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${mainUrl}syarat-ketentuan`
+      "@id": `${mainUrl}/syarat-ketentuan`
       },
       breadcrumb: {
           "@type": "BreadcrumbList",
@@ -57,7 +57,7 @@ export default function SyaratKetentuan() {
               "@type": "ListItem",
               position: 2,
                   name: "Syarat & Ketentuan",
-                  item: `${mainUrl}syarat-ketentuan`
+                  item: `${mainUrl}/syarat-ketentuan`
               }
           ]
       }
@@ -73,15 +73,15 @@ export default function SyaratKetentuan() {
           <meta property="og:title" content="Syarat & Ketentuan NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Berikut Syarat & Ketentuan untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}syarat-ketentuan`} />
-          <meta property="og:image" content={`${mainUrl}images/term-condition.png`} />
+          <meta property="og:url" content={`${mainUrl}/syarat-ketentuan`} />
+          <meta property="og:image" content={`${mainUrl}/images/term-condition.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Syarat & Ketentuan NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut Syarat & Ketentuan untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}images/term-condition.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/term-condition.png`} />
 
-          <link rel="canonical" href={`${mainUrl}syarat-ketentuan`} />
+          <link rel="canonical" href={`${mainUrl}/syarat-ketentuan`} />
 
           <script type="application/ld+json">
           {JSON.stringify(schemaData)}

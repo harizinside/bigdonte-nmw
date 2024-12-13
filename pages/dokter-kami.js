@@ -20,57 +20,158 @@ export default function DokterKami() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const cachedSetting = localStorage.getItem('settingCache');
+            const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+            const now = new Date().getTime();
+    
+            // Cek apakah cache valid
+            if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+                setSettings(JSON.parse(cachedSetting));
+                
+                // Lakukan pengecekan data API untuk pembaruan data
+                try {
+                    const response = await fetch(`${baseUrl}/setting`);
+                    const data = await response.json();
+    
+                    if (data && data.social_media) {
+                        const cachedData = JSON.parse(cachedSetting);
+                        
+                        // Bandingkan data baru dengan cache
+                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                            setSettings(data);
+                            localStorage.setItem('settingCache', JSON.stringify(data));
+                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                            console.log('Cache updated after API check');
+                        } else {
+                            console.log('No changes detected in API data');
+                        }
+                    } else {
+                        console.error('Invalid API response:', data);
+                    }
+                } catch (error) {
+                    console.error('Error checking API for updates:', error);
+                }
+                return;
+            }
+    
+            // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
                 const response = await fetch(`${baseUrl}/setting`);
                 const data = await response.json();
-                console.log('Fetched data:', data);  // Log the entire response
-  
+    
                 if (data && data.social_media) {
-                    setSettings(data); // Set the entire response object to settings
+                    setSettings(data);
+                    localStorage.setItem('settingCache', JSON.stringify(data));
+                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                    console.log('Fetched and cached from API');
                 } else {
-                    console.error('No social_media data found:', data);
+                    console.error('Invalid API response:', data);
                 }
             } catch (error) {
                 console.error('Error fetching settings:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
-  
+    
         fetchData();
-      }, []);
+      }, [baseUrl]);
 
-    useEffect(() => {
+      useEffect(() => {
         const fetchData = async () => {
-            let allDoctors = [];
-            let currentPage = 1;
-            let lastPage = 1;
+            const cachedDoctors = localStorage.getItem('doctorsCache');
+            const cacheExpiry = localStorage.getItem('doctorsCacheExpiry');
+            const now = new Date().getTime();
     
             try {
-                while (currentPage <= lastPage) {
-                    const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
-                    const data = await response.json();
+                // Check if the cache is still valid
+                if (cachedDoctors && cacheExpiry && now < parseInt(cacheExpiry)) {
+                    const parsedCache = JSON.parse(cachedDoctors);
+                    console.log('Loaded doctors from cache');
     
-                    if (data && data.data && data.meta) {
-                        // Hanya tambahkan dokter yang belum ada di allDoctors
-                        const uniqueDoctors = data.data.filter(
-                            (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
-                        );
-                        allDoctors = [...allDoctors, ...uniqueDoctors];
-                        lastPage = data.meta.last_page;
-                        currentPage++;
-                    } else {
-                        console.error("Invalid response data format:", data);
-                        break;
+                    // Compare the cache with the latest fetched data to see if it's the same
+                    let allDoctors = [];
+                    let currentPage = 1;
+                    let lastPage = 1;
+    
+                    let dataChanged = false;
+    
+                    while (currentPage <= lastPage) {
+                        const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
+                        const data = await response.json();
+    
+                        if (data && data.data && data.meta) {
+                            // Filter out duplicate doctors and check for new data
+                            const uniqueDoctors = data.data.filter(
+                                (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
+                            );
+                            allDoctors = [...allDoctors, ...uniqueDoctors];
+                            lastPage = data.meta.last_page;
+                            currentPage++;
+    
+                            // Check if there is any new data
+                            if (JSON.stringify(allDoctors) !== JSON.stringify(parsedCache)) {
+                                dataChanged = true;
+                            }
+                        } else {
+                            console.error("Invalid response data format:", data);
+                            break;
+                        }
                     }
-                }
     
-                setDoctors(allDoctors); // Simpan data yang sudah difilter
+                    // If data has changed, update cache and state
+                    if (dataChanged) {
+                        localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
+                        localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                        console.log('Doctors data fetched and cached');
+                        setDoctors(allDoctors);
+                    } else {
+                        console.log('No new doctor data. Loaded from cache.');
+                        setDoctors(parsedCache);
+                    }
+                } else {
+                    console.log('Fetching doctors from API');
+                    let allDoctors = [];
+                    let currentPage = 1;
+                    let lastPage = 1;
+    
+                    while (currentPage <= lastPage) {
+                        const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
+                        const data = await response.json();
+    
+                        if (data && data.data && data.meta) {
+                            // Filter out duplicate doctors
+                            const uniqueDoctors = data.data.filter(
+                                (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
+                            );
+                            allDoctors = [...allDoctors, ...uniqueDoctors];
+                            lastPage = data.meta.last_page;
+                            currentPage++;
+                        } else {
+                            console.error("Invalid response data format:", data);
+                            break;
+                        }
+                    }
+    
+                    // Cache the fetched data
+                    localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
+                    localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                    setDoctors(allDoctors); // Set the state with the fetched data
+                    console.log('Doctors data fetched and cached');
+                }
             } catch (error) {
                 console.error("Error fetching doctors:", error);
+                // Optionally load from cache in case of an error
+                if (cachedDoctors) {
+                    setDoctors(JSON.parse(cachedDoctors));
+                    console.log('Loaded doctors from cache after API error');
+                }
             }
         };
     
         fetchData();
-    }, []);
+    }, [baseUrl]);    
+    
 
     const handleTabClick = (index) => {
         setActiveTab(index);
@@ -105,29 +206,23 @@ export default function DokterKami() {
         setCurrentPage(page);
     };
 
-    useEffect(() => {
-        console.log("Filtered Doctors:", filteredDoctors);
-        console.log("Current Page:", currentPage);
-        console.log("Paginated Doctors:", paginatedDoctors);
-    }, [filteredDoctors, currentPage]);
-
     const schemaData = {
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: `Dokter Kami - NMW Aesthetic Clinic`,
         description: `Kenali tim dokter profesional di NMW Aesthetic Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda`,
-        url: `${mainUrl}dokter-kami`,
+        url: `${mainUrl}/dokter-kami`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}images/dokter_banner.png`
+            url: `${mainUrl}/images/dokter_banner.png`
           }
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}dokter-kami`
+          "@id": `${mainUrl}/dokter-kami`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -142,7 +237,7 @@ export default function DokterKami() {
                 "@type": "ListItem",
                 position: 2,
                     name: "Dokter Kami",
-                    item: `${mainUrl}dokter-kami`
+                    item: `${mainUrl}/dokter-kami`
                 }
             ]
         }
@@ -158,15 +253,15 @@ export default function DokterKami() {
                 <meta property="og:title" content="Dokter NMW Aesthetic Clinic"  />
                 <meta property="og:description" content="Kenali tim dokter profesional di NMW Aesthetic Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda" />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}dokter-kami`} />
-                <meta property="og:image" content={`${mainUrl}images/dokter_banner.png`} />
+                <meta property="og:url" content={`${mainUrl}/dokter-kami`} />
+                <meta property="og:image" content={`${mainUrl}/images/dokter_banner.png`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Dokter NMW Aesthetic Clinic"  />
                 <meta name="twitter:description" content="Kenali tim dokter profesional di NMW Aesthetic Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda" />
-                <meta name="twitter:image" content={`${mainUrl}images/dokter_banner.png`} />
+                <meta name="twitter:image" content={`${mainUrl}/images/dokter_banner.png`} />
 
-                <link rel="canonical" href={`${mainUrl}dokter-kami`} />
+                <link rel="canonical" href={`${mainUrl}/dokter-kami`} />
 
                 <script type="application/ld+json">
                 {JSON.stringify(schemaData)}

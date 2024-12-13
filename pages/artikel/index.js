@@ -146,7 +146,7 @@ export default function Artikel() {
             "@type": "WebPage",
             name: "Artikel - NMW Aesthetic Clinic", // Pastikan nama halaman atau artikel yang relevan
             description: "Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic.", // Tambahkan deskripsi yang relevan untuk SEO
-            url: `${mainUrl}artikel`, // URL halaman saat ini
+            url: `${mainUrl}/artikel`, // URL halaman saat ini
             publisher: {
               "@type": "Organization",
               name: "NMW Aesthetic Clinic",
@@ -157,7 +157,7 @@ export default function Artikel() {
             },
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `${mainUrl}artikel` // Mengidentifikasi URL halaman ini
+              "@id": `${mainUrl}/artikel` // Mengidentifikasi URL halaman ini
             },
             breadcrumb: {
                 "@type": "BreadcrumbList",
@@ -172,7 +172,7 @@ export default function Artikel() {
                     "@type": "ListItem",
                     position: 2,
                     name: "Artikel",
-                    item: `${mainUrl}artikel`
+                    item: `${mainUrl}/artikel`
                   }
                 ]
             }
@@ -188,7 +188,7 @@ export default function Artikel() {
         <meta property="og:title" content="Artikel" />
         <meta property="og:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${mainUrl}artikel`}  />
+        <meta property="og:url" content={`${mainUrl}/artikel`}  />
         <meta property="og:image" content={`${storageUrl}/${settings.logo}`} />
 
         <meta name="twitter:card" content="summary_large_image" />
@@ -196,10 +196,10 @@ export default function Artikel() {
         <meta name="twitter:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
         <meta name="twitter:image" content={`${storageUrl}/${settings.logo}`} />
 
-        <link rel="canonical" href={`${mainUrl}artikel`} />
+        <link rel="canonical" href={`${mainUrl}/artikel`} />
 
         <script type="application/ld+json">
-        {JSON.stringify(schemaData)}
+            {JSON.stringify(schemaData)}
         </script>
     </Head>
 

@@ -105,7 +105,7 @@ export default function Patient() {
       "@type": "WebPage",
       name: `${patientDetail.name} - NMW Aesthetic Clinic`,
       description: `${patientDetail.description}`,
-      url: `${mainUrl}layanan/${name}/${slug}/${slug_sc}/${id}`,
+      url: `${mainUrl}/layanan/${name}/${slug}/${slug_sc}/${id}`,
       publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
@@ -116,7 +116,7 @@ export default function Patient() {
       },
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": `${mainUrl}layanan/${name}/${slug}/${slug_sc}/${id}`
+        "@id": `${mainUrl}/layanan/${name}/${slug}/${slug_sc}/${id}`
       },
       breadcrumb: {
         "@type": "BreadcrumbList",
@@ -131,31 +131,31 @@ export default function Patient() {
             "@type": "ListItem",
             position: 2,
             name: "Layanan",
-            item: `${mainUrl}layanan`
+            item: `${mainUrl}/layanan`
           },
           {
             "@type": "ListItem",
             position: 3,
             name: `${name}`,
-            item:  `${mainUrl}layanan/${name}`
+            item:  `${mainUrl}/layanan/${name}`
           },
           {
             "@type": "ListItem",
             position: 4,
             name: `${slug}`,
-            item: `${mainUrl}layanan/${name}/${slug}`
+            item: `${mainUrl}/layanan/${name}/${slug}`
           },
           {
             "@type": "ListItem",
             position: 5,
             name: `${slug_sc}`,
-            item: `${mainUrl}layanan/${name}/${slug}/${slug_sc}`
+            item: `${mainUrl}/layanan/${name}/${slug}/${slug_sc}`
           },
           {
             "@type": "ListItem",
             position: 6,
             name: `${patientDetail.name}`,
-            item: `${mainUrl}layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`
+            item: `${mainUrl}/layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`
           }
         ]
       }
@@ -171,7 +171,7 @@ export default function Patient() {
             <meta property="og:title" content={patientDetail.name} />
             <meta property="og:description" content={patientDetail.description} />
             <meta property="og:type" content="website" />
-            <meta property="og:url" content={`${mainUrl}layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`} />
+            <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`} />
             <meta property="og:image" content={`${storageUrl}/${patientDetail.image}`} />
 
             <meta name="twitter:card" content="summary_large_image" />
@@ -179,7 +179,7 @@ export default function Patient() {
             <meta name="twitter:description" content={patientDetail.description} />
             <meta name="twitter:image" content={`${storageUrl}/${patientDetail.image}`} />
 
-            <link rel="canonical" href={`${mainUrl}layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`} />
+            <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${slug_sc}/${patientDetail.id}`} />
 
             <script type="application/ld+json">
               {JSON.stringify(schemaData)}

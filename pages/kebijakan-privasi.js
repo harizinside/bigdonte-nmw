@@ -32,18 +32,18 @@ export default function KebijakanPrivasi() {
       "@type": "WebPage",
       name: `Kebijakan Privasi - NMW Aesthetic Clinic`,
       description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-      url: `${mainUrl}kebijakan-privasi`,
+      url: `${mainUrl}/kebijakan-privasi`,
       publisher: {
       "@type": "Organization",
       name: "NMW Aesthetic Clinic",
       logo: {
           "@type": "ImageObject",
-          url: `${mainUrl}images/kebijakan-privasi.png`
+          url: `${mainUrl}/images/kebijakan-privasi.png`
       }
       },
       mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${mainUrl}kebijakan-privasi`
+      "@id": `${mainUrl}/kebijakan-privasi`
       },
       breadcrumb: {
           "@type": "BreadcrumbList",
@@ -58,7 +58,7 @@ export default function KebijakanPrivasi() {
               "@type": "ListItem",
               position: 2,
                   name: "Kebijakan Privasi",
-                  item: `${mainUrl}kebijakan-privasi`
+                  item: `${mainUrl}/kebijakan-privasi`
               }
           ]
       }
@@ -74,15 +74,15 @@ export default function KebijakanPrivasi() {
           <meta property="og:title" content="Kebijakan Privasi NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}kebijakan-privasi`} />
-          <meta property="og:image" content={`${mainUrl}images/kebijakan-privasi.png`} />
+          <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
+          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}images/kebijakan-privasi.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
 
-          <link rel="canonical" href={`${mainUrl}kebijakan-privasi`} />
+          <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
           <script type="application/ld+json">
           {JSON.stringify(schemaData)}
