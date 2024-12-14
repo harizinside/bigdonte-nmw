@@ -271,8 +271,8 @@ export default function Home() {
           <meta name="description" content="NMW Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Jam Operasional Klinik 09:00 - 20:00" />
           <meta name="keywords" content="klinik kesehatan, layanan medis, konsultasi kesehatan, NMW Clinic, perawatan medis, bedah plastik" />
           
-          <meta property="og:title" content="NMW Aesthetic Clinic" />
-          <meta property="og:image" content={`${storageUrl}/${settings.favicon}`} />
+          <meta property="og:title" content="NMW Aesthetic Clinicc" />
+          <meta property="og:image" content={`${mainUrl}/images/favicon.png`} />
           <meta property="og:url" content={mainUrl} />
           <meta property="og:type" content="website" />
           
