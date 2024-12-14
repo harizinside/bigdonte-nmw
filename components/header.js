@@ -225,7 +225,7 @@ export default function Header() {
 
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-            <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+            <link rel="website icon" href={`${storageUrl}/${settings.favicon}`} />
 
             <meta name="robots" content="index, follow" />
         </Head>

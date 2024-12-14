@@ -5,12 +5,9 @@ import { Readable } from 'stream';
 export default async function handler(req, res) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-
-  // Pastikan fetch tersedia di server
   const fetch = (await import('node-fetch')).default;
 
   try {
-    // Definisikan daftar API
     const apis = [
       { url: `${baseUrl}/service`, pathPrefix: '/layanan', nameKey: 'name' },
       { url: `${baseUrl}/promo`, pathPrefix: '/promo', nameKey: 'title' },
@@ -19,13 +16,26 @@ export default async function handler(req, res) {
 
     const urls = [];
 
-    // Loop untuk mengambil data dari masing-masing API
+    // Tambahkan halaman statis
+    const staticPages = [
+      { url: '/', changefreq: 'weekly', priority: 1.0 },
+      { url: '/faq', changefreq: 'monthly', priority: 0.8 },
+      { url: '/dokter-kami', changefreq: 'monthly', priority: 0.8 },
+      { url: '/cabang', changefreq: 'monthly', priority: 0.8 },
+      { url: '/achievment', changefreq: 'monthly', priority: 0.8 },
+      { url: '/catalog', changefreq: 'monthly', priority: 0.8 },
+      { url: '/kebijakan-privasi', changefreq: 'monthly', priority: 0.8 },
+      { url: '/syarat-ketentuan', changefreq: 'monthly', priority: 0.8 },
+    ];
+    urls.push(...staticPages);
+
+    // Ambil data dari API dinamis
     for (const api of apis) {
       const response = await fetch(api.url);
 
       if (!response.ok) {
         console.error(`Gagal mengambil data dari ${api.url}`);
-        continue; // Lewati jika respons tidak berhasil
+        continue;
       }
 
       const result = await response.json();
@@ -49,7 +59,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Buat sitemap XML
     const stream = new SitemapStream({ hostname: mainUrl });
     const readable = Readable.from(urls);
 
