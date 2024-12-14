@@ -13,7 +13,6 @@ import Head from 'next/head';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Pagination, Autoplay } from 'swiper/modules';
 
 export default function DetailArtikel() {
     const router = useRouter();
@@ -405,7 +404,7 @@ export default function DetailArtikel() {
                 <meta property="og:description" content={articleDetail.description} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
-                <meta property="og:image" content={articleDetail.image} />
+                <meta property="og:image" content={`${mainUrl}/images/favicon.png`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={articleDetail.title} />
