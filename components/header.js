@@ -26,10 +26,8 @@ export default function Header() {
 
     const [isLoading, setIsLoading] = useState(true); // State to track loading state
     const [settings, setSettings] = useState([]);
-
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -227,9 +225,9 @@ export default function Header() {
 
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-            <link rel="icon" href={`${mainUrl}/images/favicon.png`} />
+            <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
 
-            <link rel="apple-touch-icon" href={`${mainUrl}/images/favicon.png`} />
+            <link rel="apple-touch-icon" href={`${storageUrl}/${settings.favicon}`} />
 
             <meta name="robots" content="index, follow" />
         </Head>

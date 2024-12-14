@@ -281,6 +281,8 @@ export default function Home() {
           <meta name="twitter:description" content={settings.meta_description} />
           <meta name="twitter:image" content={`${storageUrl}/${settings.favicon}`} />
 
+          <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+
           <link rel="canonical" href={mainUrl} />
 
           <script type="application/ld+json">
