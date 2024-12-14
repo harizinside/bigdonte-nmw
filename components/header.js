@@ -227,6 +227,8 @@ export default function Header() {
 
             <link rel="website icon" href={`${storageUrl}/${settings.favicon}`} />
 
+            <link rel="apple-touch-icon" href={`${storageUrl}/${settings.favicon}`} />
+
             <meta name="robots" content="index, follow" />
         </Head>
 
