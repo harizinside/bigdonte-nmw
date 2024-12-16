@@ -278,12 +278,12 @@ export async function getServerSideProps(context) {
                 {articleDetail.description && <meta property="og:description" content={articleDetail.description} />}
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
-                <meta property="og:image" content="https://nmw.prahwa.net/storage/images/d65vgsBUHgrKmNRHhXYqzHsrCSzxkNki3UlAO7Op.png" />
+                {articleDetail.image && <meta property="og:image" content={articleDetail.image} />}
 
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={articleDetail.title} />
-                <meta name="twitter:description" content={articleDetail.description} />
-                <meta name="twitter:image" content={articleDetail.image} />
+                {articleDetail.title && <meta name="twitter:title" content={articleDetail.title} />}
+                {articleDetail.description && <meta name="twitter:description" content={articleDetail.description} />}
+                {articleDetail.image && <meta name="twitter:image" content={articleDetail.image} />}
 
                 <link rel="canonical" href={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}/>
 
