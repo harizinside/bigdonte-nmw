@@ -276,7 +276,7 @@ export async function getServerSideProps(context) {
                 <meta property="og:description" content={articleDetail.description} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
-                <meta property="og:image" content={`${mainUrl}/${articleDetail.image}`} />
+                <meta property="og:image" content={`${articleDetail.image}`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={articleDetail.title} />
