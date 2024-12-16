@@ -14,238 +14,110 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function DetailArtikel() {
+export async function getServerSideProps(context) {
+    const { title } = context.query;
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  
+    let articleDetail = null;
+    let articles = [];
+    let articlesAll = [];
+    let settings = {};
+    let tos = null;
+    let doctor = null;
+    let currentPage = 1;
+    let totalPages = 1;
+  
+    try {
+      const articlesRes = await fetch(`${baseUrl}/article-new`);
+      const articlesData = await articlesRes.json();
+      articles = articlesData?.data || [];
+  
+      if (title && articles.length > 0) {
+        const matchedArticle = articles.find(article =>
+          article.title.replace(/\s+/g, '-').toLowerCase() === title
+        );
+  
+        if (matchedArticle) {
+          const detailRes = await fetch(`${baseUrl}/detail-artikel?id=${matchedArticle.id}`);
+          const detailData = await detailRes.json();
+          const data = detailData?.data || {};
+  
+          articleDetail = {
+            ...data,
+            products: typeof data.products === 'string' ? JSON.parse(data.products) : data.products || [],
+            service: typeof data.service === 'string' ? JSON.parse(data.service) : data.service,
+            doctor: typeof data.doctor === 'string' ? JSON.parse(data.doctor) : data.doctor
+          };
+  
+          const filteredArticles = articles.filter(article => article.id !== matchedArticle.id);
+          articles = filteredArticles.slice(0, 3);
+        }
+      }
+  
+      if (articleDetail?.service?.id) {
+        const tosRes = await fetch(`${baseUrl}/tos/${articleDetail.service.id}`);
+        const tosData = await tosRes.json();
+        tos = tosData?.data || null;
+      }
+  
+      if (articleDetail?.doctor?.id) {
+        const doctorRes = await fetch(`${baseUrl}/doctor_single/${articleDetail.doctor.id}`);
+        const doctorData = await doctorRes.json();
+        doctor = doctorData?.data || null;
+      }
+  
+      const settingsRes = await fetch(`${baseUrl}/setting`);
+      settings = await settingsRes.json();
+  
+      const articlesAllRes = await fetch(`${baseUrl}/article?page=${currentPage}`);
+      const articlesAllData = await articlesAllRes.json();
+      articlesAll = articlesAllData?.data || [];
+      totalPages = articlesAllData?.meta?.last_page || 1;
+  
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  
+    return {
+      props: {
+        articleDetail,
+        articles,
+        articlesAll,
+        settings,
+        tos,
+        doctor,
+        currentPage,
+        totalPages
+      }
+    };
+  }
+
+  export default function DetailArtikel({ articleDetail, articles, articlesAll, settings, tos, doctor, currentPage, totalPages }){
     const router = useRouter();
-    const { name, title } = router.query;
-    const [articleDetail, setArticleDetail] = useState({ service: null });
+    const [page, setPage] = useState(currentPage);
     const [loading, setLoading] = useState(true);
-    const [articles, setArticles] = useState([]);
-    const [settings, setSettings] = useState([]);
-    const [articlesAll, setArticlesAll] = useState([]);
-    const [tos, setTos] = useState([]);
-    const [doctor, setDoctor] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Menyimpan halaman yang aktif
-    const [totalPages, setTotalPages] = useState(1); 
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
     useEffect(() => {
-        if (title && articles.length > 0) {
-            const matchedArticle = articles.find(article =>
-                article.title.replace(/\s+/g, '-').toLowerCase() === title
-            );
-    
-            if (matchedArticle) {
-                const fetchArticleDetail = async () => {
-                    try {
-                        const response = await fetch(`${baseUrl}/detail-artikel?id=${matchedArticle.id}`);
-                        const data = await response.json();
-    
-                        if (data && data.data) {
-                            const products = typeof data.data.products === "string"
-                                ? JSON.parse(data.data.products)
-                                : data.data.products || [];
-    
-                            const service = typeof data.data.service === "string"
-                                ? JSON.parse(data.data.service)
-                                : data.data.service;
-
-                            const doctor = typeof data.data.doctor === "string"
-                                ? JSON.parse(data.data.doctor)
-                                : data.data.doctor;
-    
-                            // Gabungkan products dan service ke dalam articleDetail
-                            setArticleDetail({ ...data.data, products, service, doctor });
-    
-                            // Filter artikel lain
-                            const filteredArticles = articles.filter(article => article.id !== matchedArticle.id);
-                            setArticles(filteredArticles.slice(0, 3)); // Tampilkan 3 artikel lainnya
-                        }
-                    } catch (error) {
-                        console.error("Error fetching article detail:", error);
-                    } finally {
-                        setLoading(false);
-                    }
-                };
-    
-                fetchArticleDetail();
-            } else {
-                setLoading(false); // Jika artikel tidak ditemukan
-            }
+        if (articleDetail) {
+          setLoading(false);
         }
-    }, [title, articles, baseUrl]);
+      }, [articleDetail]);
 
-    
-    useEffect(() => {
-        if (articleDetail?.service) {
-            try {
-                // Cek jika articleDetail.service adalah objek dan bukan string atau array
-                const serviceObject = typeof articleDetail.service === 'string'
-                    ? JSON.parse(articleDetail.service) // Parse jika berupa string
-                    : articleDetail.service;
-    
-                // Jika serviceObject adalah objek yang valid
-                if (serviceObject && serviceObject.id) {
-                    const serviceId = serviceObject.id; // Ambil service ID dari objek
-    
-                    console.log("service id : " + serviceId); // Log ID ke console
-    
-                    const fetchServiceDetail = async () => {
-                        try {
-                            const response = await fetch(`${baseUrl}/tos/${serviceId}`);
-                            if (!response.ok) {
-                                throw new Error(`Failed to fetch service details: ${response.status} ${response.statusText}`);
-                            }                            
-                            const data = await response.json();
-                            if (data && data.data) {
-                                setTos(data.data); // Set data ke state
-                            } else {
-                                console.error('Data format is incorrect:', data);
-                            }
-                        } catch (error) {
-                            console.error('Error fetching service detail:', error);
-                        }
-                    };
-    
-                    fetchServiceDetail();
-                } else {
-                    console.error('Invalid service data:', serviceObject);
-                }
-            } catch (error) {
-                console.error("Error parsing service data:", error);
-            }
+    const handleNextPage = () => {
+        if (page < totalPages) {
+        setPage(page + 1);
         }
-    }, [articleDetail?.service, baseUrl]);
+    };
 
-
-    useEffect(() => {
-        if (articleDetail?.doctor) {
-            try {
-                // Cek jika articleDetail.service adalah objek dan bukan string atau array
-                const serviceObject = typeof articleDetail.doctor === 'string'
-                    ? JSON.parse(articleDetail.doctor) // Parse jika berupa string
-                    : articleDetail.doctor;
-    
-                // Jika serviceObject adalah objek yang valid
-                if (serviceObject && serviceObject.id) {
-                    const serviceId = serviceObject.id; // Ambil service ID dari objek
-    
-                    console.log("service id : " + serviceId); // Log ID ke console
-    
-                    const fetchServiceDetail = async () => {
-                        try {
-                            const response = await fetch(`${baseUrl}/doctor_single/${serviceId}`);
-                            if (!response.ok) {
-                                throw new Error(`Failed to fetch service details: ${response.status} ${response.statusText}`);
-                            }                            
-                            const data = await response.json();
-                            if (data && data.data) {
-                                setDoctor(data.data); // Set data ke state
-                            } else {
-                                console.error('Data format is incorrect:', data);
-                            }
-                        } catch (error) {
-                            console.error('Error fetching service detail:', error);
-                        }
-                    };
-    
-                    fetchServiceDetail();
-                } else {
-                    console.error('Invalid service data:', serviceObject);
-                }
-            } catch (error) {
-                console.error("Error parsing service data:", error);
-            }
+    const handlePrevPage = () => {
+        if (page > 1) {
+        setPage(page - 1);
         }
-    }, [articleDetail?.doctor, baseUrl]);
-    
-    
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/article-new`);
-                const data = await response.json();
-                if (data && data.data) { 
-                    const articles = data.data;
-
-                    // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
-                    const sortedArticles = articles.sort((a, b) => {
-                        const dateA = new Date(a.date);
-                        const dateB = new Date(b.date);
-                        const createdAtA = new Date(a.created_at);
-                        const createdAtB = new Date(b.created_at);
-
-                        return (dateB - dateA) || (createdAtB - createdAtA);
-                    });
-
-                    setArticles(sortedArticles);
-                } else {
-                    console.error('Invalid response data format:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching articles:', error);
-            }
-        };
-
-        fetchData();
-    }, [baseUrl]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/setting`);
-                const data = await response.json();
-                console.log('Fetched data:', data);  // Log the entire response
-
-                if (data && data.social_media) {
-                    setSettings(data); // Set the entire response object to settings
-                } else {
-                    console.error('No social_media data found:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching settings:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch(`${baseUrl}/article?page=${currentPage}`);
-            const data = await response.json();
-            if (data) {
-              setArticlesAll(data.data); // Simpan artikel yang didapat
-              setTotalPages(data.meta.last_page); // Simpan total halaman
-            } else {
-              console.error('Invalid response data format:', data);
-            }
-          } catch (error) {
-            console.error('Error fetching articles:', error);
-          }
-        };
-    
-        fetchData();
-      }, [currentPage]); // Fetch ulang saat currentPage berubah
-      
-    
-      // Fungsi untuk menangani klik halaman berikutnya
-      const handleNextPage = () => {
-        if (currentPage < totalPages) {
-          setCurrentPage(currentPage + 1);
-        }
-      };
-    
-      // Fungsi untuk menangani klik halaman sebelumnya
-      const handlePrevPage = () => {
-        if (currentPage > 1) {
-          setCurrentPage(currentPage - 1);
-        }
-      };
+    };
 
     if (loading) {
         return (
@@ -404,7 +276,7 @@ export default function DetailArtikel() {
                 <meta property="og:description" content={articleDetail.description} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
-                <meta property="og:image" content={`${mainUrl}/images/favicon.png`} />
+                <meta property="og:image" content={`${mainUrl}/${articleDetail.image}`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={articleDetail.title} />
