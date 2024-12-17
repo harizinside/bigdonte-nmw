@@ -93,66 +93,6 @@ export async function getServerSideProps(context) {
     };
   }
 
-  export async function generateMetadata({ params }) {
-    const { title } = params;
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  
-    try {
-      const articlesRes = await fetch(`${baseUrl}/article-new`);
-      const articlesData = await articlesRes.json();
-      const articles = articlesData?.data || [];
-  
-      const matchedArticle = articles.find(
-        article => article.title.replace(/\s+/g, '-').toLowerCase() === title
-      );
-  
-      if (!matchedArticle) {
-        notFound();
-      }
-  
-      const detailRes = await fetch(`${baseUrl}/detail-artikel?id=${matchedArticle.id}`);
-      const detailData = await detailRes.json();
-      const articleDetail = detailData?.data || {};
-  
-      const url = `${baseUrl}/artikel/${encodeURIComponent(title)}`;
-  
-      return {
-        title: `${articleDetail.title} | NMW Aesthetic Clinic`,
-        description: articleDetail.description || 'Artikel kesehatan dan kecantikan terbaik.',
-        keywords: articleDetail.tags?.join(', ') || 'NMW, kesehatan, kecantikan',
-        robots: 'index, follow',
-        openGraph: {
-          type: 'article',
-          title: articleDetail.title,
-          description: articleDetail.description,
-          url,
-          images: articleDetail.image ? [
-            {
-              url: articleDetail.image,
-              alt: articleDetail.title,
-              width: 1200,
-              height: 630,
-            },
-          ] : [],
-        },
-        twitter: {
-          card: 'summary_large_image',
-          title: articleDetail.title,
-          description: articleDetail.description,
-          images: [articleDetail.image || ''],
-        },
-        alternates: {
-          canonical: url,
-        },
-      };
-    } catch (error) {
-      console.error('Error generating metadata:', error);
-      return {
-        title: 'Artikel Tidak Ditemukan | NMW Aesthetic Clinic',
-      };
-    }
-  }
-
   export default function DetailArtikel({ articleDetail, articles, articlesAll, settings, tos, doctor, currentPage, totalPages }){
     const router = useRouter();
     const [page, setPage] = useState(currentPage);
@@ -328,7 +268,7 @@ export async function getServerSideProps(context) {
 
     return (
         <>
-            {/* <Head>
+            <Head>
                 <title>{articleDetail.title} | NMW Aesthetic Clinic</title>
                
                 <meta name="description" content={articleDetail.description} />
@@ -350,7 +290,7 @@ export async function getServerSideProps(context) {
 
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-            </Head> */}
+            </Head>
             <div className={banner.banner}>
                 <img src={articleDetail.image} alt={articleDetail.title} /> 
                 {articleDetail.image_source ? (
