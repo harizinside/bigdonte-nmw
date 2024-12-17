@@ -109,11 +109,11 @@ export default function Artikel({ settings, articles, articlesAll, tags, totalPa
         <meta property="og:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${mainUrl}/artikel`} />
-        <meta property="og:image" content={settings ? `${storageUrl}/${settings}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+        <meta property="og:image" content={settings ? `${storageUrl}/${settings.logo}` : `${mainUrl}/images/kebijakan-privasi.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Artikel | NMW Aesthetic Clinic" />
         <meta name="twitter:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
-        <meta name="twitter:image" content={settings ? `${storageUrl}/${settings}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+        <meta name="twitter:image" content={settings ? `${storageUrl}/${settings.logo}` : `${mainUrl}/images/kebijakan-privasi.png`} />
         <link rel="canonical" href={`${mainUrl}/Artikel`} />
         <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
       </Head>
