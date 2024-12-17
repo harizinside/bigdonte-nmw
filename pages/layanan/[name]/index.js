@@ -160,12 +160,12 @@ export default function Layanan({
           <meta property="og:description" content={serviceDetail.description ? `${serviceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${serviceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'}  />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`} />
-          <meta property="og:image" content={serviceDetail.image ? `${storageUrl}/${serviceDetail.image}` : `${mainUrl}/images/logo.svg`} />
+          <meta property="og:image" content={serviceDetail.image_2 ? `${storageUrl}/${serviceDetail.image_2}` : `${mainUrl}/images/logo.svg`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={serviceDetail.name ? `${serviceDetail.name}` : `Layanan NMW Aesthetic Clinic`} />
           <meta name="twitter:description" content={serviceDetail.description ? `${serviceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${serviceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'}  />
-          <meta name="twitter:image" content={serviceDetail.image ? `${storageUrl}/${serviceDetail.image}` : `${mainUrl}/images/logo.svg`} />
+          <meta name="twitter:image" content={serviceDetail.image_2 ? `${storageUrl}/${serviceDetail.image_2}` : `${mainUrl}/images/logo.svg`} />
 
           <link rel="canonical" href={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`} />
 
