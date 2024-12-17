@@ -75,12 +75,12 @@ export default function KebijakanPrivasi() {
           <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
-          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
           <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
