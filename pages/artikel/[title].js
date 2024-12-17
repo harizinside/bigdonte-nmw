@@ -14,8 +14,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export async function getServerSideProps() {
-    context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+export async function getServerSideProps(context) {
     const { title } = context.query;
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   
@@ -100,12 +99,7 @@ export async function getServerSideProps() {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
       const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
       const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-  
-      useEffect(() => {
-          if (articleDetail) {
-            setLoading(false);
-          }
-        }, [articleDetail]);
+
   
       const handleNextPage = () => {
           if (page < totalPages) {
@@ -117,6 +111,138 @@ export async function getServerSideProps() {
           if (page > 1) {
           setPage(page - 1);
           }
+      };
+
+      if (!articleDetail) {
+            return (
+                <>
+                    <div className={not.box}>
+                        <div className={not.content}>
+                            <img src="../images/not-found.png" alt='Artikel Tidak Ditemukan' />
+                            <span>Artikel Tidak Ditemukan</span>
+                        </div>
+                    </div>
+                    <div className={stylesAll.article_section}>
+                        <div className={`${stylesAll.heading_section} ${stylesAll.heading_section_start}`}>
+                            <h1><font>Artikel</font> Lain</h1>
+                        </div>
+                        <div className={stylesAll.article_container}>
+                            <div className={stylesAll.article_layout}>
+                                {articlesAll.map(article => {
+                                    const tagsList = article.tags ? article.tags.split(',') : [];
+
+                                    return(
+                                    <div className={stylesAll.article_box} key={article.id}>
+                                        <div className={stylesAll.article_image}>
+                                            {tagsList.length > 0 && (
+                                                <Link href={`tag/${tagsList[0].trim()}`}>
+                                                    <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                                                </Link>
+                                            )}
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                                <img src={article.image} alt={article.title}/>
+                                            </Link>
+                                        </div>
+                                        <div className={stylesAll.article_content}>
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                                <div className={stylesAll.article_heading}>
+                                                    <h1>{article.title}</h1>
+                                                </div>
+                                            </Link>
+                                            <span>Admin, {article.date}</span>
+                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={stylesAll.btn_more}>Baca Selengkapnya</button></Link>
+                                        </div>
+                                    </div>
+                                    )
+                                })}
+                            </div>
+                            <div className={stylesAll.article_pagination}>
+                                <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                                Sebelumnya
+                                </button>
+                                {/* Menampilkan nomor halaman */}
+                                {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={currentPage === index + 1 ? stylesAll.active_pagination : ''}
+                                    onClick={() => setCurrentPage(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                                ))}
+                                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                                Selanjutnya
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            );
+        }
+
+      const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
+
+    const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
+
+    const shortDescription = cleanDescription.length > 100 
+    ? cleanDescription.substring(0, 100) + "..." 
+    : cleanDescription;
+
+    console.log("products : " + articleDetail.products)
+
+    const articleSchema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: `${articleDetail.title} - NMW Aesthetic Clinic`,
+        description: `${articleDetail.description}`,
+        url: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
+        publisher: {
+          "@type": "Organization",
+          name: "NMW Aesthetic Clinic",
+          logo: {
+            "@type": "ImageObject",
+            url: `${storageUrl}/${settings.logo}`
+          }
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+        },
+        image: {
+          "@type": "ImageObject",
+          url: `${articleDetail.image}`
+        },
+        author: {
+          "@type": "Person",
+          name: `${articleDetail.author}`
+        },
+        "datePublished": `${articleDetail.date}`,
+        "dateModified": `${articleDetail.date}`
+      };
+      
+      const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Beranda",
+            item: `${mainUrl}`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Artikel",
+            item: `${mainUrl}/artikel`
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: `${articleDetail.title}`,
+            item: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+          }
+        ]
       };
 
   return (
@@ -139,9 +265,8 @@ export async function getServerSideProps() {
 
           <link rel="canonical" href={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
 
-          <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
-          </script>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
       <div className={banner.banner}>
             <img src={articleDetail.image} alt={articleDetail.title} /> 
