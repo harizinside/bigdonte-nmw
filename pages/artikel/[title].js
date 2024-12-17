@@ -248,20 +248,20 @@ export async function getServerSideProps(context) {
   return (
     <>
         <Head>
-          <title>{articleDetail.title} | NMW Aesthetic Clinic</title>
+          <title>{articleDetail.title}</title>
           <meta name="description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
-          <meta property="og:title" content="Kebijakan Privasi NMW Aesthetic Clinic"  />
+          <meta property="og:title" content={articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`}  />
           <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
-          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta property="og:image" content={articleDetail.image ? `${articleDetail.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
+          <meta name="twitter:title" content={articleDetail.title} />
           <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta name="twitter:image" content={articleDetail.image ? `${articleDetail.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
           <link rel="canonical" href={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
 
