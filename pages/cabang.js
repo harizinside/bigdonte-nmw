@@ -7,135 +7,60 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 
-export default function Cabang(){
-    const [branchs, setBranchs] = useState([]);
+export default function Branches() {
+  const [branchs, setBranchs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [settings, setSettings] = useState([]);
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    
+  useEffect(() => {
+    const fetchData = async () => {
+        const cachedData = localStorage.getItem('promoCache');
+        const cacheExpiry = localStorage.getItem('promoCacheExpiry');
+        const now = new Date().getTime();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const cachedSetting = localStorage.getItem('settingCache');
-            const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
-            const now = new Date().getTime();
-    
-            // Cek apakah cache valid
-            if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
-                setSettings(JSON.parse(cachedSetting));
-                
-                // Lakukan pengecekan data API untuk pembaruan data
-                try {
-                    const response = await fetch(`${baseUrl}/setting`);
-                    const data = await response.json();
-    
-                    if (data && data.social_media) {
-                        const cachedData = JSON.parse(cachedSetting);
-                        
-                        // Bandingkan data baru dengan cache
-                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
-                            setSettings(data);
-                            localStorage.setItem('settingCache', JSON.stringify(data));
-                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                            console.log('Cache updated after API check');
-                        } else {
-                            console.log('No changes detected in API data');
-                        }
-                    } else {
-                        console.error('Invalid API response:', data);
-                    }
-                } catch (error) {
-                    console.error('Error checking API for updates:', error);
-                }
-                return;
-            }
-    
-            // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
-            try {
-                const response = await fetch(`${baseUrl}/setting`);
-                const data = await response.json();
-    
-                if (data && data.social_media) {
-                    setSettings(data);
-                    localStorage.setItem('settingCache', JSON.stringify(data));
-                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                    console.log('Fetched and cached from API');
-                } else {
-                    console.error('Invalid API response:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching settings:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
-        fetchData();
-      }, [baseUrl]);
+        try {
+            const response = await fetch(`${baseUrl}/branch`);
+            const data = await response.json();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const cachedData = localStorage.getItem('promoCache');
-            const cacheExpiry = localStorage.getItem('promoCacheExpiry');
-            const now = new Date().getTime();
-    
-            try {
-                const response = await fetch(`${baseUrl}/branch`);
-                const data = await response.json();
-    
-                if (data && data.data) {
-                    if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
-                        const parsedCache = JSON.parse(cachedData);
-                        
-                        if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                            console.log('Data updated from API');
-                            setBranchs(data.data);
-                            localStorage.setItem('promoCache', JSON.stringify(data.data));
-                            localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
-                        } else {
-                            console.log('Loaded from cache');
-                            setBranchs(parsedCache);
-                        }
-                    } else {
-                        console.log('Fetched from API');
+            if (data && data.data) {
+                if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
+                    const parsedCache = JSON.parse(cachedData);
+                    
+                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
+                        console.log('Data updated from API');
                         setBranchs(data.data);
                         localStorage.setItem('promoCache', JSON.stringify(data.data));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+                    } else {
+                        console.log('Loaded from cache');
+                        setBranchs(parsedCache);
                     }
                 } else {
-                    console.error('Invalid response data format:', data);
+                    console.log('Fetched from API');
+                    setBranchs(data.data);
+                    localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                 }
-            } catch (error) {
-                console.error('Error fetching banners:', error);
-                if (cachedData) {
-                    setBranchs(JSON.parse(cachedData));
-                    console.log('Loaded from cache after API error');
-                }
-            } finally {
-                setLoading(false);
+            } else {
+                console.error('Invalid response data format:', data);
             }
-        };
-    
-        fetchData();
-      }, [baseUrl]);
+        } catch (error) {
+            console.error('Error fetching banners:', error);
+            if (cachedData) {
+                setBranchs(JSON.parse(cachedData));
+                console.log('Loaded from cache after API error');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    if (loading) {
-        return (
-            <>
-                <div className={loadingStyles.box}>
-                    <div className={loadingStyles.content}>
-                        <img src="../images/logo.svg"/>
-                        <span>Loading</span>
-                    </div>
-                </div>
-            </>
-        );
-    }
+    fetchData();
+  }, [baseUrl]);
 
-    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-
-    const schemaData = {
+  const schemaData = {
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: `Cabang - NMW Aesthetic Clinic`,
@@ -172,33 +97,31 @@ export default function Cabang(){
         }
     };
 
+  return (
+    <>
+        <Head>
+          <title>Cabang | NMW Aesthetic Clinic</title>
+          <meta name="description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
+          <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
-    return(
-        <>
-            <Head>
-                <title>Cabang | NMW Aesthetic Clinic</title>
-                <meta name="description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta name="keywords" content="cabang NMW Clinic, lokasi NMW Clinic, klinik kecantikan terdekat, klinik NMW, klinik estetika terbaik, layanan kecantikan profesional, dokter kecantikan terpercaya, konsultasi kecantikan, perawatan kulit, perawatan wajah, klinik kesehatan kulit, klinik bedah plastik, alamat NMW Clinic, klinik anti-aging, klinik perawatan rambut, layanan estetika medis, cabang klinik kecantikan, konsultasi medis estetika, perawatan tubuh, perawatan kecantikan terdekat, solusi kecantikan, dokter kecantikan terbaik, klinik kecantikan Indonesia" />
+          <meta property="og:title" content="Cabang NMW Aesthetic Clinic"  />
+          <meta property="og:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
+          <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
-                <meta property="og:title" content="Cabang NMW Aesthetic Clinic"/>
-                <meta property="og:description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}/cabang`} />
-                <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic" />
+          <meta name="twitter:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
+          <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="cabang NMW Aesthetic Clinic" />
-                <meta name="twitter:description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
-                <link rel="canonical" href={`${mainUrl}/cabang`} />
-
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-                />
-            </Head>
-            <div className={banner.banner}>
+          <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+          </script>
+      </Head>
+      <div className={banner.banner}>
                 <img src="images/cabang-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
             <div className={styles.container}>
@@ -237,6 +160,6 @@ export default function Cabang(){
                     ))}
                 </div>
             </div>
-        </>
-    )
+    </>
+  );
 }
