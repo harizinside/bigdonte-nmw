@@ -46,15 +46,14 @@ export async function getServerSideProps(context) {
 export default function JenisLayanan({ initialSettings, initialServiceDetail, initialServiceDetailList, showPopup: initialShowPopup  }) {
     const router = useRouter();
     const { name, slug } = router.query;
-    const [settings, setSettings] = useState(initialSettings);
     const [showPopup, setShowPopup] = useState(initialShowPopup);
 
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
-    const formattedPhone = settings.phone && settings.phone.startsWith('0')
-        ? '62' + settings.phone.slice(1)  
-        : settings.phone;
+    const formattedPhone = initialSettings.phone && initialSettings.phone.startsWith('0')
+        ? '62' + initialSettings.phone.slice(1)  
+        : initialSettings.phone;
 
     const closeModal = () => {
         setShowPopup(false);
@@ -90,7 +89,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
       "@type": "WebPage",
       "@id": `${mainUrl}/layanan/${name}/${initialServiceDetail.slug}`
       },
-      breadcrumb: {
+      breadcrumb: { 
           "@type": "BreadcrumbList",
           itemListElement: [
               {

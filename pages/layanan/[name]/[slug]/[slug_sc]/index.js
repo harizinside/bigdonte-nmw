@@ -7,212 +7,184 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from "next/head";
 
-export default function SubJenisLayanan() {
-  const router = useRouter();
-  const { name, slug, slug_sc } = router.query;
-  const [serviceDetail, setServiceDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [settings, setSettings] = useState({ phone: "" });
-  const [serviceDetailList, setServiceDetailList] = useState([]);
-
+export async function getServerSideProps(context) {
+  const { slug, slug_sc } = context.query;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
-  useEffect(() => {
-    const fetchSettings = async () => {
+  try {
+    const settingsRes = await fetch(`${baseUrl}/setting`);
+    const settingsData = await settingsRes.json();
+
+    let serviceDetail = [];
+    let serviceDetailList = [];
+
+    if (slug_sc) {
       try {
-        const response = await fetch(`${baseUrl}/setting`);
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-        const data = await response.json();
-        setSettings(data || { phone: "" });
-      } catch (error) {
-        console.error("Error fetching settings:", error);
-      }
-    };
+        const serviceDetailRes = await fetch(`${baseUrl}/stos/${slug_sc}`);
+        const serviceDetailData = await serviceDetailRes.json();
+        if (serviceDetailData?.data) {
+          serviceDetail = serviceDetailData.data;
+          // Ambil serviceId dari serviceDetail jika slug_sc ada
+          const serviceId = serviceDetail.id;
+          console.log("Service ID from /stos/: " + serviceId);
 
-    fetchSettings();
-  }, [baseUrl]);
-
-  useEffect(() => {
-      if (slug_sc) {
-          // Fetching service detail
-          const fetchServiceDetail = async () => {
-              try {
-                  const response = await fetch(`${baseUrl}/stos/${slug_sc}`);
-                  if (!response.ok) {
-                      throw new Error(`API error: ${response.status} ${response.statusText}`);
-                  }
-                  const data = await response.json();
-                  if (data.data) {
-                      setServiceDetail(data.data);
-                  } else {
-                      console.error("Data format is incorrect:", data);
-                  }
-              } catch (error) {
-                  console.error('Error fetching service detail:', error);
-              }
-          };
-
-          if (slug) {
-
-            const fetchServiceDetailSub = async () => {
-                try {
-                    const response = await fetch(`${baseUrl}/service_two/${slug}`);
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.status} ${response.statusText}`);
-                    }
-                    const data = await response.json();
-                    if (data.data) {
-                        setServiceDetail(data.data);
-                        const serviceId = data.data.id; // Ambil id dari response
-                        fetchServiceDetailList(serviceId); // Panggil fetchServiceDetailList dengan id
-                    } else {
-                        console.error("Data format is incorrect:", data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching service detail:', error);
-                }
-            };
-
-            const fetchServiceDetailList = async (serviceId) => {
-                try {
-                    const response = await fetch(`${baseUrl}/patient/${serviceId}`);
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.status} ${response.statusText}`);
-                    }
-                    const data = await response.json();
-                    if (data.data) {
-                        setServiceDetailList(data.data);
-                        console.log("Fetched patient data: ", data.data);
-                    } else {
-                        console.error("Data format is incorrect:", data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching service detail list:', error);
-                } finally {
-                    setLoading(false); // Set loading false after both API calls are done
-                }
-            };
-            fetchServiceDetailSub();
-          }
-
-          // Call the function to fetch the service detail data
-          fetchServiceDetail();
+          // Ambil data pasien berdasarkan serviceId
+          const serviceDetailListRes = await fetch(`${baseUrl}/patient/${serviceId}`);
+          const serviceDetailListData = await serviceDetailListRes.json();
           
-      } else {
-          setLoading(false); // If service is not found, set loading to false
-      }
-  }, [slug_sc, baseUrl]);
-
-  const formattedPhone = settings.phone?.startsWith("0")
-    ? "62" + settings.phone.slice(1)
-    : settings.phone;
-
-  if (loading) {
-    return (
-      <div className={loadingStyles.box}>
-        <div className={loadingStyles.content}>
-          <img src="/images/logo.svg" alt="Loading logo" />
-          <span>Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (!serviceDetail) {
-    return (
-      <div className={styles.section_error}>
-        <p>Layanan tidak ditemukan.</p>
-      </div>
-    );
-  }
-
-  const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
-      description: `${serviceDetail.description}`,
-      url: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`,
-      publisher: {
-        "@type": "Organization",
-        name: "NMW Aesthetic Clinic",
-        logo: {
-          "@type": "ImageObject",
-          url: `${storageUrl}/${settings.logo}`
-        }
-      },
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
-      },
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Beranda",
-            item: `${mainUrl}`
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Layanan",
-            item: `${mainUrl}/layanan`
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: `${name}`,
-            item:  `${mainUrl}/layanan/${name}`
-          },
-          {
-            "@type": "ListItem",
-            position: 4,
-            name: `${slug}`,
-            item: `${mainUrl}/layanan/${name}/${slug}`
-          },
-          {
-            "@type": "ListItem",
-            position: 5,
-            name: `${serviceDetail.title}`,
-            item: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
+          if (serviceDetailListData?.data) {
+            serviceDetailList = serviceDetailListData.data;
           }
-        ]
+        }
+      } catch (error) {
+        console.error("Error fetching service detail by slug_sc:", error);
       }
-  };
+    }
+
+    // Jika tidak ada serviceDetail dan slug ada
+    if (!serviceDetail && slug) {
+      try {
+        const serviceDetailSubRes = await fetch(`${baseUrl}/service_two/${slug}`);
+        const serviceDetailSubData = await serviceDetailSubRes.json();
+
+        console.log("serviceDetailSubData : " + JSON.stringify(serviceDetailSubData));
+
+        if (serviceDetailSubData?.data) {
+          serviceDetail = serviceDetailSubData.data;
+          const serviceId = serviceDetailSubData.data.id;
+          console.log("Service ID from /service_two/: " + serviceId);
+
+          // Ambil data pasien berdasarkan serviceId
+          const serviceDetailListRes = await fetch(`${baseUrl}/patient/${serviceId}`);
+          const serviceDetailListData = await serviceDetailListRes.json();
+          
+          if (serviceDetailListData?.data) {
+            serviceDetailList = serviceDetailListData.data;
+          }          
+        }
+      } catch (error) {
+        console.error("Error fetching service detail by slug:", error);
+      }
+    }
+
+    return {
+      props: {
+        initialSettings: settingsData || { phone: "" },
+        initialServiceDetail: serviceDetail || null,
+        initialServiceDetailList: serviceDetailList || [],
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { notFound: true };
+  }
+}
+
+
+export default function SubJenisLayanan({ initialSettings, initialServiceDetail, initialServiceDetailList }) {
+
+    const router = useRouter();
+    const { name, slug, slug_sc } = router.query;
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+
+    const formattedPhone = initialSettings.phone?.startsWith("0")
+    ? "62" + initialSettings.phone.slice(1)
+    : initialSettings.phone;
+
+    if (!initialServiceDetail) {
+      return (
+        <div className={styles.section_error}>
+          <p>Layanan tidak ditemukan.</p>
+        </div>
+      );
+    }
+
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: `${initialServiceDetail.title} - NMW Aesthetic Clinic`,
+        description: `${initialServiceDetail.description}`,
+        url: `${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`,
+        publisher: {
+          "@type": "Organization",
+          name: "NMW Aesthetic Clinic",
+          logo: {
+            "@type": "ImageObject",
+            url: `${storageUrl}/${initialSettings.logo}`
+          }
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`
+        },
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Beranda",
+              item: `${mainUrl}`
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Layanan",
+              item: `${mainUrl}/layanan`
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: `${name}`,
+              item:  `${mainUrl}/layanan/${name}`
+            },
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: `${slug}`,
+              item: `${mainUrl}/layanan/${name}/${slug}`
+            },
+            {
+              "@type": "ListItem",
+              position: 5,
+              name: `${initialServiceDetail.title}`,
+              item: `${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`
+            }
+          ]
+        }
+    };
 
   return (
     <>
         <Head>
-            <title>{serviceDetail.title} | NMW Aesthetic Clinic</title>
-            <meta name="description" content={serviceDetail.description} />
-            <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
+          <title>{initialServiceDetail.title ? `${initialServiceDetail.title}` : `Layanan NMW Aesthetic Clinic`}  | NMW Aesthetic Clinic</title>
+          <meta name="description" content={initialServiceDetail.description ? `${initialServiceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${initialServiceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'} />
+          <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
-            <meta property="og:title" content={serviceDetail.title} />
-            <meta property="og:description" content={serviceDetail.description} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
-            <meta property="og:image" content={`${storageUrl}/${serviceDetail.image}`} />
+          <meta property="og:title" content={initialServiceDetail.title ? `${initialServiceDetail.title}` : `Layanan NMW Aesthetic Clinic`}   />
+          <meta property="og:description" content={initialServiceDetail.description ? `${initialServiceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${initialServiceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`} />
+          <meta property="og:image" content={initialServiceDetail.image ? `${storageUrl}/${initialServiceDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={serviceDetail.title} />
-            <meta name="twitter:description" content={serviceDetail.description} />
-            <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image}`} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={initialServiceDetail.title ? `${initialServiceDetail.title}` : `Layanan NMW Aesthetic Clinic`}  />
+          <meta name="twitter:description" content={initialServiceDetail.description ? `${initialServiceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${initialServiceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'} />
+          <meta name="twitter:image" content={initialServiceDetail.image ? `${storageUrl}/${initialServiceDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
-            <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
+          <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`} />
 
-            <script type="application/ld+json">
-              {JSON.stringify(schemaData)}
-            </script>
-        </Head>
-        
-        {/* Banner */}
-        <div className={banner.banner}>
+          <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+          </script>
+      </Head>
+      <div className={banner.banner}>
           <img
-            src={`${storageUrl}/${serviceDetail.image}`}
-            alt={serviceDetail.name || "Banner image"}
+            src={`${storageUrl}/${initialServiceDetail.image}`}
+            alt={initialServiceDetail.title || "Banner image"}
           />
         </div>
 
@@ -220,15 +192,15 @@ export default function SubJenisLayanan() {
       <div className={`${styles.section_1} ${styles.section_1_sc}`}>
         <div className={styles.section_1_heading}>
           <h1>
-            {serviceDetail.title.split(" ")[0]}{" "}
-            <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font>
+            {initialServiceDetail.title.split(" ")[0]}{" "}
+            <font>{initialServiceDetail.title.split(" ").slice(1).join(" ")}</font>
           </h1>
         </div>
         <div className={styles.section_1_content}>
           <div
             className={styles.service_description}
             dangerouslySetInnerHTML={{
-              __html: serviceDetail.description || "Deskripsi tidak tersedia.",
+              __html: initialServiceDetail.description || "Deskripsi tidak tersedia.",
             }}
           />
           <Link
@@ -245,12 +217,12 @@ export default function SubJenisLayanan() {
       
       <div className={`${styles.section_2} ${styles.section_2_sc}`}> 
           <div className={`${styles.heading_section}`}> 
-              <h1>Pasien {serviceDetail.title.split(" ")[0]}{" "}
-              <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font></h1>
+              <h1>Pasien {initialServiceDetail.title.split(" ")[0]}{" "}
+              <font>{initialServiceDetail.title.split(" ").slice(1).join(" ")}</font></h1>
           </div>
           <div className={styles.box_galeri_layout}>
-          {serviceDetailList.length > 0 ? (
-              serviceDetailList.map((galeriPatient) => (
+          {initialServiceDetailList.length > 0 ? (
+              initialServiceDetailList.map((galeriPatient) => (
                   <div className={styles.box_galeri} key={galeriPatient.id}>
                       {/* Image Section */}
                       <div className={styles.box_galeri_image}>

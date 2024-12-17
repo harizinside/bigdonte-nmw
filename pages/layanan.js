@@ -1,49 +1,62 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import banner from "@/styles/Banner.module.css";
 import styles from "@/styles/Layanan.module.css";
-import Link from 'next/link';
+import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
-import Head from 'next/head';
+import Head from "next/head";
 
-export default function JenisLayanan() {
-    const router = useRouter();
-    const { name, slug } = router.query;
-    const [serviceDetail, setServiceDetail] = useState(null);
-    const [serviceDetailList, setServiceDetailList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [settings, setSettings] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
+export default function SubJenisLayanan() {
+  const router = useRouter();
+  const { name, slug, slug_sc } = router.query;
+  const [serviceDetail, setServiceDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState({ phone: "" });
+  const [serviceDetailList, setServiceDetailList] = useState([]);
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-    
-    useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch(`${baseUrl}/setting`);
-              const data = await response.json();
-              console.log('Fetched data:', data);  // Log the entire response
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
-              if (data && data.social_media) {
-                  setSettings(data); // Set the entire response object to settings
-              } else {
-                  console.error('No social_media data found:', data);
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/setting`);
+        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+        const data = await response.json();
+        setSettings(data || { phone: "" });
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+
+    fetchSettings();
+  }, [baseUrl]);
+
+  useEffect(() => {
+      if (slug_sc) {
+          // Fetching service detail
+          const fetchServiceDetail = async () => {
+              try {
+                  const response = await fetch(`${baseUrl}/stos/${slug_sc}`);
+                  if (!response.ok) {
+                      throw new Error(`API error: ${response.status} ${response.statusText}`);
+                  }
+                  const data = await response.json();
+                  if (data.data) {
+                      setServiceDetail(data.data);
+                  } else {
+                      console.error("Data format is incorrect:", data);
+                  }
+              } catch (error) {
+                  console.error('Error fetching service detail:', error);
               }
-          } catch (error) {
-              console.error('Error fetching settings:', error);
-          }
-      };
+          };
 
-      fetchData();
-    }, []);
+          if (slug) {
 
-    useEffect(() => { 
-        if (slug) {
-            // Fetching service detail
-            const fetchServiceDetail = async () => {
+            const fetchServiceDetailSub = async () => {
                 try {
                     const response = await fetch(`${baseUrl}/service_two/${slug}`);
                     if (!response.ok) {
@@ -54,9 +67,6 @@ export default function JenisLayanan() {
                         setServiceDetail(data.data);
                         const serviceId = data.data.id; // Ambil id dari response
                         fetchServiceDetailList(serviceId); // Panggil fetchServiceDetailList dengan id
-                        if (data.data.sensitive_content === 1) {
-                            setShowPopup(true);  // Show the popup if sensitive_content is 0
-                        }
                     } else {
                         console.error("Data format is incorrect:", data);
                     }
@@ -64,16 +74,17 @@ export default function JenisLayanan() {
                     console.error('Error fetching service detail:', error);
                 }
             };
-        
+
             const fetchServiceDetailList = async (serviceId) => {
                 try {
-                    const response = await fetch(`${baseUrl}/sub_service_list/${serviceId}`);
+                    const response = await fetch(`${baseUrl}/patient/${serviceId}`);
                     if (!response.ok) {
                         throw new Error(`API error: ${response.status} ${response.statusText}`);
                     }
                     const data = await response.json();
                     if (data.data) {
                         setServiceDetailList(data.data);
+                        console.log("Fetched patient data: ", data.data);
                     } else {
                         console.error("Data format is incorrect:", data);
                     }
@@ -83,227 +94,250 @@ export default function JenisLayanan() {
                     setLoading(false); // Set loading false after both API calls are done
                 }
             };
-        
-            // Call the function to fetch the service detail data
-            fetchServiceDetail();
-            fetchServiceDetailList();
-        } else {
-            setLoading(false); // If service is not found, set loading to false
-        }
-    }, [slug, baseUrl]);
-      
+            fetchServiceDetailSub();
+          }
 
-    const formattedPhone = settings.phone && settings.phone.startsWith('0')
-    ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
+          // Call the function to fetch the service detail data
+          fetchServiceDetail();
+          
+      } else {
+          setLoading(false); // If service is not found, set loading to false
+      }
+  }, [slug_sc, baseUrl]);
+
+  const formattedPhone = settings.phone?.startsWith("0")
+    ? "62" + settings.phone.slice(1)
     : settings.phone;
 
-    // Handle closing the modal
-    const closeModal = () => {
-        setShowPopup(false);  // Close the modal
-    };
-
-    // Handle the "back" action if user is under 18
-    const handleBack = () => {
-        router.back();
-    };
-
-    if (loading) {
-        return (
-            <div className={loadingStyles.box}>
-                <div className={loadingStyles.content}>
-                    <img src="../../images/logo.svg" alt="Loading" />
-                    <span>Loading...</span>
-                </div>
-            </div>
-        );
-    }
-
-    if (!serviceDetail) {
-        return (
-            <div className={styles.section_error}>
-                <p>Layanan tidak ditemukan.</p>
-            </div>
-        );
-    }
-
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
-        description: `${serviceDetail.description}`,
-        url: `${mainUrl}/layanan/${name}/${slug}`,
-        publisher: {
-          "@type": "Organization",
-          name: "NMW Aesthetic Clinic",
-          logo: {
-            "@type": "ImageObject",
-            url: `${storageUrl}/${settings.logo}`
-          }
-        },
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": `${mainUrl}/layanan/${name}/${slug}`
-        },
-        breadcrumb: {
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Beranda",
-                item: `${mainUrl}`
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Layanan",
-                item: `${mainUrl}/layanan`
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: `${name}`,
-                item:  `${mainUrl}/layanan/${name}`
-              },
-              {
-                "@type": "ListItem",
-                position: 4,
-                name: `${serviceDetail.title}`,
-                item: `${mainUrl}/layanan/${name}/${slug}`
-              }
-            ]
-        }
-    };
-
+  if (loading) {
     return (
-        <>
-            <Head>
-                <title>{serviceDetail.title} | NMW Aesthetic Clinic</title>
-                <meta name="description" content={serviceDetail.description} />
-                <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
-
-                <meta property="og:title" content={serviceDetail.title} />
-                <meta property="og:description" content={serviceDetail.description} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}`} />
-                <meta property="og:image" content={`${storageUrl}/${serviceDetail.image2}`} />
-
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={serviceDetail.title} />
-                <meta name="twitter:description" content={serviceDetail.description} />
-                <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image2}`} />
-
-                <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}`} />
-
-                <script type="application/ld+json">
-                {JSON.stringify(schemaData)}
-                </script>
-            </Head>
-
-            <div className={banner.banner}>
-                <img
-                    src={`${storageUrl}/${serviceDetail.image}`}
-                    alt={serviceDetail.name}
-                />
-            </div>
-
-            <div className={`${styles.section_1} ${styles.section_1_sc}`}>
-                <div className={styles.section_1_heading}>
-                    <h1 >
-                        {serviceDetail.title.split(' ')[0]}{" "}
-                        <font>{serviceDetail.title.split(' ').slice(1).join(' ')}</font>
-                    </h1>
-                </div>
-                <div className={styles.section_1_content}>
-                    <div
-                        className={styles.service_description}
-                        dangerouslySetInnerHTML={{
-                            __html: serviceDetail.description || "Deskripsi tidak tersedia.",
-                        }}
-                    />
-                    <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target='blank_' ><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
-                </div>
-            </div>
-
-            {showPopup && (
-                <div className={`${styles.modal} ${showPopup ? styles.active : ""}`}>
-                    <div className={styles.overlay_modal}></div>
-                    <div className={styles.modal_content}>
-                        <h1>Verifikasi Usia</h1>
-                        <p>
-                            Situs web ini berisi materi yang dibatasi usia yang mengandung unsur dewasa. 
-                            Dengan ini Anda menyatakan bahwa Anda setidaknya berusia 18 tahun atau lebih, 
-                            untuk mengakses situs web dan Anda setuju untuk melihat konten ini.
-                        </p>
-                        <div className={styles.button_layout}>
-                            <button onClick={closeModal}>Saya sudah diatas 18 Tahun</button>
-                            <button onClick={handleBack}>Saya masih dibawah 18 Tahun</button>
-                        </div>
-                        <p>ⓒ PT.HUB 2024</p>
-                    </div>
-                </div>
-            )}
-
-            {serviceDetailList.length > 0 && (
-                <div className={styles.section_3}> 
-                    <div className={`${styles.box_service_layout} ${styles.box_service_layout_sc}`}>
-                        {
-                            serviceDetailList.map((serviceDetailListing) => (
-                                <div className={styles.box_service} key={serviceDetailListing.id}>
-                                    <div className={styles.box_service_content}>
-                                        <h1>{serviceDetailListing.title}</h1>
-                                        <p>{serviceDetailListing.description}</p>
-                                    </div>
-                                    <div className={styles.box_service_btn}>
-                                        <Link href={`/layanan/${name}/${slug}/${serviceDetailListing.slug}`}><button>Lihat Gambar</button></Link>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            )}
-
-
-            <div className={styles.section_4}>
-                <div className={styles.heading_section_4}>
-                    <div
-                        className={`${styles.heading_section} ${styles.heading_section_start}`}
-                    >
-                        <h1>
-                            <font>Dokter </font>
-                            Kami
-                        </h1>
-                    </div>
-                </div>
-                <div className={styles.section_4_box}>
-                    <img
-                        src="../../images/dokter_layanan.png"
-                        alt="Dokter-dokter NMW Aesthetic Clinic"
-                        className={styles.our_dokter}
-                    />
-                    <img
-                        src="../../images/nmw_bg.png"
-                        alt="Background Dokter"
-                        className={styles.bg_our_dokter}
-                    />
-                    <div className={styles.section_4_content}>
-                        <p>
-                            Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional,
-                            dan terpercaya untuk melakukan bedah plastik, dermatologi, spesialis
-                            kulit dan kelamin, serta perawatan kulit estetik.
-                        </p>
-                        <p>
-                            Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian
-                            untuk memberikan hasil luar biasa sekaligus memastikan keselamatan
-                            pasien.
-                        </p>
-                        <Link href="/dokter-kami">
-                            <button>Lihat Lebih Lanjut</button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </>
+      <div className={loadingStyles.box}>
+        <div className={loadingStyles.content}>
+          <img src="/images/logo.svg" alt="Loading logo" />
+          <span>Loading...</span>
+        </div>
+      </div>
     );
+  }
+
+  if (!serviceDetail) {
+    return (
+      <div className={styles.section_error}>
+        <p>Layanan tidak ditemukan.</p>
+      </div>
+    );
+  }
+
+  const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
+      description: `${serviceDetail.description}`,
+      url: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`,
+      publisher: {
+        "@type": "Organization",
+        name: "NMW Aesthetic Clinic",
+        logo: {
+          "@type": "ImageObject",
+          url: `${storageUrl}/${settings.logo}`
+        }
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
+      },
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Beranda",
+            item: `${mainUrl}`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Layanan",
+            item: `${mainUrl}/layanan`
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: `${name}`,
+            item:  `${mainUrl}/layanan/${name}`
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: `${slug}`,
+            item: `${mainUrl}/layanan/${name}/${slug}`
+          },
+          {
+            "@type": "ListItem",
+            position: 5,
+            name: `${serviceDetail.title}`,
+            item: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
+          }
+        ]
+      }
+  };
+
+  return (
+    <>
+        <Head>
+            <title>{serviceDetail.title} | NMW Aesthetic Clinic</title>
+            <meta name="description" content={serviceDetail.description} />
+            <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
+
+            <meta property="og:title" content={serviceDetail.title} />
+            <meta property="og:description" content={serviceDetail.description} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
+            <meta property="og:image" content={`${storageUrl}/${serviceDetail.image}`} />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={serviceDetail.title} />
+            <meta name="twitter:description" content={serviceDetail.description} />
+            <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image}`} />
+
+            <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
+
+            <script type="application/ld+json">
+              {JSON.stringify(schemaData)}
+            </script>
+        </Head>
+        
+        {/* Banner */}
+        <div className={banner.banner}>
+          <img
+            src={`${storageUrl}/${serviceDetail.image}`}
+            alt={serviceDetail.name || "Banner image"}
+          />
+        </div>
+
+      {/* Section 1 */}
+      <div className={`${styles.section_1} ${styles.section_1_sc}`}>
+        <div className={styles.section_1_heading}>
+          <h1>
+            {serviceDetail.title.split(" ")[0]}{" "}
+            <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font>
+          </h1>
+        </div>
+        <div className={styles.section_1_content}>
+          <div
+            className={styles.service_description}
+            dangerouslySetInnerHTML={{
+              __html: serviceDetail.description || "Deskripsi tidak tersedia.",
+            }}
+          />
+          <Link
+            href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}
+            target="_blank"
+          >
+            <button className={styles.btn_layanan}>
+              Buat Janji Temu Sekarang <FaWhatsapp />
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      
+      <div className={`${styles.section_2} ${styles.section_2_sc}`}> 
+          <div className={`${styles.heading_section}`}> 
+              <h1>Pasien {serviceDetail.title.split(" ")[0]}{" "}
+              <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font></h1>
+          </div>
+          <div className={styles.box_galeri_layout}>
+          {serviceDetailList.length > 0 ? (
+              serviceDetailList.map((galeriPatient) => (
+                  <div className={styles.box_galeri} key={galeriPatient.id}>
+                      {/* Image Section */}
+                      <div className={styles.box_galeri_image}>
+                          <img
+                              src={`${storageUrl}/${galeriPatient.image}`}
+                              alt={galeriPatient.name || "Galeri Image"}
+                              loading="lazy"
+                          />
+                          <div className={styles.button_image}>
+                              <button type="button">Sebelum</button>
+                              <button type="button">Sesudah</button>
+                          </div>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className={styles.box_galeri_content}>
+                          <div className={styles.box_galeri_heading}>
+                              <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
+                          </div>
+                          <div className={styles.box_galeri_text}>
+                              <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
+                          </div>
+                      </div>
+
+                      {/* Button Section */}
+                      <div className={styles.box_galeri_button}>
+                          <Link href={`/layanan/${name}/${slug}/${slug_sc}/${galeriPatient.id}`}>
+                              <button type="button">
+                                  Lihat Gambar {galeriPatient.name || "Galeri"}
+                              </button>
+                          </Link>
+                      </div>
+                  </div>
+              ))
+          ) : (
+            <div className={styles.empty}>
+                <img src="../../../images/data_empty.png"/>
+                <h1>Gambar Segera Hadir</h1>
+            </div>
+            
+          )}
+
+          </div>
+      </div>
+      
+
+      {/* Section 4 */}
+      <div className={styles.section_4}>
+        <div className={styles.heading_section_4}>
+          <div
+            className={`${styles.heading_section} ${styles.heading_section_start}`}
+          >
+            <h1>
+              <font>Dokter </font>
+              Kami
+            </h1>
+          </div>
+        </div>
+        <div className={styles.section_4_box}>
+          <img
+            src="/images/dokter_layanan.png"
+            alt="Dokter-dokter NMW Aesthetic Clinic"
+            className={styles.our_dokter}
+          />
+          <img
+            src="/images/nmw_bg.png"
+            alt="Background Dokter"
+            className={styles.bg_our_dokter}
+          />
+          <div className={styles.section_4_content}>
+            <p>
+              Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara
+              profesional, dan terpercaya untuk melakukan bedah plastik,
+              dermatologi, spesialis kulit dan kelamin, serta perawatan kulit
+              estetik.
+            </p>
+            <p>
+              Dokter kami telah menjalani pelatihan ekstensif dan memiliki
+              keahlian untuk memberikan hasil luar biasa sekaligus memastikan
+              keselamatan pasien.
+            </p>
+            <Link href="/dokter-kami">
+              <button>Lihat Lebih Lanjut</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
