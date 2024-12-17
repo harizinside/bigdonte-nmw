@@ -6,8 +6,7 @@ import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-
-import { metadata } from 'next/metadata';
+import { metadata as nextMetadata } from 'next/metadata';
 
 const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
@@ -49,7 +48,7 @@ const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
     };
 
 // You can define your metadata object here
-export const metadata = {
+export const pageMetadata = {
   title: 'Cabang | NMW Aesthetic Clinic',
   description: 'Alamat Cabang NMW Aesthetic Clinic',
   keywords: 'cabang NMW Clinic, lokasi NMW Clinic, klinik kecantikan terdekat, klinik NMW, klinik estetika terbaik, layanan kecantikan profesional, dokter kecantikan terpercaya, konsultasi kecantikan, perawatan kulit, perawatan wajah, klinik kesehatan kulit, klinik bedah plastik, alamat NMW Clinic, klinik anti-aging, klinik perawatan rambut, layanan estetika medis, cabang klinik kecantikan, konsultasi medis estetika, perawatan tubuh, perawatan kecantikan terdekat, solusi kecantikan, dokter kecantikan terbaik, klinik kecantikan Indonesia',
@@ -57,16 +56,16 @@ export const metadata = {
     title: 'Cabang NMW Aesthetic Clinic',
     description: 'Alamat Cabang NMW Aesthetic Clinic',
     type: 'website',
-    url: `${process.env.NEXT_PUBLIC_MAIN_URL}/cabang`, // Assuming mainUrl is set as an environment variable
-    image: `${process.env.NEXT_PUBLIC_MAIN_URL}/images/cabang-banner.png`
+    url: `${mainUrl}/cabang`, // Assuming mainUrl is set as an environment variable
+    image: `${mainUrl}/images/cabang-banner.png`
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cabang NMW Aesthetic Clinic',
     description: 'Alamat Cabang NMW Aesthetic Clinic',
-    image: `${process.env.NEXT_PUBLIC_MAIN_URL}/images/cabang-banner.png`
+    image: `${mainUrl}/images/cabang-banner.png`
   },
-  canonical: `${process.env.NEXT_PUBLIC_MAIN_URL}/cabang`,
+  canonical: `${mainUrl}/cabang`,
   structuredData: JSON.stringify(schemaData) // Ensure schemaData is defined or imported
 };
 
@@ -201,29 +200,6 @@ export default function Cabang(){
 
     return(
         <>
-            <Head>
-                <title>Cabang | NMW Aesthetic Clinic</title>
-                <meta name="description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta name="keywords" content="cabang NMW Clinic, lokasi NMW Clinic, klinik kecantikan terdekat, klinik NMW, klinik estetika terbaik, layanan kecantikan profesional, dokter kecantikan terpercaya, konsultasi kecantikan, perawatan kulit, perawatan wajah, klinik kesehatan kulit, klinik bedah plastik, alamat NMW Clinic, klinik anti-aging, klinik perawatan rambut, layanan estetika medis, cabang klinik kecantikan, konsultasi medis estetika, perawatan tubuh, perawatan kecantikan terdekat, solusi kecantikan, dokter kecantikan terbaik, klinik kecantikan Indonesia" />
-
-                <meta property="og:title" content="Cabang NMW Aesthetic Clinic"/>
-                <meta property="og:description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}/cabang`} />
-                <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
-
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="cabang NMW Aesthetic Clinic" />
-                <meta name="twitter:description" content="Alamat Cabang NMW Aesthetic Clinic" />
-                <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
-
-                <link rel="canonical" href={`${mainUrl}/cabang`} />
-
-                <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-                />
-            </Head>
             <div className={banner.banner}>
                 <img src="images/cabang-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
