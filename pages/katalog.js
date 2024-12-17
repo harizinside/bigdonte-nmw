@@ -10,9 +10,69 @@ import Head from "next/head";
 export default function Branches() {
   const [branchs, setBranchs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState([]);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const cachedSetting = localStorage.getItem('settingCache');
+        const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+        const now = new Date().getTime();
+
+        // Cek apakah cache valid
+        if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+            setSettings(JSON.parse(cachedSetting));
+            
+            // Lakukan pengecekan data API untuk pembaruan data
+            try {
+                const response = await fetch(`${baseUrl}/setting`);
+                const data = await response.json();
+
+                if (data && data.social_media) {
+                    const cachedData = JSON.parse(cachedSetting);
+                    
+                    // Bandingkan data baru dengan cache
+                    if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                        setSettings(data);
+                        localStorage.setItem('settingCache', JSON.stringify(data));
+                        localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                        console.log('Cache updated after API check');
+                    } else {
+                        console.log('No changes detected in API data');
+                    }
+                } else {
+                    console.error('Invalid API response:', data);
+                }
+            } catch (error) {
+                console.error('Error checking API for updates:', error);
+            }
+            return;
+        }
+
+        // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
+        try {
+            const response = await fetch(`${baseUrl}/setting`);
+            const data = await response.json();
+
+            if (data && data.social_media) {
+                setSettings(data);
+                localStorage.setItem('settingCache', JSON.stringify(data));
+                localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                console.log('Fetched and cached from API');
+            } else {
+                console.error('Invalid API response:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching settings:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchData();
+  }, [baseUrl]);
 
   useEffect(() => {
     const fetchData = async () => {
