@@ -68,18 +68,18 @@ export default function KebijakanPrivasi() {
     <>
         <Head>
           <title>Cabang | NMW Aesthetic Clinic</title>
-          <meta name="description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
+          <meta name="description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
           <meta property="og:title" content="Cabang NMW Aesthetic Clinic"  />
-          <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
+          <meta property="og:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
           <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic" />
-          <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
+          <meta name="twitter:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
           <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
