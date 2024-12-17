@@ -125,9 +125,7 @@ export default function Header() {
                             localStorage.setItem('settingCache', JSON.stringify(data));
                             localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
                             console.log('Cache updated after API check');
-                        } else {
-                            console.log('No changes detected in API data');
-                        }
+                        } 
                     } else {
                         console.error('Invalid API response:', data);
                     }
