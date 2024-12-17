@@ -135,47 +135,47 @@ export default function Branches() {
         );
     }
 
-  const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      name: `Branches - NMW Aesthetic Clinic`,
-      description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-      url: `${mainUrl}/branches`,
-      publisher: {
-      "@type": "Organization",
-      name: "NMW Aesthetic Clinic",
-      logo: {
-          "@type": "ImageObject",
-          url: `${mainUrl}/images/cabang-banner.png`
-      }
-      },
-      mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${mainUrl}/branches`
-      },
-      breadcrumb: {
-          "@type": "BreadcrumbList",
-          itemListElement: [
-              {
-              "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: `${mainUrl}`
-              },
-              {
-              "@type": "ListItem",
-              position: 2,
-                  name: "Kebijakan Privasi",
-                  item: `${mainUrl}/branches`
-              }
-          ]
-      }
-  };
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: `Kebijakan Privasi - NMW Aesthetic Clinic`,
+        description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
+        url: `${mainUrl}/kebijakan-privasi`,
+        publisher: {
+        "@type": "Organization",
+        name: "NMW Aesthetic Clinic",
+        logo: {
+            "@type": "ImageObject",
+            url: `${mainUrl}/images/kebijakan-privasi.png`
+        }
+        },
+        mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `${mainUrl}/kebijakan-privasi`
+        },
+        breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                {
+                "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: `${mainUrl}`
+                },
+                {
+                "@type": "ListItem",
+                position: 2,
+                    name: "Kebijakan Privasi",
+                    item: `${mainUrl}/kebijakan-privasi`
+                }
+            ]
+        }
+    };
 
   return (
     <>
         <Head>
-          <title>Branches | NMW Aesthetic Clinic</title>
+          <title>Kebijakan & Privasi | NMW Aesthetic Clinic</title>
           <meta name="description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
@@ -183,12 +183,12 @@ export default function Branches() {
           <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
-          <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
 
           <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
