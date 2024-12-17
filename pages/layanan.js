@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import loadingStyles from "@/styles/Loading.module.css";
 
-export default function KebijakanPrivasi() {
+export default function Article() {
     const [articles, setArticles] = useState([]);
     const [articlesAll, setArticlesAll] = useState([]);
     const [tags, setTags] = useState([]);
@@ -166,7 +166,7 @@ export default function KebijakanPrivasi() {
           <meta property="og:title" content="Artikel | NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}/artikel`} />
+          <meta property="og:url" content={`${mainUrl}/article`} />
           <meta property="og:image" content={`${mainUrl}/images/logo.svg`} />
 
           <meta name="twitter:card" content="summary_large_image" />
@@ -174,7 +174,7 @@ export default function KebijakanPrivasi() {
           <meta name="twitter:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
           <meta name="twitter:image" content={`${mainUrl}/images/logo.svg`} />
 
-          <link rel="canonical" href={`${mainUrl}/artikel`} />
+          <link rel="canonical" href={`${mainUrl}/article`} />
 
           <script type="application/ld+json">
           {JSON.stringify(schemaData)}
