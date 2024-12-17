@@ -67,95 +67,90 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
 
     if (loading) {
         return (
-            <>
-                <div className={loadingStyles.box}>
-                    <div className={loadingStyles.content}>
-                        <img src="../../images/logo.svg"/>
-                        <span>Loading</span>
-                    </div>
+            <div className={loadingStyles.box}>
+                <div className={loadingStyles.content}>
+                    <img src="../../images/logo.svg" alt="Loading" />
+                    <span>Loading...</span>
                 </div>
-            </>
+            </div>
         );
     }
 
-  const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      name: `Kebijakan Privasi - NMW Aesthetic Clinic`,
-      description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-      url: `${mainUrl}/kebijakan-privasi`,
-      publisher: {
-      "@type": "Organization",
-      name: "NMW Aesthetic Clinic",
-      logo: {
-          "@type": "ImageObject",
-          url: `${mainUrl}/images/kebijakan-privasi.png`
-      }
-      },
-      mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${mainUrl}/kebijakan-privasi`
-      },
-      breadcrumb: {
-          "@type": "BreadcrumbList",
-          itemListElement: [
-              {
-              "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: `${mainUrl}`
-              },
-              {
-              "@type": "ListItem",
-              position: 2,
-                  name: "Kebijakan Privasi",
-                  item: `${mainUrl}/kebijakan-privasi`
-              }
-          ]
-      }
-  };
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: `Artikel dengan Tag ${tag || 'NMW Aesthetic Clinic'}`,
+        description: `Temukan artikel-artikel terkait tag ${tag || 'NMW Aesthetic Clinic'}`,
+        url: `${mainUrl}/artikel/tag/${tag || ''}`,
+        publisher: {
+            "@type": "Organization",
+            name: "NMW Aesthetic Clinic",
+            logo: {
+                "@type": "ImageObject",
+                url: `${mainUrl}/images/kebijakan-privasi.png`
+            }
+        },
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `${mainUrl}/artikel/tag/${tag || ''}`
+        },
+        breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: `${mainUrl}`
+                },
+                {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: `Tag ${tag || 'NMW Aesthetic Clinic'}`,
+                    item: `${mainUrl}/artikel/tag/${tag || ''}`
+                }
+            ]
+        }
+    };
 
-  return (
-    <>
-        <Head>
-          <title>Tag {tags ? `${tags}` : `Tag NMW Aesthetic Clinic`} | NMW Aesthetic Clinic </title>
-          <meta name="description" content="Artikel NMW Aesthetic Clinic" />
-          <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik"/>
+    const metaImage = displayedArticles.length > 0 ? displayedArticles[0].image : `${mainUrl}/images/kebijakan-privasi.png`;
 
-          <meta property="og:title" content="Kebijakan Privasi NMW Aesthetic Clinic"  />
-          <meta property="og:description" content="Artikel NMW Aesthetic Clinic" />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}/artikel/tag/${tags ? tags : ''}`} />
-          <meta property="og:image" content={article.image[0] ? `${storageUrl}/${article.image[0]}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+    return (
+        <>
+            <Head>
+                <title>Tag {tag ? `${tag}` : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic</title>
+                <meta name="description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
+                <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik"/>
 
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
-          <meta name="twitter:description" content="Artikel NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={article.image[0] ? `${storageUrl}/${article.image[0]}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+                <meta property="og:title" content={`Tag ${tag ? tag : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic`} />
+                <meta property="og:description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={`${mainUrl}/artikel/tag/${tag || ''}`} />
+                <meta property="og:image" content={metaImage} />
 
-          <meta property="og:url" content={`${mainUrl}/artikel/tag/${tags ? tags : ''}`} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={`Tag ${tag ? tag : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic`} />
+                <meta name="twitter:description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
+                <meta name="twitter:image" content={metaImage} />
 
-          <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
-          </script>
-      </Head>
-        <div className={styles.article_section}>
-            <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                <h1>Artikel dengan tag <font className={styles.tag_heading}>{tag}</font></h1>
-            </div>
-            <div className={styles.article_container}>
-                <div className={styles.article_layout}>
-                    {loading ? (
-                        <p>Loading...</p> // Add loading state message or skeleton loader
-                    ) : (
-                        displayedArticles.length > 0 ? (
+                <script type="application/ld+json">
+                    {JSON.stringify(schemaData)}
+                </script>
+            </Head>
+            <div className={styles.article_section}>
+                <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
+                    <h1>Artikel dengan tag <font className={styles.tag_heading}>{tag}</font></h1>
+                </div>
+                <div className={styles.article_container}>
+                    <div className={styles.article_layout}>
+                        {displayedArticles.length > 0 ? (
                             displayedArticles.map((article) => {
                                 const tagsList = article.tags ? article.tags.split(',') : [];
-                                return(
+                                return (
                                     <div className={styles.article_box} key={article.id}>
                                         <div className={styles.article_image}>
                                             {tagsList.length > 0 && (
-                                                <Link href={`${tagsList[0].trim()}`}>
+                                                <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
                                                     <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                                 </Link>
                                             )}
@@ -175,15 +170,14 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                                             </Link>
                                         </div>
                                     </div>
-                                )
-                        })
+                                );
+                            })
                         ) : (
                             <p>No articles found for this tag.</p>
-                        )
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    </>
-  );
+        </>
+    );
 }
