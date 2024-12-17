@@ -462,7 +462,7 @@ export default function Home() {
           <div className={styles.section_3_content}>
             <p>Dr. Nataliani Mawardi adalah seorang pendiri dari klinik kecantikan NMW yang kini menjadi salah satu klinik kepercayaan artis top nasional dan masyarakat luas untuk perawatan wajah.</p>
             <p>Dr. Nataliani memiliki pendirian “give back to community”. Melihat kurangnya kepedulian ibu-ibu di pasar membuat Dr. Nataliani berinisiatif memberikan konsultasi untuk jaga kesehatan.</p>
-            <Link href={'/achievment'}><button>Lihat Lebih Lanjut</button></Link>
+            <Link href={'/penghargaan'}><button>Lihat Lebih Lanjut</button></Link>
           </div>
           <img src="images/dr_nataliani.png" alt="Dr. Nataliani Mawardi, dipl. CIBTAC" className={styles.section_3_image}/>
           <img src="images/blink_orange.svg" className={styles.section_icon_1} alt="Blink Material"/>
