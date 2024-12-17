@@ -1,7 +1,11 @@
-import banner from "@/styles/Banner.module.css";
-import styles from "@/styles/Kebijakan.module.css";
-import Head from "next/head";
+import styles from "@/styles/Cabang.module.css"
+import banner from "@/styles/Banner.module.css"
+import { FaWhatsapp } from "react-icons/fa";
+import { SlLocationPin } from "react-icons/sl";
+import Link from "next/link";
+import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
+import Head from "next/head";
 
 export default function KebijakanPrivasi() {
   const [kebijakans, setKebijakans] = useState([]); // Default sebagai array
