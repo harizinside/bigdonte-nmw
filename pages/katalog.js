@@ -3,11 +3,9 @@ import styles from "@/styles/Catalog.module.css"
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import loadingStyles from "@/styles/Loading.module.css";
 
 export default function KebijakanPrivasi() {
   const [catalogs, setCatalogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
@@ -57,19 +55,6 @@ export default function KebijakanPrivasi() {
 
     fetchData();
   }, [baseUrl]);
-
-  if (loading) {
-        return (
-            <>
-                <div className={loadingStyles.box}>
-                    <div className={loadingStyles.content}>
-                        <img src="../images/logo.svg"/>
-                        <span>Loading</span>
-                    </div>
-                </div>
-            </>
-        );
-    }
 
     const schemaData = {
         "@context": "https://schema.org",
