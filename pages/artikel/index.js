@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export async function getServerSideProps() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const response = await fetch(`${baseUrl}/settings`);
+  const response = await fetch(`${baseUrl}/setting`);
   const settingsData = await response.json();
 
   return {
