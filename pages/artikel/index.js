@@ -3,6 +3,19 @@ import styles from "@/styles/Kebijakan.module.css";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 
+export async function getServerSideProps() {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const response = await fetch(`${baseUrl}/settings`);
+    const settings = await response.json();
+  
+    return {
+      props: {
+        settings: settings.logo || null,
+      },
+    };
+  }
+  
+
 export default function KebijakanPrivasi() {
   const [kebijakans, setKebijakans] = useState([]); // Default sebagai array
   const [settings, setSettings] = useState([]);
@@ -91,13 +104,14 @@ export default function KebijakanPrivasi() {
         <Head>
           <title>Artikel | NMW Aesthetic Clinic</title>
           <meta name="description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
-        <meta name="keywords" content="artikel kesehatan, tips kecantikan, perawatan kulit, bedah plastik, kesehatan kulit, estetika medis, perawatan wajah, tips kecantikan NMW, artikel kecantikan, perawatan medis, informasi kesehatan, prosedur kecantikan, artikel bedah plastik, konsultasi kecantikan, perawatan anti-aging, rejuvenasi kulit, solusi kecantikan, klinik estetika, perawatan rambut, tips kesehatan, panduan kecantikan" />
+          <meta name="keywords" content="artikel kesehatan, tips kecantikan, perawatan kulit, bedah plastik, kesehatan kulit, estetika medis, perawatan wajah, tips kecantikan NMW, artikel kecantikan, perawatan medis, informasi kesehatan, prosedur kecantikan, artikel bedah plastik, konsultasi kecantikan, perawatan anti-aging, rejuvenasi kulit, solusi kecantikan, klinik estetika, perawatan rambut, tips kesehatan, panduan kecantikan" />
 
           <meta property="og:title" content="Artikel NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/artikel`} />
-          <meta property="og:image" content={`${storageUrl}/${settings.logo}`} />
+          {/* <meta property="og:image" content={`${storageUrl}/${settings.logo}`} /> */}
+          <meta property="og:image" content={settings ? `https://nmw.prahwa.net/storage/${settings}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Artikel NMW Aesthetic Clinic" />
