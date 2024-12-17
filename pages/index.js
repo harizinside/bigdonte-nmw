@@ -500,16 +500,16 @@ export default function Home() {
                 <div className={styles.article_box} key={article.id}> 
                   <div className={styles.article_image}>
                     {tagsList.length > 0 && (
-                        <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                        <Link href={`/article/tag/${tagsList[0].trim()}`}>
                             <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                         </Link>
                     )}
-                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                       <img src={article.image} alt={article.title}/>
                     </Link>
                   </div>
                   <div className={styles.article_content}>
-                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                       <div className={styles.article_heading}>
                         <h1>{article.title}</h1>
                       </div>
@@ -520,7 +520,7 @@ export default function Home() {
               )
             })}
           </div>
-          <Link href={"/artikel"}><button className={styles.btn_more}>Lihat Lebih Banyak</button></Link>
+          <Link href={"/article"}><button className={styles.btn_more}>Lihat Lebih Banyak</button></Link>
       </div>
       <div className={styles.section_5}>
         <div className={styles.section_5_box}>
