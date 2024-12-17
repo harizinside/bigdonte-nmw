@@ -81,7 +81,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
         "@type": "WebPage",
         name: `Artikel dengan Tag ${tag || 'NMW Aesthetic Clinic'}`,
         description: `Temukan artikel-artikel terkait tag ${tag || 'NMW Aesthetic Clinic'}`,
-        url: `${mainUrl}/artikel/tag/${tag || ''}`,
+        url: `${mainUrl}/article/tag/${tag || ''}`,
         publisher: {
             "@type": "Organization",
             name: "NMW Aesthetic Clinic",
@@ -92,7 +92,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
         },
         mainEntityOfPage: {
             "@type": "WebPage",
-            "@id": `${mainUrl}/artikel/tag/${tag || ''}`
+            "@id": `${mainUrl}/article/tag/${tag || ''}`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -107,7 +107,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                     "@type": "ListItem",
                     position: 2,
                     name: `Tag ${tag || 'NMW Aesthetic Clinic'}`,
-                    item: `${mainUrl}/artikel/tag/${tag || ''}`
+                    item: `${mainUrl}/article/tag/${tag || ''}`
                 }
             ]
         }
@@ -125,12 +125,12 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                 <meta property="og:title" content={`Tag ${tag ? tag : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic`} />
                 <meta property="og:description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={`${mainUrl}/artikel/tag/${tag || ''}`} />
+                <meta property="og:url" content={`${mainUrl}/article/tag/${tag || ''}`} />
                 <meta property="og:image" content={metaImage} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={`Tag ${tag ? tag : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic`} />
-                <meta name="twitter:description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
+                <meta name="twitter:description" content={`article dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
                 <meta name="twitter:image" content={metaImage} />
 
                 <script type="application/ld+json">
@@ -150,22 +150,22 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                                     <div className={styles.article_box} key={article.id}>
                                         <div className={styles.article_image}>
                                             {tagsList.length > 0 && (
-                                                <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                                <Link href={`/article/tag/${tagsList[0].trim()}`}>
                                                     <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                                 </Link>
                                             )}
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <img src={article.image} alt={article.title} />
                                             </Link>
                                         </div>
                                         <div className={styles.article_content}>
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <div className={styles.article_heading}>
                                                     <h1>{article.title}</h1>
                                                 </div>
                                             </Link>
                                             <span>Admin, {article.date}</span>
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <button className={styles.btn_more}>Baca Selengkapnya</button>
                                             </Link>
                                         </div>

@@ -139,18 +139,18 @@ export async function getServerSideProps(context) {
                                                     <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                                 </Link>
                                             )}
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <img src={article.image} alt={article.title}/>
                                             </Link>
                                         </div>
                                         <div className={stylesAll.article_content}>
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <div className={stylesAll.article_heading}>
                                                     <h1>{article.title}</h1>
                                                 </div>
                                             </Link>
                                             <span>Admin, {article.date}</span>
-                                            <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={stylesAll.btn_more}>Baca Selengkapnya</button></Link>
+                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={stylesAll.btn_more}>Baca Selengkapnya</button></Link>
                                         </div>
                                     </div>
                                     )
@@ -193,7 +193,7 @@ export async function getServerSideProps(context) {
         "@type": "Article",
         headline: `${articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`} - NMW Aesthetic Clinic`,
         description: `${articleDetail.description}`,
-        url: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
+        url: `${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
           "@type": "Organization",
           name: "NMW Aesthetic Clinic",
@@ -204,7 +204,7 @@ export async function getServerSideProps(context) {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+          "@id": `${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
         },
         image: {
           "@type": "ImageObject",
@@ -232,13 +232,13 @@ export async function getServerSideProps(context) {
             "@type": "ListItem",
             position: 2,
             name: "Artikel",
-            item: `${mainUrl}/artikel`
+            item: `${mainUrl}/article`
           },
           {
             "@type": "ListItem",
             position: 3,
-            name: `${articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`}`,
-            item: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
+            name: `${articleDetail.title ? `${articleDetail.title}` : `article NMW Aesthetic Clinic`}`,
+            item: `${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
           }
         ]
       };
@@ -253,15 +253,15 @@ export async function getServerSideProps(context) {
           <meta property="og:title" content={articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`}  />
           <meta property="og:description" content={articleDetail.description ? `${articleDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${articleDetail.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
+          <meta property="og:url" content={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
           <meta property="og:image" content={articleDetail.image ? `${articleDetail.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={articleDetail.title} />
-          <meta name="twitter:description" content={articleDetail.description ? `${articleDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${articleDetail.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
+          <meta name="twitter:description" content={articleDetail.description ? `${articleDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${articleDetail.description.length > 100 ? '...' : ''}` : 'article Deskripsi'}/>
           <meta name="twitter:image" content={articleDetail.image ? `${articleDetail.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
-          <link rel="canonical" href={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
+          <link rel="canonical" href={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
@@ -302,7 +302,7 @@ export async function getServerSideProps(context) {
                 <div className={`${styles.container_sidebar} ${styles.dekstop_block}`}>
                     <div className={styles.sidebar_heading}>
                         <h4>Artikel Lain</h4>
-                        <Link href={"/artikel"}>Lihat lebih banyak</Link>
+                        <Link href={"/article"}>Lihat lebih banyak</Link>
                     </div>
                     <div className={styles.sidebar_layout}>
                         {articles.map(article => {
@@ -316,18 +316,18 @@ export async function getServerSideProps(context) {
                                                 <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                             </Link>
                                         )}
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                             <img src={article.image} alt={article.title} />
                                         </Link>
                                     </div>
                                     <div className={styles.article_content}>
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                             <div className={styles.article_heading}>
                                                 <h1>{article.title}</h1>
                                             </div>
                                         </Link>
                                         <span>Admin, {article.date}</span>
-                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                             <button className={styles.btn_more}>Baca Selengkapnya</button>
                                         </Link>
                                     </div>
@@ -435,7 +435,7 @@ export async function getServerSideProps(context) {
             <div className={`${styles.container_sidebar} ${styles.mobile_block}`}>
                 <div className={styles.sidebar_heading}>
                     <h4>Artikel Lain</h4>
-                    <Link href={"/artikel"}>Lihat lebih banyak</Link>
+                    <Link href={"/article"}>Lihat lebih banyak</Link>
                 </div>
                 <div className={styles.sidebar_layout}>
                     {articles.map(article => {
@@ -449,18 +449,18 @@ export async function getServerSideProps(context) {
                                             <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                         </Link>
                                     )}
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <img src={article.image} alt={article.title} />
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <div className={styles.article_heading}>
                                             <h1>{article.title}</h1>
                                         </div>
                                     </Link>
                                     <span>Admin, {article.date}</span>
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <button className={styles.btn_more}>Baca Selengkapnya</button>
                                     </Link>
                                 </div>
