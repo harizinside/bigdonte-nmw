@@ -152,19 +152,19 @@ export default function Layanan({
   return (
     <>
         <Head>
-          <title>Kebijakan & Privasi | NMW Aesthetic Clinic</title>
+          <title>{serviceDetail.name ? `${serviceDetail.name}` : `Layanan NMW Aesthetic Clinic`}  | NMW Aesthetic Clinic</title>
           <meta name="description" content={serviceDetail.name ? `${serviceDetail.name}` : `Layanan NMW Aesthetic Clinic`}  />
           <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
 
           <meta property="og:title" content={serviceDetail.name ? `${serviceDetail.name}` : `Layanan NMW Aesthetic Clinic`}  />
-          <meta property="og:description" content={serviceDetail.description ? `${serviceDetail.description}` : `Layanan NMW Aesthetic Clinic`}  />
+          <meta property="og:description" content={articleDetail.description ? `${serviceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${serviceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'}  />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`} />
           <meta property="og:image" content={serviceDetail.image ? `${storageUrl}/${serviceDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={serviceDetail.name ? `${serviceDetail.name}` : `Layanan NMW Aesthetic Clinic`} />
-          <meta name="twitter:description" content={serviceDetail.description ? `${serviceDetail.description}` : `Layanan NMW Aesthetic Clinic`}  />
+          <meta name="twitter:description" content={articleDetail.description ? `${serviceDetail.description.replace(/<[^>]+>/g, '').slice(0, 100)}${serviceDetail.description.length > 100 ? '...' : ''}` : 'Layanan NMW Aesthetic Clinic'}  />
           <meta name="twitter:image" content={serviceDetail.image ? `${storageUrl}/${serviceDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
           <link rel="canonical" href={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`} />
