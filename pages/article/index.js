@@ -1,7 +1,11 @@
-import banner from "@/styles/Banner.module.css";
-import styles from "@/styles/Kebijakan.module.css";
-import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState } from 'react';
+import styles from "@/styles/Article.module.css"
+import banner from "@/styles/Banner.module.css"
+import Link from 'next/link';
+import { HiArrowLongRight } from "react-icons/hi2";
+import { useEffect } from 'react';
+import Head from 'next/head';
+import loadingStyles from "@/styles/Loading.module.css";
 
 export default function Artikel() {
   const [kebijakans, setKebijakans] = useState([]); // Default sebagai array
