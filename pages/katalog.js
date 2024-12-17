@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 
-export default function KebijakanPrivasi() {
+export default function Katalog() {
   const [catalogs, setCatalogs] = useState([]);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
