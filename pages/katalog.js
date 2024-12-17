@@ -60,23 +60,23 @@ export default function Branches() {
     fetchData();
   }, [baseUrl]);
 
-  const schemaData = {
+    const schemaData = {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        name: `Cabang - NMW Aesthetic Clinic`,
-        description: `Alamat Cabang & Kantor NMW Aesthetic Clinic`,
-        url: `${mainUrl}/cabang`,
+        name: `Katalog - NMW Aesthetic Clinic`,
+        description: `Lihat dan download katalog NMW Aesthetic Clinic`,
+        url: `${mainUrl}/catalog`,
         publisher: {
-          "@type": "Organization",
-          name: "NMW Aesthetic Clinic",
-          logo: {
+        "@type": "Organization",
+        name: "NMW Aesthetic Clinic",
+        logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}/images/cabang-banner.png`
-          }
+            url: `${storageUrl}/${settings.logo}`
+        }
         },
         mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": `${mainUrl}/cabang`
+        "@type": "WebPage",
+        "@id": `${mainUrl}/catalog`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -89,9 +89,9 @@ export default function Branches() {
                 },
                 {
                 "@type": "ListItem",
-                    position: 2,
-                    name: "Cabang",
-                    item: `${mainUrl}/cabang`
+                position: 2,
+                    name: "Katalog",
+                    item: `${mainUrl}/catalog`
                 }
             ]
         }
@@ -113,18 +113,18 @@ export default function Branches() {
   return (
     <>
         <Head>
-          <title>Cabang | NMW Aesthetic Clinic</title>
+          <title>Katalog | NMW Aesthetic Clinic</title>
           <meta name="description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
-          <meta property="og:title" content="Cabang NMW Aesthetic Clinic"  />
+          <meta property="og:title" content="Katalog NMW Aesthetic Clinic"  />
           <meta property="og:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
           <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic" />
+          <meta name="twitter:title" content="Katalog NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
 
