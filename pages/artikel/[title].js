@@ -15,6 +15,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export async function getServerSideProps(context) {
+    context.res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
     const { title } = context.query;
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   
@@ -277,7 +278,7 @@ export async function getServerSideProps(context) {
                 {articleDetail.title && <meta property="og:title" content={articleDetail.title} />}
                 {articleDetail.description && <meta property="og:description" content={articleDetail.description} />}
                 <meta property="og:type" content="article" />
-                <meta property="og:url" content={`${mainUrl}/artikel/`} />
+                <meta property="og:url" content={`${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
                 {articleDetail.image && <meta property="og:image" content={articleDetail.image} />}
 
                 <meta name="twitter:card" content="summary_large_image" />
