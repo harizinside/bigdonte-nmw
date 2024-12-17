@@ -7,8 +7,7 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 
-export default function KebijakanPrivasi() {
-  const [kebijakans, setKebijakans] = useState([]); // Default sebagai array
+export default function Branches() {
   const [branchs, setBranchs] = useState([]);
     const [loading, setLoading] = useState(true);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
