@@ -1,343 +1,284 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import banner from "@/styles/Banner.module.css";
-import styles from "@/styles/Layanan.module.css";
-import Link from "next/link";
+import { useState } from 'react';
+import styles from "@/styles/Article.module.css"
+import banner from "@/styles/Banner.module.css"
+import Link from 'next/link';
+import { HiArrowLongRight } from "react-icons/hi2";
+import { useEffect } from 'react';
+import Head from 'next/head';
 import loadingStyles from "@/styles/Loading.module.css";
-import { FaWhatsapp } from "react-icons/fa";
-import Head from "next/head";
 
-export default function SubJenisLayanan() {
-  const router = useRouter();
-  const { name, slug, slug_sc } = router.query;
-  const [serviceDetail, setServiceDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [settings, setSettings] = useState({ phone: "" });
-  const [serviceDetailList, setServiceDetailList] = useState([]);
+export async function getServerSideProps(context) {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const currentPage = context.query.page || 2; // Menambahkan logika untuk halaman dinamis
+  
+    try {
+      const [settingsRes, articlesRes, articlesAllRes, tagsRes] = await Promise.all([
+        fetch(`${baseUrl}/setting`),
+        fetch(`${baseUrl}/article-new`),
+        fetch(`${baseUrl}/article?page=${currentPage}`),
+        fetch(`${baseUrl}/get-tag`),
+      ]);
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+      const [settingsData, articlesData, articlesAllData, tagsData] = await Promise.all([
+        settingsRes.json(),
+        articlesRes.json(),
+        articlesAllRes.json(),
+        tagsRes.json(),
+      ]);
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/setting`);
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-        const data = await response.json();
-        setSettings(data || { phone: "" });
-      } catch (error) {
-        console.error("Error fetching settings:", error);
-      }
+      const sortedArticles = articlesData.data?.sort((a, b) => {
+        const dateA = new Date(a.date || a.created_at);
+        const dateB = new Date(b.date || b.created_at);
+        return dateB - dateA;
+      }) || [];
+
+      return {
+        props: {
+          settings: settingsData || {},
+          articles: sortedArticles.slice(0, 3),
+          articlesAll: articlesAllData.data || [],
+          tags: tagsData || [],
+          totalPages: articlesAllData.meta?.last_page || 1,
+          currentPage: Number(currentPage),
+        },
+      };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return {
+        props: {
+          settings: {},
+          articles: [],
+          articlesAll: [],
+          tags: [],
+          totalPages: 1,
+          currentPage: 2,
+        },
+      };
+    }
+}
+
+
+export default function Artikel({ settings, articles, articlesAll, tags, totalPages, currentPage }) {
+    const [currentPagination, setCurrentPage] = useState(currentPage); // Menyimpan halaman yang sedang aktif
+
+    const handleNextPage = () => {
+        if (currentPagination < totalPages) {
+            setCurrentPage(currentPagination + 1);
+        }
     };
 
-    fetchSettings();
-  }, [baseUrl]);
+    const handlePrevPage = () => {
+        if (currentPagination > 2) { // Mulai dari halaman 2
+            setCurrentPage(currentPagination - 1);
+        }
+    };
 
-  useEffect(() => {
-      if (slug_sc) {
-          // Fetching service detail
-          const fetchServiceDetail = async () => {
-              try {
-                  const response = await fetch(`${baseUrl}/stos/${slug_sc}`);
-                  if (!response.ok) {
-                      throw new Error(`API error: ${response.status} ${response.statusText}`);
-                  }
-                  const data = await response.json();
-                  if (data.data) {
-                      setServiceDetail(data.data);
-                  } else {
-                      console.error("Data format is incorrect:", data);
-                  }
-              } catch (error) {
-                  console.error('Error fetching service detail:', error);
-              }
-          };
+    useEffect(() => {
+        // Fetch data berdasarkan halaman yang aktif
+        const fetchData = async () => {
+            const response = await fetch(`/api/article?page=${currentPagination}`);
+            const data = await response.json();
+            // Proses data yang diambil (seperti menyet state baru jika perlu)
+        };
 
-          if (slug) {
+        fetchData();
+    }, [currentPagination]);
 
-            const fetchServiceDetailSub = async () => {
-                try {
-                    const response = await fetch(`${baseUrl}/service_two/${slug}`);
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.status} ${response.statusText}`);
-                    }
-                    const data = await response.json();
-                    if (data.data) {
-                        setServiceDetail(data.data);
-                        const serviceId = data.data.id; // Ambil id dari response
-                        fetchServiceDetailList(serviceId); // Panggil fetchServiceDetailList dengan id
-                    } else {
-                        console.error("Data format is incorrect:", data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching service detail:', error);
-                }
-            };
-
-            const fetchServiceDetailList = async (serviceId) => {
-                try {
-                    const response = await fetch(`${baseUrl}/patient/${serviceId}`);
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.status} ${response.statusText}`);
-                    }
-                    const data = await response.json();
-                    if (data.data) {
-                        setServiceDetailList(data.data);
-                        console.log("Fetched patient data: ", data.data);
-                    } else {
-                        console.error("Data format is incorrect:", data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching service detail list:', error);
-                } finally {
-                    setLoading(false); // Set loading false after both API calls are done
-                }
-            };
-            fetchServiceDetailSub();
-          }
-
-          // Call the function to fetch the service detail data
-          fetchServiceDetail();
-          
-      } else {
-          setLoading(false); // If service is not found, set loading to false
-      }
-  }, [slug_sc, baseUrl]);
-
-  const formattedPhone = settings.phone?.startsWith("0")
-    ? "62" + settings.phone.slice(1)
-    : settings.phone;
-
-  if (loading) {
-    return (
-      <div className={loadingStyles.box}>
-        <div className={loadingStyles.content}>
-          <img src="/images/logo.svg" alt="Loading logo" />
-          <span>Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (!serviceDetail) {
-    return (
-      <div className={styles.section_error}>
-        <p>Layanan tidak ditemukan.</p>
-      </div>
-    );
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
   const schemaData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      name: `${serviceDetail.title} - NMW Aesthetic Clinic`,
-      description: `${serviceDetail.description}`,
-      url: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`,
-      publisher: {
-        "@type": "Organization",
-        name: "NMW Aesthetic Clinic",
-        logo: {
-          "@type": "ImageObject",
-          url: `${storageUrl}/${settings.logo}`
-        }
-      },
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
-      },
-      breadcrumb: {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `Artikel - NMW Aesthetic Clinic`,
+    description: `Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic`,
+    url: `${mainUrl}/artikel`,
+    publisher: {
+    "@type": "Organization",
+    name: "NMW Aesthetic Clinic",
+    logo: {
+        "@type": "ImageObject",
+        url: `${settings.logo ? `${storageUrl}/${settings.logo}` : `${mainUrl}/images/kebijakan-privasi.png`}`
+    }
+    },
+    mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${mainUrl}/artikel`
+    },
+    breadcrumb: {
         "@type": "BreadcrumbList",
         itemListElement: [
-          {
+            {
             "@type": "ListItem",
-            position: 1,
-            name: "Beranda",
-            item: `${mainUrl}`
-          },
-          {
+                position: 1,
+                name: "Home",
+                item: `${mainUrl}`
+            },
+            {
             "@type": "ListItem",
             position: 2,
-            name: "Layanan",
-            item: `${mainUrl}/layanan`
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: `${name}`,
-            item:  `${mainUrl}/layanan/${name}`
-          },
-          {
-            "@type": "ListItem",
-            position: 4,
-            name: `${slug}`,
-            item: `${mainUrl}/layanan/${name}/${slug}`
-          },
-          {
-            "@type": "ListItem",
-            position: 5,
-            name: `${serviceDetail.title}`,
-            item: `${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`
-          }
+                name: "Promo",
+                item: `${mainUrl}/artikel`
+            }
         ]
-      }
-  };
+    }
+};
 
   return (
     <>
-        <Head>
-            <title>{serviceDetail.title} | NMW Aesthetic Clinic</title>
-            <meta name="description" content={serviceDetail.description} />
-            <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
+      <Head>
+        <title>Artikel | NMW Aesthetic Clinic</title>
+        <meta name="description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
+        <meta property="og:title" content="Artikel | NMW Aesthetic Clinic" />
+        <meta property="og:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${mainUrl}/artikel`} />
+        <meta property="og:image" content={settings.logo ? `${storageUrl}/${settings.logo}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Artikel | NMW Aesthetic Clinic" />
+        <meta name="twitter:description" content="Artikel terkait layanan estetika dan perawatan kulit dari NMW Aesthetic Clinic." />
+        <meta name="twitter:image" content={settings.logo ? `${storageUrl}/${settings.logo}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+        <link rel="canonical" href={`${mainUrl}/artikel`} />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Head>
 
-            <meta property="og:title" content={serviceDetail.title} />
-            <meta property="og:description" content={serviceDetail.description} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
-            <meta property="og:image" content={`${storageUrl}/${serviceDetail.image}`} />
-
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={serviceDetail.title} />
-            <meta name="twitter:description" content={serviceDetail.description} />
-            <meta name="twitter:image" content={`${storageUrl}/${serviceDetail.image}`} />
-
-            <link rel="canonical" href={`${mainUrl}/layanan/${name}/${slug}/${serviceDetail.slug}`} />
-
-            <script type="application/ld+json">
-              {JSON.stringify(schemaData)}
-            </script>
-        </Head>
-        
-        {/* Banner */}
-        <div className={banner.banner}>
-          <img
-            src={`${storageUrl}/${serviceDetail.image}`}
-            alt={serviceDetail.name || "Banner image"}
-          />
-        </div>
-
-      {/* Section 1 */}
-      <div className={`${styles.section_1} ${styles.section_1_sc}`}>
-        <div className={styles.section_1_heading}>
-          <h1>
-            {serviceDetail.title.split(" ")[0]}{" "}
-            <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font>
-          </h1>
-        </div>
-        <div className={styles.section_1_content}>
-          <div
-            className={styles.service_description}
-            dangerouslySetInnerHTML={{
-              __html: serviceDetail.description || "Deskripsi tidak tersedia.",
-            }}
-          />
-          <Link
-            href={`https://api.whatsapp.com/send?phone=${formattedPhone}`}
-            target="_blank"
-          >
-            <button className={styles.btn_layanan}>
-              Buat Janji Temu Sekarang <FaWhatsapp />
-            </button>
-          </Link>
-        </div>
+      <div className={banner.banner}>
+        <img src="images/slimming-treatment.png" alt="Layanan Nmw Aesthetic Clinic"/>
       </div>
 
-      
-      <div className={`${styles.section_2} ${styles.section_2_sc}`}> 
-          <div className={`${styles.heading_section}`}> 
-              <h1>Pasien {serviceDetail.title.split(" ")[0]}{" "}
-              <font>{serviceDetail.title.split(" ").slice(1).join(" ")}</font></h1>
-          </div>
-          <div className={styles.box_galeri_layout}>
-          {serviceDetailList.length > 0 ? (
-              serviceDetailList.map((galeriPatient) => (
-                  <div className={styles.box_galeri} key={galeriPatient.id}>
-                      {/* Image Section */}
-                      <div className={styles.box_galeri_image}>
-                          <img
-                              src={`${storageUrl}/${galeriPatient.image}`}
-                              alt={galeriPatient.name || "Galeri Image"}
-                              loading="lazy"
-                          />
-                          <div className={styles.button_image}>
-                              <button type="button">Sebelum</button>
-                              <button type="button">Sesudah</button>
-                          </div>
-                      </div>
+        <div className={styles.container}>
+            <div className={styles.tabsContainer}>
+                <div className={styles.tabContent_container}>
+                    <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
+                        <h1><font>Artikel</font> Terbaru</h1>
+                    </div>
+                    <div className={styles.heading_sidebar}>
+                        <h1>Tag Artikel</h1>
+                    </div>
+                </div>
+                <div className={styles.tabContent}>
+                    <div className={styles.tabcontent_layout}>
+                        <div className={styles.tabcontent_section}>
+                        {articles.map((article) => {
+                            const tagsList = article.tags ? article.tags.split(',') : [];
 
-                      {/* Content Section */}
-                      <div className={styles.box_galeri_content}>
-                          <div className={styles.box_galeri_heading}>
-                              <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
-                          </div>
-                          <div className={styles.box_galeri_text}>
-                              <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
-                          </div>
-                      </div>
+                            return (
+                                <div className={styles.tabcontent_box} key={article.id}>
+                                    <div className={styles.tabcontent_box_img}>
+                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <img src={article.image} alt={article.title} />
+                                        </Link>
+                                        {tagsList.length > 0 && (
+                                            <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                                <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                                            </Link>
+                                        )}
+                                    </div>
+                                    <div className={styles.tabcontent_box_text}>
+                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <h1>{article.title}</h1>
+                                        </Link>
+                                        <span>Admin, {article.date}</span>
+                                        <div className={styles.description} dangerouslySetInnerHTML={{ __html: article.description }} />
+                                        <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <button>Baca Selengkapnya</button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            );
+                        })}
 
-                      {/* Button Section */}
-                      <div className={styles.box_galeri_button}>
-                          <Link href={`/layanan/${name}/${slug}/${slug_sc}/${galeriPatient.id}`}>
-                              <button type="button">
-                                  Lihat Gambar {galeriPatient.name || "Galeri"}
-                              </button>
-                          </Link>
-                      </div>
-                  </div>
-              ))
-          ) : (
-            <div className={styles.empty}>
-                <img src="../../../images/data_empty.png"/>
-                <h1>Gambar Segera Hadir</h1>
+                        </div>
+                        <div className={styles.article_sidebar_layout}>
+                            <h3 className={styles.heading_sidebar_mobile}>Tag Artikel</h3>
+                            <div className={styles.article_sidebar_button}>
+                            {tags.length > 0 ? (
+                                tags.map((tag, index) => {
+                                    // Buat URL dengan format artikel/[tag]
+                                    const tagUrl = `/artikel/tag/${tag.trim()}`;
+                                    return (
+                                        <Link href={tagUrl} key={index}>
+                                            <button>{tag.trim()}</button>
+                                        </Link>
+                                    );
+                                })
+                            ) : (
+                                <p>No tags available</p>
+                            )}
+                            </div>
+                        </div>
+                    </div>
+                </div> 
             </div>
-            
-          )}
-
-          </div>
-      </div>
-      
-
-      {/* Section 4 */}
-      <div className={styles.section_4}>
-        <div className={styles.heading_section_4}>
-          <div
-            className={`${styles.heading_section} ${styles.heading_section_start}`}
-          >
-            <h1>
-              <font>Dokter </font>
-              Kami
-            </h1>
-          </div>
         </div>
-        <div className={styles.section_4_box}>
-          <img
-            src="/images/dokter_layanan.png"
-            alt="Dokter-dokter NMW Aesthetic Clinic"
-            className={styles.our_dokter}
-          />
-          <img
-            src="/images/nmw_bg.png"
-            alt="Background Dokter"
-            className={styles.bg_our_dokter}
-          />
-          <div className={styles.section_4_content}>
-            <p>
-              Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara
-              profesional, dan terpercaya untuk melakukan bedah plastik,
-              dermatologi, spesialis kulit dan kelamin, serta perawatan kulit
-              estetik.
-            </p>
-            <p>
-              Dokter kami telah menjalani pelatihan ekstensif dan memiliki
-              keahlian untuk memberikan hasil luar biasa sekaligus memastikan
-              keselamatan pasien.
-            </p>
-            <Link href="/dokter-kami">
-              <button>Lihat Lebih Lanjut</button>
-            </Link>
-          </div>
+        <div className={styles.article_section}>
+        <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
+            <h1><font>Artikel</font> Lain</h1>
         </div>
-      </div>
+        <div className={styles.article_container}>
+            <div className={styles.article_layout}>
+                {articlesAll.map((article) => {
+                    const tagsList = article.tags ? article.tags.split(',') : [];
+
+                    return (
+                        <div className={styles.article_box} key={article.id}>
+                            <div className={styles.article_image}>
+                                {tagsList.length > 0 && (
+                                    <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                        <button>#{tagsList[0].trim()}</button>
+                                    </Link>
+                                )}
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <img src={article.image} alt={article.title} />
+                                </Link>
+                            </div>
+                            <div className={styles.article_content}>
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <div className={styles.article_heading}>
+                                        <h1>{article.title}</h1>
+                                    </div>
+                                </Link>
+                                <span>Admin, {article.date}</span>
+                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <button className={styles.btn_more}>Baca Selengkapnya</button>
+                                </Link>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Pagination Section */}
+            <div className={styles.article_pagination}>
+                {/* Tombol "Sebelumnya" */}
+                <button onClick={handlePrevPage} disabled={currentPagination <= 2}>
+                    Sebelumnya
+                </button>
+
+                {/* Menampilkan nomor halaman */}
+                {[...Array(totalPages - 1)].map((_, index) => {
+                    const pageNumber = index + 2; // Menampilkan halaman mulai dari 2
+
+                    return (
+                        <button
+                            key={index}
+                            className={currentPagination === pageNumber ? styles.active_pagination : ''}
+                            onClick={() => setCurrentPage(pageNumber)} // Navigasi ke halaman yang benar
+                        >
+                            {pageNumber} {/* Menampilkan halaman mulai dari 2 */}
+                        </button>
+                    );
+                })}
+
+                {/* Tombol "Selanjutnya" */}
+                <button onClick={handleNextPage} disabled={currentPagination >= totalPages}>
+                    Selanjutnya
+                </button>
+            </div>
+                    
+        </div>
+    </div>
     </>
   );
 }

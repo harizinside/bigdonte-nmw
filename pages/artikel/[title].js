@@ -188,12 +188,10 @@ export async function getServerSideProps(context) {
     ? cleanDescription.substring(0, 100) + "..." 
     : cleanDescription;
 
-    console.log("products : " + articleDetail.products)
-
     const articleSchema = {
         "@context": "https://schema.org",
         "@type": "Article",
-        headline: `${articleDetail.title} - NMW Aesthetic Clinic`,
+        headline: `${articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`} - NMW Aesthetic Clinic`,
         description: `${articleDetail.description}`,
         url: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
@@ -201,7 +199,7 @@ export async function getServerSideProps(context) {
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${storageUrl}/${settings.logo}`
+            url: `${articleDetail.image ? `${articleDetail.image}` : `${mainUrl}/images/kebijakan-privasi.png`}`
           }
         },
         mainEntityOfPage: {
@@ -239,7 +237,7 @@ export async function getServerSideProps(context) {
           {
             "@type": "ListItem",
             position: 3,
-            name: `${articleDetail.title}`,
+            name: `${articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`}`,
             item: `${mainUrl}/artikel/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`
           }
         ]

@@ -120,18 +120,18 @@ export default function Promo({ initialPromoDetail }) {
     <>
         <Head>
           <title>{initialPromoDetail.title ? `${initialPromoDetail.title}` : `Layanan NMW Aesthetic Clinic`}  | NMW Aesthetic Clinic</title>
-          <meta name="description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
+          <meta name="description" content="Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!" />
+          <meta name="keywords" content="promo klinik kecantikan, promo perawatan kulit, diskon layanan medis, promo perawatan wajah, penawaran kecantikan NMW Clinic, promo estetika medis, potongan harga perawatan tubuh, promo perawatan rambut, diskon bedah plastik, penawaran khusus NMW Clinic, promo perawatan anti-aging, diskon rejuvenasi kulit, promo perawatan kecantikan NMW Clinic" />
 
           <meta property="og:title" content={initialPromoDetail.title ? `${initialPromoDetail.title}` : `Layanan NMW Aesthetic Clinic`}  />
-          <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
+          <meta property="og:description" content="Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/${encodeURIComponent(initialPromoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
           <meta property="og:image" content={initialPromoDetail.image ? `${storageUrl}/${initialPromoDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={initialPromoDetail.title ? `${initialPromoDetail.title}` : `Layanan NMW Aesthetic Clinic`} />
-          <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
+          <meta name="twitter:description" content="Dapatkan promo terbaik dari NMW Aesthetic Clinic untuk perawatan kecantikan dan kesehatan kulit Anda. Nikmati penawaran spesial untuk layanan medis, perawatan wajah, dan perawatan tubuh dengan harga terbaik. Jangan lewatkan promo eksklusif yang dirancang khusus untuk memenuhi kebutuhan kecantikan Anda!" />
           <meta name="twitter:image" content={initialPromoDetail.image ? `${storageUrl}/${initialPromoDetail.image}` : `${mainUrl}/images/logo.svg`} />
 
           <link rel="canonical" href={`${mainUrl}/${encodeURIComponent(initialPromoDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
