@@ -307,30 +307,30 @@ export default function Artikel() {
                 })}
             </div>
             <div className={styles.article_pagination}>
-            {/* Tombol "Sebelumnya" */}
-            <button onClick={handlePrevPage} disabled={currentPage === 2}>
-                Sebelumnya
-            </button>
-
-            {/* Menampilkan nomor halaman */}
-            {[...Array(totalPages - 1)].map((_, index) => {
-                const pageNumber = index + 2; // Menampilkan halaman mulai dari 2, tetapi treat itu sebagai halaman 1
-
-                return (
-                <button
-                    key={index}
-                    className={currentPage === pageNumber ? styles.active_pagination : ''}
-                    onClick={() => setCurrentPage(pageNumber)} // Navigasi ke halaman yang benar
-                >
-                    {index + 1} {/* Menampilkan halaman mulai dari 1, tetapi tetap berfungsi untuk navigasi ke page 2 */}
+                {/* Tombol "Sebelumnya" */}
+                <button onClick={handlePrevPage} disabled={currentPage === 2}>
+                    Sebelumnya
                 </button>
-                );
-            })}
 
-            {/* Tombol "Selanjutnya" */}
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                Selanjutnya
-            </button>
+                {/* Menampilkan nomor halaman */}
+                {[...Array(totalPages - 1)].map((_, index) => {
+                    const pageNumber = index + 2; // Menampilkan halaman mulai dari 2, tetapi treat itu sebagai halaman 1
+
+                    return (
+                    <button
+                        key={index}
+                        className={currentPage === pageNumber ? styles.active_pagination : ''}
+                        onClick={() => setCurrentPage(pageNumber)} // Navigasi ke halaman yang benar
+                    >
+                        {index + 1} {/* Menampilkan halaman mulai dari 1, tetapi tetap berfungsi untuk navigasi ke page 2 */}
+                    </button>
+                    );
+                })}
+
+                {/* Tombol "Selanjutnya" */}
+                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    Selanjutnya
+                </button>
             </div>
 
 
