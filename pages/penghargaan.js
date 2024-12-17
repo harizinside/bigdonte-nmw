@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Head from "next/head";
 import not from "@/styles/Not.module.css";
 
-export default function KebijakanPrivasi() {
+export default function Penghargaan() {
   const [achievments, setAchievments] = useState([]);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
@@ -40,6 +40,22 @@ export default function KebijakanPrivasi() {
     const closeModal = () => {
         setIsOpen(false);
     };
+
+    if (!achievments || achievments.length === 0) {
+        return (
+            <>
+                <div className={`${not.box} ${not.box_flex}`}>
+                    <div className={`${styles.heading_section}`}>
+                        <h1><font>Penghargaan</font> Kami</h1>
+                    </div>
+                    <div className={not.content}>
+                        <img src="../images/not-found.png" alt='Artikel Tidak Ditemukan' />
+                        <span>Penghargaan Tidak Ditemukan</span>
+                    </div>
+                </div>
+            </>
+        );
+    }
 
   const schemaData = {
         "@context": "https://schema.org",

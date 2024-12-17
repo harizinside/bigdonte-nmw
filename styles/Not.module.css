@@ -5,6 +5,10 @@
     align-items: center;
     justify-content: center;
 }
+.box_flex{
+    flex-direction: column;
+    padding: 4vw;
+}
 .content{
     display: flex;
     align-items: center;
@@ -29,6 +33,10 @@
     font-weight: 600;
 }
 @media (max-width:768px) {
+    .box_flex{
+        flex-direction: column;
+        padding: 8vw;
+    }
     .content{
         padding:11vw 4vw;
         padding-bottom: 11vw;

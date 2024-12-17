@@ -48,9 +48,7 @@ export default function Katalog() {
                 setCatalogs(JSON.parse(cachedData));
                 console.log('Loaded from cache after API error');
             }
-        } finally {
-            setLoading(false);
-        } 
+        }
     };
 
     fetchData();
