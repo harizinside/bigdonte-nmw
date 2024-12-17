@@ -7,6 +7,69 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 
+import { metadata } from 'next/metadata';
+
+const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: `Cabang - NMW Aesthetic Clinic`,
+        description: `Alamat Cabang & Kantor NMW Aesthetic Clinic`,
+        url: `${mainUrl}/cabang`,
+        publisher: {
+          "@type": "Organization",
+          name: "NMW Aesthetic Clinic",
+          logo: {
+            "@type": "ImageObject",
+            url: `${mainUrl}/images/cabang-banner.png`
+          }
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${mainUrl}/cabang`
+        },
+        breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                {
+                "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: `${mainUrl}`
+                },
+                {
+                "@type": "ListItem",
+                    position: 2,
+                    name: "Cabang",
+                    item: `${mainUrl}/cabang`
+                }
+            ]
+        }
+    };
+
+// You can define your metadata object here
+export const metadata = {
+  title: 'Cabang | NMW Aesthetic Clinic',
+  description: 'Alamat Cabang NMW Aesthetic Clinic',
+  keywords: 'cabang NMW Clinic, lokasi NMW Clinic, klinik kecantikan terdekat, klinik NMW, klinik estetika terbaik, layanan kecantikan profesional, dokter kecantikan terpercaya, konsultasi kecantikan, perawatan kulit, perawatan wajah, klinik kesehatan kulit, klinik bedah plastik, alamat NMW Clinic, klinik anti-aging, klinik perawatan rambut, layanan estetika medis, cabang klinik kecantikan, konsultasi medis estetika, perawatan tubuh, perawatan kecantikan terdekat, solusi kecantikan, dokter kecantikan terbaik, klinik kecantikan Indonesia',
+  openGraph: {
+    title: 'Cabang NMW Aesthetic Clinic',
+    description: 'Alamat Cabang NMW Aesthetic Clinic',
+    type: 'website',
+    url: `${process.env.NEXT_PUBLIC_MAIN_URL}/cabang`, // Assuming mainUrl is set as an environment variable
+    image: `${process.env.NEXT_PUBLIC_MAIN_URL}/images/cabang-banner.png`
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cabang NMW Aesthetic Clinic',
+    description: 'Alamat Cabang NMW Aesthetic Clinic',
+    image: `${process.env.NEXT_PUBLIC_MAIN_URL}/images/cabang-banner.png`
+  },
+  canonical: `${process.env.NEXT_PUBLIC_MAIN_URL}/cabang`,
+  structuredData: JSON.stringify(schemaData) // Ensure schemaData is defined or imported
+};
+
 export default function Cabang(){
     const [branchs, setBranchs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -133,44 +196,7 @@ export default function Cabang(){
         );
     }
 
-    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: `Cabang - NMW Aesthetic Clinic`,
-        description: `Alamat Cabang & Kantor NMW Aesthetic Clinic`,
-        url: `${mainUrl}/cabang`,
-        publisher: {
-          "@type": "Organization",
-          name: "NMW Aesthetic Clinic",
-          logo: {
-            "@type": "ImageObject",
-            url: `${mainUrl}/images/cabang-banner.png`
-          }
-        },
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": `${mainUrl}/cabang`
-        },
-        breadcrumb: {
-            "@type": "BreadcrumbList",
-            itemListElement: [
-                {
-                "@type": "ListItem",
-                    position: 1,
-                    name: "Home",
-                    item: `${mainUrl}`
-                },
-                {
-                "@type": "ListItem",
-                    position: 2,
-                    name: "Cabang",
-                    item: `${mainUrl}/cabang`
-                }
-            ]
-        }
-    };
+    
 
 
     return(
@@ -197,7 +223,6 @@ export default function Cabang(){
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
                 />
-
             </Head>
             <div className={banner.banner}>
                 <img src="images/cabang-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
