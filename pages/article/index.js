@@ -202,22 +202,22 @@ export default function Article() {
                         return (
                             <div className={styles.tabcontent_box} key={article.id}>
                                 <div className={styles.tabcontent_box_img}>
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <img src={article.image} alt={article.title} />
                                     </Link>
                                     {tagsList.length > 0 && (
-                                        <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                        <Link href={`/article/tag/${tagsList[0].trim()}`}>
                                             <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
                                         </Link>
                                     )}
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <h1>{article.title}</h1>
                                     </Link>
                                     <span>Admin, {article.date}</span>
                                     <div className={styles.description} dangerouslySetInnerHTML={{ __html: article.description }} />
-                                    <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <button>Baca Selengkapnya</button>
                                     </Link>
                                 </div>
@@ -232,7 +232,7 @@ export default function Article() {
                         {tags.length > 0 ? (
                             tags.map((tag, index) => {
                                 // Buat URL dengan format artikel/[tag]
-                                const tagUrl = `/artikel/tag/${tag.trim()}`;
+                                const tagUrl = `/article/tag/${tag.trim()}`;
                                 return (
                                     <Link href={tagUrl} key={index}>
                                         <button>{tag.trim()}</button>
@@ -261,22 +261,22 @@ export default function Article() {
                         <div className={styles.article_box} key={article.id}>
                             <div className={styles.article_image}>
                                 {tagsList.length > 0 && (
-                                    <Link href={`/artikel/tag/${tagsList[0].trim()}`}>
+                                    <Link href={`/article/tag/${tagsList[0].trim()}`}>
                                         <button>#{tagsList[0].trim()}</button>
                                     </Link>
                                 )}
-                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                     <img src={article.image} alt={article.title}/>
                                 </Link>
                             </div>
                             <div className={styles.article_content}>
-                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                     <div className={styles.article_heading}>
                                         <h1>{article.title}</h1>
                                     </div>
                                 </Link>
                                 <span>Admin, {article.date}</span>
-                                <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
                             </div>
                         </div>
                     )
