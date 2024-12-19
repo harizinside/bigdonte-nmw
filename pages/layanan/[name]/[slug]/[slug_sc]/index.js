@@ -157,6 +157,10 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
         }
     };
 
+    const cleanedDescription = initialServiceDetail.description
+  ? initialServiceDetail.description.replace(/<\/?p>/g, "")
+  : "Deskripsi tidak tersedia.";
+
   return (
     <>
         <Head>
@@ -197,10 +201,10 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
           </h1>
         </div>
         <div className={styles.section_1_content}>
-          <div
+        <div
             className={styles.service_description}
             dangerouslySetInnerHTML={{
-              __html: initialServiceDetail.description || "Deskripsi tidak tersedia.",
+              __html: cleanedDescription,
             }}
           />
           <Link
