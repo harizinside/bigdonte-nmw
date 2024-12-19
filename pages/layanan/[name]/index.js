@@ -204,6 +204,10 @@ export default function Layanan({
                         (service) => service.id
                     );
 
+                    const cleanedDescriptionPatient = galeriPatient.description
+                    ? galeriPatient.description.replace(/<\/?p>/g, "")
+                    : "Deskripsi tidak tersedia.";
+
                     return (
                         <div className={styles.box_galeri} key={galeriPatient.id}>
                             {/* Image Section */}
@@ -223,7 +227,7 @@ export default function Layanan({
                             <div className={styles.box_galeri_content}>
                                 <div className={styles.box_galeri_heading}>
                                     <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
-                                    <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
+                                    <h3>{cleanedDescriptionPatient}</h3>
                                 </div>
                                 <div className={styles.box_galeri_text}>
                                     <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>

@@ -161,6 +161,10 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
   ? initialServiceDetail.description.replace(/<\/?p>/g, "")
   : "Deskripsi tidak tersedia.";
 
+  const cleanedDescriptionPatient = galeriPatient.description
+  ? galeriPatient.description.replace(/<\/?p>/g, "")
+  : "Deskripsi tidak tersedia.";
+
   return (
     <>
         <Head>
@@ -247,7 +251,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
                               <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
                           </div>
                           <div className={styles.box_galeri_text}>
-                              <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
+                              <p>{cleanedDescriptionPatient}</p>
                           </div>
                       </div>
 
