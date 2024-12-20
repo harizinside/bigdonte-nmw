@@ -324,7 +324,7 @@ export default function Header() {
                             <li className={isActive('/katalog')} onClick={clickMenu}><Link href="/katalog">Katalog</Link></li>
                         </ul>
                         <div className={styles.login_mobile}>
-                            <Link href={""}><button>Masuk</button></Link>
+                            <Link href={`${settings.direct_link}`}><button>Masuk</button></Link>
                         </div>
                     </div>
                     <div className={styles.overlay_menu}></div>
