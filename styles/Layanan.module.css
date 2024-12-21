@@ -862,7 +862,7 @@
         bottom: inherit;
         position: relative;
         z-index: 2;
-        background: url(../public/images/nmw_bg.png) #f3f3f3a8;
+        background: url(../public/images/nmw_bg.webp) #f3f3f3a8;
         padding: 1.3vw;
         padding-bottom: 0;
         border-radius: 3vw;

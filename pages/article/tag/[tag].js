@@ -69,7 +69,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
         return (
             <div className={loadingStyles.box}>
                 <div className={loadingStyles.content}>
-                    <img src="../../images/logo.svg" alt="Loading" />
+                    <img src="../../images/logo.svg" alt="Loading" loading='lazy'/>
                     <span>Loading...</span>
                 </div>
             </div>
@@ -155,7 +155,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                                                 </Link>
                                             )}
                                             <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                                <img src={article.image} alt={article.title} />
+                                                <img src={article.image} alt={article.title} loading='lazy'/>
                                             </Link>
                                         </div>
                                         <div className={styles.article_content}>

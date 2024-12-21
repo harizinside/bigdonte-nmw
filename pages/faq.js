@@ -104,12 +104,12 @@ const FAQPage = () => {
         <meta property="og:description" content="Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${mainUrl}/faq`} />
-        <meta property="og:image" content={`${mainUrl}/images/faq_banner.png`} />
+        <meta property="og:image" content={`${mainUrl}/images/faq_banner.webp`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="FAQ NMW Aesthetic Clinic" />
         <meta name="twitter:description" content="Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda." />
-        <meta name="twitter:image" content={`${mainUrl}/images/faq_banner.png`} />
+        <meta name="twitter:image" content={`${mainUrl}/images/faq_banner.webp`} />
 
         <link rel="canonical" href={`${mainUrl}/faq`} />
 
@@ -119,7 +119,7 @@ const FAQPage = () => {
     </Head>
 
     <div className={banner.banner}>
-        <img src="images/faq_banner.png" alt="Faq Nmw Aesthetic Clinic"/>
+        <img src="images/faq_banner.webp" loading="lazy" alt="Faq Nmw Aesthetic Clinic"/>
     </div>
     <div className={styles.faqPage}>
         <div className={`${styles.heading_section}`}>

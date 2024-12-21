@@ -217,7 +217,7 @@ export default function DokterKami() {
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}/images/dokter_banner.png`
+            url: `${mainUrl}/images/dokter_banner.webp`
           }
         },
         mainEntityOfPage: {
@@ -254,12 +254,12 @@ export default function DokterKami() {
                 <meta property="og:description" content="Kenali tim dokter profesional di NMW Aesthetic Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda" />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={`${mainUrl}/dokter-kami`} />
-                <meta property="og:image" content={`${mainUrl}/images/dokter_banner.png`} />
+                <meta property="og:image" content={`${mainUrl}/images/dokter_banner.webp`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Dokter NMW Aesthetic Clinic"  />
                 <meta name="twitter:description" content="Kenali tim dokter profesional di NMW Aesthetic Clinic yang siap memberikan perawatan terbaik untuk kesehatan Anda" />
-                <meta name="twitter:image" content={`${mainUrl}/images/dokter_banner.png`} />
+                <meta name="twitter:image" content={`${mainUrl}/images/dokter_banner.webp`} />
 
                 <link rel="canonical" href={`${mainUrl}/dokter-kami`} />
 
@@ -269,7 +269,7 @@ export default function DokterKami() {
             </Head>
 
             <div className={banner.banner}>
-                <img src="/images/dokter_banner.png" alt="Layanan NMW Aesthetic Clinic" />
+                <img src="/images/dokter_banner.webp" loading="lazy" alt="Layanan NMW Aesthetic Clinic" />
             </div>
             <div className={styles.container}>
                 <div className={styles.dokter_heading}>
@@ -311,7 +311,7 @@ export default function DokterKami() {
                             paginatedDoctors.map((doctor) => (
                                 <div key={doctor.id} className={styles.cabang_box}>
                                     <div className={styles.cabang_box_image}>
-                                        <img src={doctor.image} alt={doctor.name} />
+                                        <img src={doctor.image} alt={doctor.name} loading="lazy"/>
                                     </div>
                                     <div className={styles.cabang_box_content}>
                                         <h1>
@@ -326,7 +326,7 @@ export default function DokterKami() {
                         ) : (
                             <div className={loadingStyles.box}>
                                 <div className={loadingStyles.content}>
-                                    <img src="../images/logo.svg"/>
+                                    <img src="../images/logo.svg" loading="lazy"/>
                                     <span>Loading</span>
                                 </div>
                             </div>

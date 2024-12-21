@@ -394,6 +394,7 @@ export default function Home() {
                                         <img
                                             src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
                                             alt={service.name}
+                                            loading="lazy"
                                         />
                                     </div>
                                 </div>
@@ -431,6 +432,7 @@ export default function Home() {
                                             src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
                                                 "Loading..."}`}
                                             alt={service.name}
+                                            loading="lazy"
                                         />
                                     </div>
                                 </div>
@@ -446,7 +448,7 @@ export default function Home() {
           <h2><font>Tentang</font> Kami</h2>
         </div>
         <div className={styles.section_2_text}>
-          <img src="images/about_image.png" alt="Tentang NMW Aesthetic Clinic"/>
+          <img src="images/about_image.webp" loading="lazy" alt="Tentang NMW Aesthetic Clinic"/>
           <p>Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Nama NMW Skin Care berasal dari pendiri perusahaan dr. Nataliani Mawardi - dengan kata Mawar yang menandakan dan mewakili Mawar yang secara universal disamakan dengan keindahan dan keanggunan, dua nilai inti yang dengan bangga diperjuangkan NMW dan diwakili oleh pelanggan di Indonesia.</p>
           <Link href={"/cabang"}><button>Lihat Cabang Kami</button></Link>
         </div>
@@ -464,11 +466,11 @@ export default function Home() {
             <p>Dr. Nataliani memiliki pendirian “give back to community”. Melihat kurangnya kepedulian ibu-ibu di pasar membuat Dr. Nataliani berinisiatif memberikan konsultasi untuk jaga kesehatan.</p>
             <Link href={'/penghargaan'}><button>Lihat Lebih Lanjut</button></Link>
           </div>
-          <img src="images/dr_nataliani.png" alt="Dr. Nataliani Mawardi, dipl. CIBTAC" className={styles.section_3_image}/>
-          <img src="images/blink_orange.svg" className={styles.section_icon_1} alt="Blink Material"/>
-          <img src="images/blink_orange.svg" className={styles.section_icon_2} alt="Blink Material"/>
-          <img src="images/blink_grey.svg" className={styles.section_icon_3} alt="Blink Material"/>
-          <img src="images/blink_grey.svg" className={styles.section_icon_4} alt="Blink Material"/>
+          <img src="images/dr_nataliani.webp" loading="lazy" alt="Dr. Nataliani Mawardi, dipl. CIBTAC" className={styles.section_3_image}/>
+          <img src="images/blink_orange.svg" loading="lazy" className={styles.section_icon_1} alt="Blink Material"/>
+          <img src="images/blink_orange.svg" loading="lazy" className={styles.section_icon_2} alt="Blink Material"/>
+          <img src="images/blink_grey.svg" loading="lazy" className={styles.section_icon_3} alt="Blink Material"/>
+          <img src="images/blink_grey.svg" loading="lazy" className={styles.section_icon_4} alt="Blink Material"/>
         </div>
       </div>
       <div className={styles.section_4}>
@@ -478,9 +480,9 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.section_4_box}>
-          <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
-          <img src="images/blink_orange.svg" className={styles.section_icon_5} alt="Blink Material" />
-          <img src="images/blink_grey.svg" className={styles.section_icon_6} alt="Blink Material"/>
+          <img src="images/nmw_dokter.webp" loading="lazy" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
+          <img src="images/blink_orange.svg" loading="lazy" className={styles.section_icon_5} alt="Blink Material" />
+          <img src="images/blink_grey.svg" loading="lazy" className={styles.section_icon_6} alt="Blink Material"/>
           <div className={styles.section_4_content}>
             <p>Dokter NMW Aesthetic klinik adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
             <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
@@ -505,7 +507,7 @@ export default function Home() {
                         </Link>
                     )}
                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                      <img src={article.image} alt={article.title}/>
+                      <img src={article.image} loading="lazy" alt={article.title}/>
                     </Link>
                   </div>
                   <div className={styles.article_content}>
@@ -527,19 +529,19 @@ export default function Home() {
           <div className={styles.section_5_layout}>
             <h4>Metode Pembayaran</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/logo_payment.png" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
+              <img src="images/logo_payment.webp" loading="lazy" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Bank Transfer</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/bank_transfer.png" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
+              <img src="images/bank_transfer.webp" loading="lazy" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Terdaftar dan diawasi oleh</h4>
             <div className={`${styles.section_5_logo} ${styles.section_5_logo_small}`}>
-              <img src="images/legality.png" alt="Legalitas NMW Aesthetic Clinic"/>
+              <img src="images/legality.webp" loading="lazy" alt="Legalitas NMW Aesthetic Clinic"/>
             </div>
           </div>
         </div>

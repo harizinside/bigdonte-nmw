@@ -174,7 +174,7 @@ export default function Layanan({
           </script>
       </Head>
         <div className={banner.banner}>
-            <img src={`${storageUrl}/${serviceDetail.image}`} alt={serviceDetail.name} />
+            <img src={`${storageUrl}/${serviceDetail.image}`} loading='lazy' alt={serviceDetail.name} />
         </div>
         <div className={styles.section_1}>
             <div className={styles.section_1_heading}>
@@ -265,7 +265,7 @@ export default function Layanan({
                     <div className={styles.box_service_image}>
                     <img
                         src={`${storageUrl}/${typeService.image2 || typeService.image}`}
-                        alt={typeService.title}
+                        alt={typeService.title} loading='lazy'
                     />
                     </div>
                     <div className={styles.box_service_content}>
@@ -293,7 +293,7 @@ export default function Layanan({
                         <div className={styles.box_galeri_overlay}></div>
                         <img
                         src={`${storageUrl}/${typeService.image}`}
-                        alt={typeService.title}
+                        alt={typeService.title} loading='lazy'
                         />
                         <div
                         className={`${styles.button_image} ${styles.button_image_sc}`}
@@ -318,8 +318,8 @@ export default function Layanan({
             </div>
             </div>
             <div className={styles.section_4_box}>
-                <img src="../images/dokter_layanan.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
-                <img src="../images/nmw_bg.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.bg_our_dokter} />
+                <img src="../images/dokter_layanan.webp" alt="Dokter-dokter NMW Aesthetic Clinic" loading='lazy' className={styles.our_dokter} />
+                <img src="../images/nmw_bg.webp" alt="Dokter-dokter NMW Aesthetic Clinic" loading='lazy' className={styles.bg_our_dokter} />
                 <div className={styles.section_4_content}>
                     <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>

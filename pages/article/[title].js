@@ -118,7 +118,7 @@ export async function getServerSideProps(context) {
                 <>
                     <div className={not.box}>
                         <div className={not.content}>
-                            <img src="../images/not-found.png" alt='Artikel Tidak Ditemukan' />
+                            <img src="../images/not-found.webp" alt='Artikel Tidak Ditemukan' loading='lazy'/>
                             <span>Artikel Tidak Ditemukan</span>
                         </div>
                     </div>
@@ -140,7 +140,7 @@ export async function getServerSideProps(context) {
                                                 </Link>
                                             )}
                                             <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                                <img src={article.image} alt={article.title}/>
+                                                <img src={article.image} alt={article.title} loading='lazy'/>
                                             </Link>
                                         </div>
                                         <div className={stylesAll.article_content}>
@@ -267,7 +267,7 @@ export async function getServerSideProps(context) {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
       <div className={banner.banner}>
-            <img src={articleDetail.image} alt={articleDetail.title} /> 
+            <img src={articleDetail.image} alt={articleDetail.title} loading='lazy'/> 
             {articleDetail.image_source ? (
                 <div className={banner.image_source}>
                     <Link href={articleDetail.image_source} target="_blank">{articleDetail.image_source_name}</Link>
@@ -317,7 +317,7 @@ export async function getServerSideProps(context) {
                                             </Link>
                                         )}
                                         <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                            <img src={article.image} alt={article.title} />
+                                            <img src={article.image} alt={article.title} loading='lazy'/>
                                         </Link>
                                     </div>
                                     <div className={styles.article_content}>
@@ -352,6 +352,7 @@ export async function getServerSideProps(context) {
                                         <img
                                             src={`${storageUrl}/${product.image}`}
                                             alt={product.name}
+                                            loading='lazy'
                                         />
                                     </Link>
                                 </div>
@@ -384,6 +385,7 @@ export async function getServerSideProps(context) {
                                         <img
                                             src={`${storageUrl}/${tos.image}`}
                                             alt={tos.title}
+                                            loading='lazy'
                                         />
                                     </Link>
                                 </div>
@@ -419,6 +421,7 @@ export async function getServerSideProps(context) {
                                 <img
                                     src={`${doctor.image}`}
                                     alt={doctor.name}
+                                    loading='lazy'
                                 />
                             </div>
                             <div className={styles.article_content}>
@@ -450,7 +453,7 @@ export async function getServerSideProps(context) {
                                         </Link>
                                     )}
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <img src={article.image} alt={article.title} />
+                                        <img src={article.image} alt={article.title} loading='lazy'/>
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>

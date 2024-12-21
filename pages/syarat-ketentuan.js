@@ -37,7 +37,7 @@ export default function SyaratKetentuan() {
       name: "NMW Aesthetic Clinic",
       logo: {
           "@type": "ImageObject",
-          url: `${mainUrl}/images/term-condition.png`
+          url: `${mainUrl}/images/term-condition.webp`
       }
       },
       mainEntityOfPage: {
@@ -74,12 +74,12 @@ export default function SyaratKetentuan() {
           <meta property="og:description" content="Berikut Syarat & Ketentuan untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/syarat-ketentuan`} />
-          <meta property="og:image" content={`${mainUrl}/images/term-condition.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/term-condition.webp`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Syarat & Ketentuan NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut Syarat & Ketentuan untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/term-condition.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/term-condition.webp`} />
 
           <link rel="canonical" href={`${mainUrl}/syarat-ketentuan`} />
 
@@ -89,8 +89,9 @@ export default function SyaratKetentuan() {
       </Head>
       <div className={banner.banner}>
         <img
-          src="/images/term-condition.png"
+          src="/images/term-condition.webp"
           alt="Kebijakan Privasi NMW Aesthetic Clinic"
+          loading="lazy"
         />
       </div>
       <div className={styles.container}>

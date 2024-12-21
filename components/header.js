@@ -277,7 +277,7 @@ export default function Header() {
                                 <IoMdClose />
                             </span>
                             <Link href={popupData.link} target="_blank">
-                                <img src={`${storageUrl}/${popupData.image}`} alt="Promo NMW Skincare" />
+                                <img src={`${storageUrl}/${popupData.image}`} loading="lazy" alt="Promo NMW Skincare" />
                             </Link>
                         </div>
                     )}
@@ -304,7 +304,7 @@ export default function Header() {
                 </button>
                 <div className={`${styles.menu} ${menuActive ? styles.active : ''}`}>
                     <div className={styles.menu_layout}>
-                        <img className={styles.logo_mobile} src={`${storageUrl}/${settings.logo}`} alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
+                        <img className={styles.logo_mobile} src={`${storageUrl}/${settings.logo}`} loading="lazy" alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png" />
                         <ul ref={headerRef}>
                             <li className={isActive('/')} onClick={clickMenu}><Link href="/">Home</Link></li>
                             <li>

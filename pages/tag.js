@@ -88,7 +88,7 @@ export default function TagsPage() {
             <>
                 <div className={loadingStyles.box}>
                     <div className={loadingStyles.content}>
-                        <img src="../../images/logo.svg"/>
+                        <img src="../../images/logo.svg" loading='lazy'/>
                         <span>Loading</span>
                     </div>
                 </div>
@@ -185,7 +185,7 @@ export default function TagsPage() {
                                                     </Link>
                                                 )}
                                                 <Link href={`/artikel/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                                    <img src={article.image} alt={article.title} />
+                                                    <img src={article.image} loading='lazy' alt={article.title} />
                                                 </Link>
                                             </div>
                                             <div className={styles.article_content}>

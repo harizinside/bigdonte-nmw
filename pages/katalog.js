@@ -65,7 +65,7 @@ export default function Katalog() {
         name: "NMW Aesthetic Clinic",
         logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}/images/catalogue-banner.png`
+            url: `${mainUrl}/images/catalogue-banner.webp`
         }
         },
         mainEntityOfPage: {
@@ -102,12 +102,12 @@ export default function Katalog() {
           <meta property="og:description" content="Lihat dan download katalog NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/katalog`} />
-          <meta property="og:image" content={`${mainUrl}/images/catalogue-banner.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/catalogue-banner.webp`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Katalog NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Lihat dan download katalog NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/catalogue-banner.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/catalogue-banner.webp`} />
 
           <link rel="canonical" href={`${mainUrl}/katalog`} />
 
@@ -117,8 +117,9 @@ export default function Katalog() {
       </Head>
       <div className={banner.banner}>
         <img
-          src="/images/catalogue-banner.png"
+          src="/images/catalogue-banner.webp"
           alt="Kebijakan Privasi NMW Aesthetic Clinic"
+          loading="lazy"
         />
       </div>
       <div className={styles.container}>
@@ -129,7 +130,7 @@ export default function Katalog() {
                 {catalogs.map(catalog => (
                     <div className={styles.box_galeri} key={catalog.id}>
                         <div className={styles.box_galeri_image}>
-                            <img src={`${storageUrl}/${catalog.image}`} alt={catalog.title}/>
+                            <img src={`${storageUrl}/${catalog.image}`} loading="lazy" alt={catalog.title}/>
                         </div>
                         <div className={styles.box_galeri_content}>
                             <div className={styles.box_galeri_heading}>
@@ -154,9 +155,9 @@ export default function Katalog() {
                 </div>
             </div>
             <div className={styles.section_4_box}>
-            <img src="images/nmw_dokter.png" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
-            <img src="images/blink_orange.svg" alt="Blink Material" className={styles.section_icon_5} />
-            <img src="images/blink_grey.svg" alt="Blink Material" className={styles.section_icon_6} />
+            <img src="images/nmw_dokter.webp" loading="lazy" alt="Dokter-dokter NMW Aesthetic Clinic" className={styles.our_dokter} />
+            <img src="images/blink_orange.svg" loading="lazy" alt="Blink Material" className={styles.section_icon_5} />
+            <img src="images/blink_grey.svg" loading="lazy" alt="Blink Material" className={styles.section_icon_6} />
             <div className={styles.section_4_content}>
                 <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                 <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>

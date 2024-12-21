@@ -71,7 +71,7 @@ export default function Branches() {
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}/images/cabang-banner.png`
+            url: `${mainUrl}/images/cabang-banner.webp`
           }
         },
         mainEntityOfPage: {
@@ -108,21 +108,21 @@ export default function Branches() {
           <meta property="og:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
-          <meta property="og:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/cabang-banner.webp`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Cabang NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut Alamat Cabang NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/cabang-banner.webp`} />
 
           <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
           <script type="application/ld+json">
           {JSON.stringify(schemaData)}
           </script>
-      </Head>
-      <div className={banner.banner}>
-                <img src="images/cabang-banner.png" alt="Layanan Nmw Aesthetic Clinic"/>
+        </Head>
+            <div className={banner.banner}>
+                <img src="/images/cabang-banner.webp" loading="lazy" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
             <div className={styles.container}>
                 <div className={`${styles.heading_section}`}>
@@ -132,7 +132,7 @@ export default function Branches() {
                     {branchs.map(branch => (
                         <div className={styles.cabang_box} key={branch.id}>
                             <div className={styles.cabang_box_image}>
-                                <img src={branch.image} alt={branch.name}/>
+                                <img src={branch.image} loading="lazy" alt={branch.name}/>
                             </div>
                             <div className={styles.cabang_box_content}>
                                 <h1>{branch.name}</h1>

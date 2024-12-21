@@ -49,7 +49,7 @@ export default function Penghargaan() {
                         <h1><font>Penghargaan</font> Kami</h1>
                     </div>
                     <div className={not.content}>
-                        <img src="../images/not-found.png" alt='Artikel Tidak Ditemukan' />
+                        <img src="../images/not-found.webp" alt='Artikel Tidak Ditemukan' loading="lazy" />
                         <span>Penghargaan Tidak Ditemukan</span>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ export default function Penghargaan() {
         name: "NMW Aesthetic Clinic",
         logo: {
             "@type": "ImageObject",
-            url: `${mainUrl}/images/banner_award.png`
+            url: `${mainUrl}/images/banner_award.webp`
         }
         },
         mainEntityOfPage: {
@@ -105,12 +105,12 @@ export default function Penghargaan() {
           <meta property="og:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/penghargaan`} />
-          <meta property="og:image" content={`${mainUrl}/images/banner_award.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/banner_award.webp`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Penghargaan NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Lihat daftar penghargaan yang telah diraih oleh NMW Aesthetic Clinic sebagai bukti komitmen kami dalam memberikan layanan kesehatan terbaik dan profesional" />
-          <meta name="twitter:image" content={`${mainUrl}/images/banner_award.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/banner_award.webp`} />
 
           <link rel="canonical" href={`${mainUrl}/penghargaan`} />
 
@@ -119,7 +119,7 @@ export default function Penghargaan() {
           </script>
       </Head>
       <div className={banner.banner}>
-            <img src="images/banner_award.png" alt="Layanan Nmw Aesthetic Clinic"/>
+            <img src="images/banner_award.webp" alt="Layanan Nmw Aesthetic Clinic" loading="lazy"/>
         </div>
         <div className={styles.container}>
             <div className={`${styles.heading_section}`}>
@@ -132,7 +132,7 @@ export default function Penghargaan() {
                         className={styles.cabang_box_image} 
                         onClick={() => handleImageClick(`${storageUrl}/${achievment.image}`)}
                         >
-                        <img src={`${storageUrl}/${achievment.image}`} alt={achievment.heading} />
+                        <img src={`${storageUrl}/${achievment.image}`} loading="lazy" alt={achievment.heading} />
                     </div>
                     <div className={styles.cabang_box_content}>
                         <h1>{achievment.heading}</h1>
@@ -151,7 +151,7 @@ export default function Penghargaan() {
                         <div className={styles.overlay_modal} onClick={closeModal}></div>
                         <div className={styles.modal_content}>
                             <span className={styles.close} onClick={closeModal}>&times;</span>
-                            <img src={popupImage} alt="Popup Image" className={styles.popup_image} />
+                            <img src={popupImage} loading="lazy" alt="Popup Image" className={styles.popup_image} />
                         </div>
                     </div>
                 )}

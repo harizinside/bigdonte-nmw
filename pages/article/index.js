@@ -111,7 +111,7 @@ export default function Article() {
                 <>
                     <div className={loadingStyles.box}>
                         <div className={loadingStyles.content}>
-                            <img src="../images/logo.svg"/>
+                            <img src="../images/logo.svg" loading='lazy'/>
                             <span>Loading</span>
                         </div>
                     </div>
@@ -181,7 +181,7 @@ export default function Article() {
           </script>
       </Head>
       <div className={banner.banner}>
-        <img src="images/slimming-treatment.png" alt="Layanan Nmw Aesthetic Clinic"/>
+        <img src="images/slimming-treatment.webp" loading='lazy' alt="Layanan Nmw Aesthetic Clinic"/>
     </div>
     <div className={styles.container}>
         <div className={styles.tabsContainer}>
@@ -203,7 +203,7 @@ export default function Article() {
                             <div className={styles.tabcontent_box} key={article.id}>
                                 <div className={styles.tabcontent_box_img}>
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <img src={article.image} alt={article.title} />
+                                        <img src={article.image} alt={article.title} loading='lazy'/>
                                     </Link>
                                     {tagsList.length > 0 && (
                                         <Link href={`/article/tag/${tagsList[0].trim()}`}>
@@ -266,7 +266,7 @@ export default function Article() {
                                     </Link>
                                 )}
                                 <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                    <img src={article.image} alt={article.title}/>
+                                    <img src={article.image} alt={article.title} loading='lazy'/>
                                 </Link>
                             </div>
                             <div className={styles.article_content}>

@@ -38,7 +38,7 @@ export default function KebijakanPrivasi() {
       name: "NMW Aesthetic Clinic",
       logo: {
           "@type": "ImageObject",
-          url: `${mainUrl}/images/kebijakan-privasi.png`
+          url: `${mainUrl}/images/kebijakan-privasi.webp`
       }
       },
       mainEntityOfPage: {
@@ -75,12 +75,12 @@ export default function KebijakanPrivasi() {
           <meta property="og:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${mainUrl}/kebijakan-privasi`} />
-          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta property="og:image" content={`${mainUrl}/images/kebijakan-privasi.webp`} />
 
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Kebijakan Privasi NMW Aesthetic Clinic" />
           <meta name="twitter:description" content="Berikut kebijakan privasi untuk melakukan akses website NMW Aesthetic Clinic" />
-          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.png`} />
+          <meta name="twitter:image" content={`${mainUrl}/images/kebijakan-privasi.webp`} />
 
           <link rel="canonical" href={`${mainUrl}/kebijakan-privasi`} />
 
@@ -90,8 +90,9 @@ export default function KebijakanPrivasi() {
       </Head>
       <div className={banner.banner}>
         <img
-          src="/images/kebijakan-privasi.png"
+          src="/images/kebijakan-privasi.webp"
           alt="Kebijakan Privasi NMW Aesthetic Clinic"
+          loading="lazy"
         />
       </div>
       <div className={styles.container}>

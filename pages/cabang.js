@@ -102,7 +102,7 @@ export default function Branches() {
             <>
                 <div className={loadingStyles.box}>
                     <div className={loadingStyles.content}>
-                        <img src="../images/logo.svg"/>
+                        <img src="../images/logo.svg" loading="lazy"/>
                         <span>Loading</span>
                     </div>
                 </div>

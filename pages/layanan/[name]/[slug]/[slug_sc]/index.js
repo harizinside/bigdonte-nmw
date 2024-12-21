@@ -193,6 +193,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
           <img
             src={`${storageUrl}/${initialServiceDetail.image}`}
             alt={initialServiceDetail.title || "Banner image"}
+            loading="lazy"
           />
         </div>
 
@@ -267,7 +268,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
               ))
           ) : (
             <div className={styles.empty}>
-                <img src="../../../images/data_empty.png"/>
+                <img src="../../../images/data_empty.webp" loading="lazy"/>
                 <h1>Gambar Segera Hadir</h1>
             </div>
             
@@ -291,14 +292,16 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
         </div>
         <div className={styles.section_4_box}>
           <img
-            src="/images/dokter_layanan.png"
+            src="/images/dokter_layanan.webp"
             alt="Dokter-dokter NMW Aesthetic Clinic"
             className={styles.our_dokter}
+            loading="lazy"
           />
           <img
-            src="/images/nmw_bg.png"
+            src="/images/nmw_bg.webp"
             alt="Background Dokter"
             className={styles.bg_our_dokter}
+            loading="lazy"
           />
           <div className={styles.section_4_content}>
             <p>

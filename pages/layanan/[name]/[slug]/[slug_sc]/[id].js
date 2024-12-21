@@ -85,7 +85,7 @@ export default function Patient() {
     return (
       <div className={loadingStyles.box}>
         <div className={loadingStyles.content}>
-          <img src="/images/logo.svg" alt="Loading logo" />
+          <img src="/images/logo.svg" alt="Loading logo" loading="lazy" />
           <span>Loading...</span>
         </div>
       </div>
@@ -191,6 +191,7 @@ export default function Patient() {
         <img
           src={`${storageUrl}/${serviceDetail.image}`}
           alt={serviceDetail.name || "Banner image"}
+          loading="lazy"
         />
       </div>
 
@@ -277,14 +278,16 @@ export default function Patient() {
         </div>
         <div className={styles.section_4_box}>
           <img
-            src="/images/dokter_layanan.png"
+            src="/images/dokter_layanan.webp"
             alt="Dokter-dokter NMW Aesthetic Clinic"
             className={styles.our_dokter}
+            loading="lazy"
           />
           <img
-            src="/images/nmw_bg.png"
+            src="/images/nmw_bg.webp"
             alt="Background Dokter"
             className={styles.bg_our_dokter}
+            loading="lazy"
           />
           <div className={styles.section_4_content}>
             <p>

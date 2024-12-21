@@ -111,7 +111,7 @@ export default function JenisLayanan() {
         return (
             <div className={loadingStyles.box}>
                 <div className={loadingStyles.content}>
-                    <img src="../../images/logo.svg" alt="Loading" />
+                    <img src="../../images/logo.svg" alt="Loading" loading='lazy' />
                     <span>Loading...</span>
                 </div>
             </div>
@@ -141,6 +141,7 @@ export default function JenisLayanan() {
                 <img
                     src={`${storageUrl}/${serviceDetail.image}`}
                     alt={serviceDetail.name}
+                    loading='lazy'
                 />
             </div>
 
@@ -218,11 +219,13 @@ export default function JenisLayanan() {
                         src="../../images/dokter_layanan.png"
                         alt="Dokter-dokter NMW Aesthetic Clinic"
                         className={styles.our_dokter}
+                        loading='lazy'
                     />
                     <img
                         src="../../images/nmw_bg.png"
                         alt="Background Dokter"
                         className={styles.bg_our_dokter}
+                        loading='lazy'
                     />
                     <div className={styles.section_4_content}>
                         <p>
