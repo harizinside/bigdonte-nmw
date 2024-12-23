@@ -227,10 +227,9 @@ export default function Layanan({
                             <div className={styles.box_galeri_content}>
                                 <div className={styles.box_galeri_heading}>
                                     <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
-                                    <h3>{cleanedDescriptionPatient}</h3>
                                 </div>
                                 <div className={styles.box_galeri_text}>
-                                    <p>{galeriPatient.description || "Deskripsi tidak tersedia"}</p>
+                                    <p>{galeriPatient.description.replace(/<\/?p>/g, "") || "Deskripsi tidak tersedia"}</p>
                                 </div>
                             </div>
 
@@ -271,7 +270,7 @@ export default function Layanan({
                     <div className={styles.box_service_content}>
                     <h1>{typeService.title}</h1>
                     <p className={styles.service_description}>
-                        Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini
+                        {typeService.description.replace(/<\/?p>/g, "")}
                     </p>
                     </div>
                     <div className={styles.box_service_btn}>
@@ -323,7 +322,7 @@ export default function Layanan({
                 <div className={styles.section_4_content}>
                     <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                     <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
-                    <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
+                    <Link href={'/dokter'}><button>Lihat Lebih Lanjut</button></Link>
                 </div>
             </div>
         </div>

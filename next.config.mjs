@@ -1,4 +1,5 @@
 // next.config.mjs
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,6 +10,10 @@ const nextConfig = {
         destination: '/api/sitemap',
       },
     ];
+  },
+  images: {
+    domains: ['nmw.prahwa.net'], // Tambahkan domain tempat gambar di-host
+    formats: ['image/webp'], // Pastikan format modern diaktifkan
   },
 };
 

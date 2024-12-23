@@ -134,15 +134,26 @@
     padding-bottom: 5.7vw;
     margin-top: 5vw;
   }
-  .article_pagination a{
-    font-family: var(--montserrat);
-    font-size: .95vw;
-    text-decoration: none;
-    color: black;
+  .article_pagination button{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: .92vw;
+    letter-spacing: .04vw;
+    font-family: var(--poppins);
+    color: #4C4C4C;
+    cursor: pointer;
   }
-  .active_pagination{
-    font-size: 1.4vw !important;
+  .article_pagination span{
+    font-family: var(--poppins);
+    font-size: .85vw;
+    letter-spacing: .04vw;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .article_pagination button font{
     color: #FF851A !important;
+    font-size: 1.1vw;
     font-weight: 700 !important;
   }
   .article_pagination a svg{
@@ -150,6 +161,7 @@
     font-size: 1.1vw;
     margin-top: .3vw;
   }
+
 
   @media (max-width:768px) {
     .container{
@@ -239,6 +251,33 @@
       }
       .article_pagination a svg{
         font-size: 3.4vw;
+        margin-top: .3vw;
+      }
+      .article_pagination button{
+        background-color: transparent;
+        outline: none;
+        border: none;
+        font-size: 3vw;
+        letter-spacing: .06vw;
+        font-family: var(--poppins);
+        color: #4C4C4C;
+        cursor: pointer;
+      }
+      .article_pagination span{
+        font-family: var(--poppins);
+        font-size: 3vw;
+        letter-spacing: .06vw;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .article_pagination button font{
+        color: #FF851A !important;
+        font-size: 3.4vw;
+        font-weight: 700 !important;
+      }
+      .article_pagination a svg{
+        color: #939393;
+        font-size: 1.1vw;
         margin-top: .3vw;
       }
   }

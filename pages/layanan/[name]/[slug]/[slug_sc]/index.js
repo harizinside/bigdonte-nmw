@@ -161,10 +161,6 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
   ? initialServiceDetail.description.replace(/<\/?p>/g, "")
   : "Deskripsi tidak tersedia.";
 
-  const cleanedDescriptionPatient = galeriPatient.description
-  ? galeriPatient.description.replace(/<\/?p>/g, "")
-  : "Deskripsi tidak tersedia.";
-
   return (
     <>
         <Head>
@@ -252,7 +248,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
                               <h3>{galeriPatient.name || "Nama Tidak Tersedia"}</h3>
                           </div>
                           <div className={styles.box_galeri_text}>
-                              <p>{cleanedDescriptionPatient}</p>
+                              <p>{galeriPatient.description.replace(/<\/?p>/g, "")}</p>
                           </div>
                       </div>
 
@@ -315,7 +311,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
               keahlian untuk memberikan hasil luar biasa sekaligus memastikan
               keselamatan pasien.
             </p>
-            <Link href="/dokter-kami">
+            <Link href="/dokter">
               <button>Lihat Lebih Lanjut</button>
             </Link>
           </div>

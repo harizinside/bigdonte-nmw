@@ -238,7 +238,7 @@ export default function JenisLayanan() {
                             untuk memberikan hasil luar biasa sekaligus memastikan keselamatan
                             pasien.
                         </p>
-                        <Link href="/dokter-kami">
+                        <Link href="/dokter">
                             <button>Lihat Lebih Lanjut</button>
                         </Link>
                     </div>

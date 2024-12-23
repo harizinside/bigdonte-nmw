@@ -20,10 +20,10 @@ export default async function handler(req, res) {
     const staticPages = [
       { url: '/', changefreq: 'weekly', priority: 1.0 },
       { url: '/faq', changefreq: 'monthly', priority: 0.8 },
-      { url: '/dokter-kami', changefreq: 'monthly', priority: 0.8 },
-      { url: '/cabang', changefreq: 'monthly', priority: 0.8 },
-      { url: '/achievment', changefreq: 'monthly', priority: 0.8 },
-      { url: '/catalog', changefreq: 'monthly', priority: 0.8 },
+      { url: '/dokter', changefreq: 'monthly', priority: 0.8 },
+      { url: '/branches', changefreq: 'monthly', priority: 0.8 },
+      { url: '/penghargaan', changefreq: 'monthly', priority: 0.8 },
+      { url: '/katalog', changefreq: 'monthly', priority: 0.8 },
       { url: '/kebijakan-privasi', changefreq: 'monthly', priority: 0.8 },
       { url: '/syarat-ketentuan', changefreq: 'monthly', priority: 0.8 },
     ];

@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
     try {
         // Fetch settings
         const settingsRes = await fetch(`${baseUrl}/setting`);
-        const settingsData = await settingsRes.json();
+        const settingsData = await settingsRes.json(); 
 
         // Fetch service detail
         const serviceDetailRes = await fetch(`${baseUrl}/service_two/${slug}`);
@@ -184,7 +184,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                             <div className={styles.box_service} key={serviceDetailListing.id}>
                                 <div className={styles.box_service_content}>
                                     <h1>{serviceDetailListing.title}</h1>
-                                    <p>{serviceDetailListing.description}</p>
+                                    <p>{serviceDetailListing.description.replace(/<\/?p>/g, "")}</p>
                                 </div>
                                 <div className={styles.box_service_btn}>
                                     <Link href={`/layanan/${name}/${slug}/${serviceDetailListing.slug}`}><button>Lihat Gambar</button></Link>
@@ -232,7 +232,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                         untuk memberikan hasil luar biasa sekaligus memastikan keselamatan
                         pasien.
                     </p>
-                    <Link href="/dokter-kami">
+                    <Link href="/dokter">
                         <button>Lihat Lebih Lanjut</button>
                     </Link>
                 </div>

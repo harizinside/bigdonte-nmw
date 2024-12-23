@@ -243,6 +243,10 @@ export async function getServerSideProps(context) {
         ]
       };
 
+      if (!tos) {
+        return null; // Render null jika `tos` tidak ada.
+      }
+
   return (
     <>
         <Head>
@@ -395,11 +399,11 @@ export async function getServerSideProps(context) {
                                         className={styles.service_description}
                                         dangerouslySetInnerHTML={{
                                             __html:
-                                                tos.description === "-"
-                                                    ? "Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini"
-                                                    : tos.description,
+                                            tos.description && tos.description !== '-'
+                                                ? tos.description
+                                                : 'Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini',
                                         }}
-                                    />
+                                        />
                                     <div className={styles.box_service_btn}>
                                         <Link href={`/jenis-layanan/${tos.slug}`} >
                                             <button>Lihat Detail</button>

@@ -301,7 +301,7 @@ export default function Patient() {
               keahlian untuk memberikan hasil luar biasa sekaligus memastikan
               keselamatan pasien.
             </p>
-            <Link href="/dokter-kami">
+            <Link href="/dokter">
               <button>Lihat Lebih Lanjut</button>
             </Link>
           </div>
