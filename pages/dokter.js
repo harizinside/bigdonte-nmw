@@ -180,17 +180,22 @@ export default function Dokter({ initialPositions, initialDoctors, pagination })
                             <font>Dokter</font> Kami
                         </h1>
                     </div>
-                    <div className={styles.tabs}>
-                        {initialPositions.map((position) => (
-                            <button
-                                key={position}
-                                className={activeTab === position ? styles.activeTab : styles.tab}
-                                onClick={() => handleTabClick(position)}
-                            >
-                                {position}
-                            </button>
-                        ))}
+                    <div
+                        className={`${styles.tabs_container} ${initialPositions.length > 4 ? styles.overflow_x : ''}`}
+                    >
+                        <div className={styles.tabs}>
+                            {initialPositions.map((position) => (
+                                <button
+                                    key={position}
+                                    className={activeTab === position ? styles.activeTab : styles.tab}
+                                    onClick={() => handleTabClick(position)}
+                                >
+                                    {position}
+                                </button>
+                            ))}
+                        </div>
                     </div>
+
                 </div>
                 <div className={styles.tabContent}>
                     <div className={styles.cabang_layout}>

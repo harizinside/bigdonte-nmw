@@ -21,15 +21,49 @@
     grid-template-columns: 33% 67%;
     align-items: flex-end;
 }
+
+.tabs_container{
+    width: 100%;
+    
+}
+.overflow_x{
+    overflow-x: scroll;
+}
+
+
+.overflow_x::-webkit-scrollbar {
+    width: 3px;
+    height: .3vw;
+    border-radius: 1vw;
+  }
+  
+  /* Track */
+  .overflow_x::-webkit-scrollbar-track {
+    
+    background: #cfcfcf;
+    border-radius: 1vw;
+  }
+   
+  /* Handle */
+  .overflow_x::-webkit-scrollbar-thumb {
+    background: #FF851A; 
+    border-radius: 1vw;
+  }
+  
+  /* Handle on hover */
+  .overflow_x::-webkit-scrollbar-thumb:hover {
+    background: #FF851A; 
+  }
 .tabs {
-    display: grid;
+    width: max-content;
+    display: flex;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1.5vw;
     margin-bottom: .8vw;
 }
 
 .tab {
-    padding: .47vw 0;
+    padding: .47vw 2.3vw;
     font-size: .8vw;
     cursor: pointer;
     background-color: transparent;
@@ -37,7 +71,7 @@
     border: .1vw solid #FF851A;
     border-radius: 100vw;
     transition: background-color 0.3s;
-    width: 100%;
+    width: max-content;
     font-family: var(--poppins);
     letter-spacing: .04vw;
     color: #FF851A;
@@ -50,13 +84,13 @@
 }
 
 .activeTab {
-    padding: .47vw 0;
+    padding: .47vw 2.3vw;
     font-size: .8vw;
     cursor: pointer;
     background-color: #FF851A;
     border: none;
     border-radius: 100vw;
-    width: 100%;
+    width: max-content;
     font-family: var(--poppins);
     letter-spacing: .04vw;
     color: #fff;
