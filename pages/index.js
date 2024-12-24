@@ -450,7 +450,7 @@ export default function Home() {
         <div className={styles.section_2_text}>
           <img src="images/about_image.webp" loading="lazy" alt="Tentang NMW Aesthetic Clinic"/>
           <p>Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Nama NMW Skin Care berasal dari pendiri perusahaan dr. Nataliani Mawardi - dengan kata Mawar yang menandakan dan mewakili Mawar yang secara universal disamakan dengan keindahan dan keanggunan, dua nilai inti yang dengan bangga diperjuangkan NMW dan diwakili oleh pelanggan di Indonesia.</p>
-          <Link href={"/cabang"}><button>Lihat Cabang Kami</button></Link>
+          <Link href={"/branches"}><button>Lihat Cabang Kami</button></Link>
         </div>
       </div>
       <div className={styles.section_3}>

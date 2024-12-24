@@ -243,10 +243,6 @@ export async function getServerSideProps(context) {
         ]
       };
 
-      if (!tos) {
-        return null; // Render null jika `tos` tidak ada.
-      }
-
   return (
     <>
         <Head>
@@ -423,7 +419,7 @@ export async function getServerSideProps(context) {
                         <div className={`${styles.article_box} ${styles.doctor_box}`} key={doctor.id}>
                             <div className={`${styles.article_image} ${styles.article_image_product} ${styles.article_image_doctor}`}>
                                 <img
-                                    src={`${doctor.image}`}
+                                    src={`${storageUrl}/${doctor.image}`}
                                     alt={doctor.name}
                                     loading='lazy'
                                 />
