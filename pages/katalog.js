@@ -161,7 +161,7 @@ export default function Katalog() {
             <div className={styles.section_4_content}>
                 <p>Dokter NMW Aesthetic Clinic adalah dokter terpilih, terlatih secara profesional, dan terpercaya untuk melakukanbedah plastik, dermatologi, spesialis kulit dan kelamin dan perawatan kulit ekstetika.</p>
                 <p>Dokter kami telah menjalani pelatihan ekstensif dan memiliki keahlian untuk memberikan hasil luar biasa sekaligus memastikan keselamatan pasien.</p>
-                <Link href={'/dokter'}><button>Lihat Lebih Lanjut</button></Link>
+                <Link href={'/dokter-kami'}><button>Lihat Lebih Lanjut</button></Link>
             </div>
             </div>
         </div>

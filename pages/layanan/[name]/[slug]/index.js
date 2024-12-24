@@ -232,7 +232,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                         untuk memberikan hasil luar biasa sekaligus memastikan keselamatan
                         pasien.
                     </p>
-                    <Link href="/dokter">
+                    <Link href="/dokter-kami">
                         <button>Lihat Lebih Lanjut</button>
                     </Link>
                 </div>

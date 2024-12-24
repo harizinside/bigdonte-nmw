@@ -311,7 +311,7 @@ export default function DokterKami() {
                             paginatedDoctors.map((doctor) => (
                                 <div key={doctor.id} className={styles.cabang_box}>
                                     <div className={styles.cabang_box_image}>
-                                        <img src={doctor.image} alt={doctor.name} loading="lazy"/>
+                                        <img src={`${storageUrl}/${doctor.image}`} alt={doctor.name} loading="lazy"/>
                                     </div>
                                     <div className={styles.cabang_box_content}>
                                         <h1>

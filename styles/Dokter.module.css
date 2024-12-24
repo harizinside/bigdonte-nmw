@@ -178,6 +178,18 @@
     color: #4C4C4C;
     cursor: pointer;
   }
+  .article_pagination a{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: .92vw;
+    letter-spacing: .04vw;
+    font-family: var(--montserrat);
+    color: #4C4C4C;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
   .article_pagination span{
     font-family: var(--poppins);
     font-size: .85vw;
@@ -194,6 +206,10 @@
     color: #939393;
     font-size: 1.1vw;
     margin-top: .3vw;
+  }
+  .active_pagination{
+    color: #FF851A !important;
+    font-weight: 700;
   }
 
 

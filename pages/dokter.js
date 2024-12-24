@@ -15,7 +15,8 @@ export async function getServerSideProps() {
         // Initialize positions with their respective data counts
         const positionsWithCounts = await Promise.all(
             positionsData.map(async (item) => {
-                const res = await fetch(`${baseUrl}/position?position=${encodeURIComponent(item.position)}`);
+                const perPage = 8;
+                const res = await fetch(`${baseUrl}/position?position=${encodeURIComponent(item.position)}&per_page=${perPage}`);
                 const data = await res.json();
                 return { position: item.position, count: data.length };
             })
@@ -29,6 +30,8 @@ export async function getServerSideProps() {
         const perPage = 8;
         const response = await fetch(`${baseUrl}/doctor?page=${page}&per_page=${perPage}`);
         const doctorsData = await response.json();
+
+        console.log("data", doctorsData)
 
         return {
             props: {
