@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 import loadingStyles from "@/styles/Loading.module.css";
 import Head from 'next/head';
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
     const { name } = context.query;
@@ -174,7 +175,7 @@ export default function Layanan({
           </script>
       </Head>
         <div className={banner.banner}>
-            <img src={`${storageUrl}/${serviceDetail.image}`} loading='lazy' alt={serviceDetail.name} />
+            <Image priority width={500} height={500} src={`${storageUrl}/${serviceDetail.image}`} alt={serviceDetail.name} />
         </div>
         <div className={styles.section_1}>
             <div className={styles.section_1_heading}>
@@ -234,13 +235,13 @@ export default function Layanan({
                             </div>
 
                             {/* Button Section */}
-                            <div className={styles.box_galeri_button}>
+                            {/* <div className={styles.box_galeri_button}>
                                 <Link href={`/layanan/plastic-surgery/${encodeURIComponent(subTwoServices.title.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(relatedSubService.title.replace(/\s+/g, '-').toLowerCase())}/${galeriPatient.id}`}>
                                     <button type="button">
                                         Lihat Gambar {galeriPatient.name || "Galeri"}
                                     </button>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     );
                 })}

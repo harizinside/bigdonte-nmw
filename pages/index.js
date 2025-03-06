@@ -13,6 +13,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Head from "next/head";
 import { Pagination, Autoplay } from 'swiper/modules';
+import Image from "next/image";
 
 export default function Home() {
   const [firstSwiper, setFirstSwiper] = useState(null);
@@ -391,10 +392,12 @@ export default function Home() {
                                         </Link>
                                     </div>
                                     <div className={styles.box_service_image}>
-                                        <img
+                                        <Image
+                                            width={700}
+                                            height={700}
+                                            priority
                                             src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
                                             alt={service.name}
-                                            loading="lazy"
                                         />
                                     </div>
                                 </div>
@@ -428,11 +431,13 @@ export default function Home() {
                                         </Link>
                                     </div>
                                     <div className={styles.box_service_image}>
-                                        <img
+                                        <Image
+                                            width={500}
+                                            height={500}
                                             src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
                                                 "Loading..."}`}
                                             alt={service.name}
-                                            loading="lazy"
+                                            priority
                                         />
                                     </div>
                                 </div>
@@ -443,12 +448,15 @@ export default function Home() {
             </div>
             )}
       </div>
+      <h1 className={styles.heading_hide}>Selamat Datang di Website NMW Aesthetic Clinic</h1>
       <div className={styles.section_2}>
         <div className={styles.heading_section}>
           <h2><font>Tentang</font> Kami</h2>
         </div>
         <div className={styles.section_2_text}>
-          <img src="images/about_image.webp" loading="lazy" alt="Tentang NMW Aesthetic Clinic"/>
+          <div className={styles.section_2_img}>
+            <Image width={700} height={700} src="/images/about_image.webp" priority alt="Tentang NMW Aesthetic Clinic"/>
+          </div>
           <p>Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Nama NMW Skin Care berasal dari pendiri perusahaan dr. Nataliani Mawardi - dengan kata Mawar yang menandakan dan mewakili Mawar yang secara universal disamakan dengan keindahan dan keanggunan, dua nilai inti yang dengan bangga diperjuangkan NMW dan diwakili oleh pelanggan di Indonesia.</p>
           <Link href={"/branches"}><button>Lihat Cabang Kami</button></Link>
         </div>
@@ -507,7 +515,7 @@ export default function Home() {
                         </Link>
                     )}
                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                      <img src={article.image} loading="lazy" alt={article.title}/>
+                      <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                     </Link>
                   </div>
                   <div className={styles.article_content}>
@@ -529,19 +537,19 @@ export default function Home() {
           <div className={styles.section_5_layout}>
             <h4>Metode Pembayaran</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/logo_payment.webp" loading="lazy" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
+              <Image width={700} height={700} style={{ height: "auto", width: "100%" }} src="/images/logo_payment.webp" priority alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Bank Transfer</h4>
             <div className={styles.section_5_logo}>
-              <img src="images/bank_transfer.webp" loading="lazy" alt="Metode Pembayaran NMW Aesthetic Clinic"/>
+              <Image width={700} height={700} style={{ height: "auto", width: "100%" }} src="/images/bank_transfer.webp" priority alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
           <div className={styles.section_5_layout}>
             <h4>Terdaftar dan diawasi oleh</h4>
             <div className={`${styles.section_5_logo} ${styles.section_5_logo_small}`}>
-              <img src="images/legality.webp" loading="lazy" alt="Legalitas NMW Aesthetic Clinic"/>
+              <Image width={700} height={700} style={{ height: "auto", width: "32%" }} priority src="/images/legality.webp" alt="Legalitas NMW Aesthetic Clinic"/>
             </div>
           </div>
         </div>
