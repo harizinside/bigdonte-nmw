@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import banner from "@/styles/Banner.module.css";
 import styles from "@/styles/Layanan.module.css";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
 import loadingStyles from "@/styles/Loading.module.css";
@@ -177,10 +178,13 @@ export default function Layanan({
         <div className={banner.banner}>
             <Image priority width={500} height={500} src={`${storageUrl}/${serviceDetail.image}`} alt={serviceDetail.name} />
         </div>
+        <div className={breadcrumb.breadcrumb}>
+            <h5><Link href={'/'}>Home</Link> / Layanan / <span><Link href={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`}>{serviceDetail.name}</Link></span></h5>
+        </div>
         <div className={styles.section_1}>
             <div className={styles.section_1_heading}>
                 <h1>
-                    <font>{serviceDetail.name.split(' ')[0]} </font> 
+                    <span>{serviceDetail.name.split(' ')[0]} </span> 
                     {serviceDetail.name.split(' ').slice(1).join(' ')}
                 </h1>
 
@@ -188,15 +192,15 @@ export default function Layanan({
             </div>
             <div className={styles.section_1_content}>
                 <div className={styles.service_description} dangerouslySetInnerHTML={{ __html: serviceDetail.description }} />
-            </div>
+            </div> 
         </div>
 
         {galeriPatients.length > 0 && (
             <div className={styles.section_2}>
                 <div className={styles.heading_section}>
-                    <h1>
-                        <font>Galeri</font> Bedah Plastik
-                    </h1>
+                    <h2>
+                        <span>Galeri</span> Bedah Plastik
+                    </h2>
                 </div>
                 <div className={styles.box_galeri_layout}>
                 {galeriPatients.map((galeriPatient) => {
@@ -227,7 +231,7 @@ export default function Layanan({
                             {/* Content Section */}
                             <div className={styles.box_galeri_content}>
                                 <div className={styles.box_galeri_heading}>
-                                    <h1>{relatedSubService?.title || "Judul Tidak Tersedia"}</h1>
+                                    <h3>{relatedSubService?.title || "Judul Tidak Tersedia"}</h3>
                                 </div>
                                 <div className={styles.box_galeri_text}>
                                     <p>{galeriPatient.description.replace(/<\/?p>/g, "") || "Deskripsi tidak tersedia"}</p>
@@ -253,9 +257,9 @@ export default function Layanan({
         {typeServices?.services?.length > 0 && (
         <div className={styles.section_3}>
             <div className={styles.heading_section}>
-            <h1>
-                <font>Jenis</font> Layanan
-            </h1>
+            <h2>
+                <span>Jenis</span> Layanan
+            </h2>
             </div>
 
             {typeServices.template === "2" && (
@@ -269,7 +273,7 @@ export default function Layanan({
                     />
                     </div>
                     <div className={styles.box_service_content}>
-                    <h1>{typeService.title}</h1>
+                    <h3>{typeService.title}</h3>
                     <p className={styles.service_description}>
                         {typeService.description.replace(/<\/?p>/g, "")}
                     </p>
@@ -289,18 +293,18 @@ export default function Layanan({
                 {typeServices.services.map((typeService) => (
                 <Link href={`/layanan/${name}/${typeService.slug}`} key={typeService.id}>
                     <div className={styles.box_galeri}>
-                    <div className={styles.box_galeri_image}>
-                        <div className={styles.box_galeri_overlay}></div>
-                        <img
-                        src={`${storageUrl}/${typeService.image}`}
-                        alt={typeService.title} loading='lazy'
-                        />
-                        <div
-                        className={`${styles.button_image} ${styles.button_image_sc}`}
-                        >
-                        <button>{typeService.title}</button>
+                        <div className={styles.box_galeri_image}>
+                            <div className={styles.box_galeri_overlay}></div>
+                            <img
+                            src={`${storageUrl}/${typeService.image}`}
+                            alt={typeService.title} loading='lazy'
+                            />
+                            <div
+                            className={`${styles.button_image} ${styles.button_image_sc}`}
+                            >
+                            <button>{typeService.title}</button>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </Link>
                 ))}
@@ -314,7 +318,7 @@ export default function Layanan({
         <div className={styles.section_4}>
             <div className={styles.heading_section_4}>
             <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                <h1><font>Dokter</font> Kami</h1>
+                <h2><span>Dokter</span> Kami</h2>
             </div>
             </div>
             <div className={styles.section_4_box}>

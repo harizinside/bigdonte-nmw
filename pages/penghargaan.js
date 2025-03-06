@@ -3,6 +3,9 @@ import styles from "@/styles/Award.module.css"
 import { useState, useEffect } from 'react';
 import Head from "next/head";
 import not from "@/styles/Not.module.css";
+import Image from "next/image";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Link from "next/link";
 
 export default function Penghargaan() {
   const [achievments, setAchievments] = useState([]);
@@ -119,11 +122,15 @@ export default function Penghargaan() {
           </script>
       </Head>
       <div className={banner.banner}>
-            <img src="images/banner_award.webp" alt="Layanan Nmw Aesthetic Clinic" loading="lazy"/>
+            <Image priority width={800} height={800} src="/images/banner_award.webp" alt="Layanan Nmw Aesthetic Clinic"/>
         </div>
+        <div className={breadcrumb.breadcrumb}>
+            <h5><Link href={'/'}>Home</Link> / <span><Link href={'/penghargaan'}>Penghargaan</Link></span></h5>
+        </div>
+        <h1 className={styles.heading_hide}>Selamat Datang di Halaman Penghargaan Pada Website NMW Aesthetic Clinic</h1>
         <div className={styles.container}>
             <div className={`${styles.heading_section}`}>
-                <h1><font>Penghargaan</font> Kami</h1>
+                <h2><font>Penghargaan</font> Kami</h2>
             </div>
             <div className={styles.cabang_layout}>
                 {achievments.map(achievment => (
@@ -132,10 +139,10 @@ export default function Penghargaan() {
                         className={styles.cabang_box_image} 
                         onClick={() => handleImageClick(`${storageUrl}/${achievment.image}`)}
                         >
-                        <img src={`${storageUrl}/${achievment.image}`} loading="lazy" alt={achievment.heading} />
+                        <Image priority width={500} height={500} src={`${storageUrl}/${achievment.image}`} alt={achievment.heading} />
                     </div>
                     <div className={styles.cabang_box_content}>
-                        <h1>{achievment.heading}</h1>
+                        <h3>{achievment.heading}</h3>
                         <div className={styles.cabang_box_text}>
                         <div 
                             dangerouslySetInnerHTML={{ __html: achievment.description }} 
@@ -151,7 +158,7 @@ export default function Penghargaan() {
                         <div className={styles.overlay_modal} onClick={closeModal}></div>
                         <div className={styles.modal_content}>
                             <span className={styles.close} onClick={closeModal}>&times;</span>
-                            <img src={popupImage} loading="lazy" alt="Popup Image" className={styles.popup_image} />
+                            <Image priority width={900} height={900} src={popupImage} alt="Popup Image" className={styles.popup_image} />
                         </div>
                     </div>
                 )}

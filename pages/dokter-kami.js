@@ -5,6 +5,8 @@ import Link from "next/link";
 import { HiArrowLongRight } from "react-icons/hi2";
 import loadingStyles from "@/styles/Loading.module.css";
 import Head from "next/head";
+import Image from "next/image";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export default function DokterKami() {
     const [doctors, setDoctors] = useState([]);
@@ -269,14 +271,18 @@ export default function DokterKami() {
             </Head>
 
             <div className={banner.banner}>
-                <img src="/images/dokter_banner.webp" loading="lazy" alt="Layanan NMW Aesthetic Clinic" />
+                <Image priority width={900} height={900} src="/images/dokter_banner.webp" alt="Layanan NMW Aesthetic Clinic" />
             </div>
+            <div className={breadcrumb.breadcrumb}>
+                <h5><Link href={'/'}>Home</Link> / <span><Link href={'/dokter-kami'}>Dokter Kami</Link></span></h5>
+            </div>
+            <h1 className={styles.heading_hide}>Selamat Datang di Halaman Dokter Pada Website NMW Aesthetic Clinic</h1>
             <div className={styles.container}>
                 <div className={styles.dokter_heading}>
                     <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                        <h1>
+                        <h2>
                             <font>Dokter</font> Kami
-                        </h1>
+                        </h2>
                     </div>
                     <div className={styles.tabs}>
                         <button
@@ -311,14 +317,14 @@ export default function DokterKami() {
                             paginatedDoctors.map((doctor) => (
                                 <div key={doctor.id} className={styles.cabang_box}>
                                     <div className={styles.cabang_box_image}>
-                                        <img src={`${storageUrl}/${doctor.image}`} alt={doctor.name} loading="lazy"/>
+                                        <Image width={800} height={800} priority src={`${storageUrl}/${doctor.image}`} alt={doctor.name}/>
                                     </div>
                                     <div className={styles.cabang_box_content}>
-                                        <h1>
+                                        <h3>
                                             dr. 
-                                            <font> {doctor.name.split(' ')[1]} </font>
+                                            <span> {doctor.name.split(' ')[1]} </span>
                                             {doctor.name.split(' ').slice(2).join(' ')}
-                                        </h1>
+                                        </h3>
                                         <span>{doctor.position}</span>
                                     </div>
                                 </div>

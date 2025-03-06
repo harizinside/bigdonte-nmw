@@ -6,6 +6,7 @@ import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export default function Branches() {
   const [branchs, setBranchs] = useState([]);
@@ -76,7 +77,7 @@ export default function Branches() {
         },
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${mainUrl}/cabang`
+          "@id": `${mainUrl}/branches`
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -91,7 +92,7 @@ export default function Branches() {
                 "@type": "ListItem",
                     position: 2,
                     name: "Cabang",
-                    item: `${mainUrl}/cabang`
+                    item: `${mainUrl}/branches`
                 }
             ]
         }
@@ -124,9 +125,13 @@ export default function Branches() {
             <div className={banner.banner}>
                 <img src="/images/cabang-banner.webp" loading="lazy" alt="Layanan Nmw Aesthetic Clinic"/>
             </div>
+            <h1 className={styles.heading_hide}>Selamat Datang di Halaman Cabang Pada Website NMW Aesthetic Clinic</h1>
+            <div className={breadcrumb.breadcrumb}>
+                <h5><Link href={'/'}>Home</Link> / <span>Cabang Kami</span> </h5>
+            </div>
             <div className={styles.container}>
                 <div className={`${styles.heading_section}`}>
-                    <h1><font>Cabang</font> Kami</h1>
+                    <h2><span>Cabang</span> Kami</h2>
                 </div>
                 <div className={styles.cabang_layout}>
                     {branchs.map(branch => (
@@ -135,19 +140,19 @@ export default function Branches() {
                                 <img src={branch.image} loading="lazy" alt={branch.name}/>
                             </div>
                             <div className={styles.cabang_box_content}>
-                                <h1>{branch.name}</h1>
+                                <h3>{branch.name}</h3>
                                 <div className={styles.cabang_box_text}>
                                     <div className={styles.cabang_box_detail}>
-                                        <h3>Alamat</h3>
+                                        <h4>Alamat</h4>
                                         <p>{branch.address.replace(/<\/?p>/g, '')}</p>
                                     </div>
                                     <div className={styles.cabang_box_detail}>
-                                        <h3>Operasional</h3>
+                                        <h4>Operasional</h4>
                                         <p>{branch.operasional[0]}</p>
                                         <p>{branch.operasional[1]}</p>
                                     </div>
                                     <div className={styles.cabang_box_detail}>
-                                        <h3>Telepon</h3>
+                                        <h4>Telepon</h4>
                                         <p>{branch.phone}</p>
                                     </div>
                                 </div>

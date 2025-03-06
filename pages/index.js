@@ -263,12 +263,10 @@ export default function Home() {
     }
   };
 
-  
-
   return (
     <>
       <Head>
-          <title>Official NMW - Klinik Aesthetic, Skincare, Dermatologi Jakarta</title>
+          <title>Official NMW - Klinik Aesthetic & Dermatologi Jakarta</title>
           <meta name="description" content="NMW Adalah merek Aesthetic, Skincare, Dermatology and Wellness Clinic yang berbasis di Jakarta, Indonesia. Jam Operasional Klinik 09:00 - 20:00" />
           <meta name="keywords" content="klinik kesehatan, layanan medis, konsultasi kesehatan, NMW Clinic, perawatan medis, bedah plastik" />
           
@@ -324,7 +322,7 @@ export default function Home() {
       )}
       <div className={styles.section_1}>
           <div className={styles.heading_section}>
-              <h2><font>Layanan</font> Kami</h2>
+              <h2><span>Layanan</span> Kami</h2>
           </div>
           {isLoading ? (
             
@@ -382,7 +380,7 @@ export default function Home() {
                             <div className={styles.box_service_layout}>
                                 <div className={`${styles.box_service}`}>
                                     <div className={styles.box_service_content}>
-                                        <h1>{service.name}</h1>
+                                        <h3>{service.name}</h3>
                                         <p>
                                           {serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '')}
                                         </p>
@@ -421,7 +419,7 @@ export default function Home() {
                             >
                                 <div className={`${styles.box_service} ${styles.box_service_second}`}>
                                     <div className={styles.box_service_content}>
-                                        <h1>{serviceDetails[service.id]?.name || service.name}</h1>
+                                        <h3>{serviceDetails[service.id]?.name || service.name}</h3>
                                         <p>
                                           {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
                                         </p>
@@ -451,7 +449,7 @@ export default function Home() {
       <h1 className={styles.heading_hide}>Selamat Datang di Website NMW Aesthetic Clinic</h1>
       <div className={styles.section_2}>
         <div className={styles.heading_section}>
-          <h2><font>Tentang</font> Kami</h2>
+          <h2><span>Tentang</span> Kami</h2>
         </div>
         <div className={styles.section_2_text}>
           <div className={styles.section_2_img}>
@@ -464,7 +462,7 @@ export default function Home() {
       <div className={styles.section_3}>
         <div className={styles.heading_section_3}>
           <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h2><font>Pendiri</font></h2>
+            <h2><span>Pendiri</span></h2>
             <p>dr. Nataliani Mawardi, dipl. CIBTAC</p>
           </div>
         </div>
@@ -484,7 +482,7 @@ export default function Home() {
       <div className={styles.section_4}>
         <div className={styles.heading_section_4}>
           <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h2><font>Dokter</font> Kami</h2>
+            <h2><span>Dokter</span> Kami</h2>
           </div>
         </div>
         <div className={styles.section_4_box}>
@@ -500,7 +498,7 @@ export default function Home() {
       </div>
       <div className={styles.article_section}>
           <div className={`${styles.heading_section}`}>
-            <h2><font>Artikel</font></h2>
+            <h2><span>Artikel</span></h2>
           </div>
           <div className={styles.article_layout}>
             {articles.map(article => {
@@ -521,7 +519,7 @@ export default function Home() {
                   <div className={styles.article_content}>
                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                       <div className={styles.article_heading}>
-                        <h1>{article.title}</h1>
+                        <h3>{article.title}</h3>
                       </div>
                     </Link>
                     <span>Admin, {article.date}</span>

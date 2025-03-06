@@ -2,6 +2,9 @@ import banner from "@/styles/Banner.module.css";
 import styles from "@/styles/Kebijakan.module.css";
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Link from "next/link";
 
 export default function SyaratKetentuan() {
   const [kebijakans, setKebijakans] = useState([]); 
@@ -88,17 +91,20 @@ export default function SyaratKetentuan() {
           </script>
       </Head>
       <div className={banner.banner}>
-        <img
+        <Image priority width={800} height={800}
           src="/images/term-condition.webp"
           alt="Kebijakan Privasi NMW Aesthetic Clinic"
-          loading="lazy"
         />
       </div>
+      <div className={breadcrumb.breadcrumb}>
+          <h5><Link href={'/'}>Home</Link> / <span><Link href={'/syarat-ketentuan'}>Syarat Ketentuan</Link></span></h5>
+      </div>
+      <h1 className={styles.heading_hide}>Selamat Datang di Halaman Kebijakan Privasi Pada Website NMW Aesthetic Clinic</h1>
       <div className={styles.container}>
         <div className={`${styles.heading_section}`}>
-          <h1>
-            <font>Syarat</font> & Ketentuan
-          </h1>
+          <h2>
+            <span>Syarat</span> & Ketentuan
+          </h2>
         </div>
         <div className={styles.kebijakan_layout}>
           {kebijakans.map((item, index) => (

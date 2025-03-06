@@ -9,12 +9,19 @@
 .heading_section_start{
     text-align: start;
 }
-.heading_section h1{
+.heading_hide {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+.heading_section h2{
     font-family: var(--fairplay);
     color: #5A5A5A;
     font-size: 2.93vw;
 }
-.heading_section h1 font{
+.heading_section h2 span{
     color: #FF851A;
 }
 .cabang_layout{
@@ -49,7 +56,7 @@
     flex-direction: column;
     gap: 1vw;
 }
-.cabang_box_content h1{
+.cabang_box_content h3{
     font-family: var(--montserrat);
     letter-spacing: .04vw;
     font-size: 1.4vw;
@@ -67,7 +74,7 @@
     flex-direction: column;
     gap: .26vw;
 }
-.cabang_box_detail h3{
+.cabang_box_detail h4{
     font-family: var(--montserrat);
     font-size: .82vw;
     letter-spacing: .03vw;
@@ -144,7 +151,7 @@
     .container{
         padding: 6vw 4vw;
     }
-    .heading_section h1{
+    .heading_section h2{
         font-size: 6.5vw;
     }
     .cabang_layout{
@@ -162,7 +169,7 @@
         border-radius: 3vw;
         gap: 2vw;
     }
-    .cabang_box_content h1{
+    .cabang_box_content h3{
         letter-spacing: .07vw;
         font-size: 3vw;
     }
@@ -172,7 +179,7 @@
     .cabang_box_detail{
         gap: 1.5vw;
     }
-    .cabang_box_detail h3{
+    .cabang_box_detail h4{
         font-size: 2.7vw;
         letter-spacing: .06vw;
     }

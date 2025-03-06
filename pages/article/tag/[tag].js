@@ -6,6 +6,7 @@ import { HiArrowLongRight } from "react-icons/hi2";
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import loadingStyles from "@/styles/Loading.module.css";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export async function getServerSideProps(context) {
     const { tag } = context.query;
@@ -137,9 +138,13 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                     {JSON.stringify(schemaData)}
                 </script>
             </Head>
+            <div className={breadcrumb.breadcrumb}>
+                <h5><Link href={'/'}>Home</Link> / <Link href={'/artikel'}>Artikel</Link> / Tag / <span className={styles.tag_heading}><Link href={`${mainUrl}/article/tag/${tag || ''}`}>{tag}</Link></span></h5>
+            </div>
             <div className={styles.article_section}>
+                
                 <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                    <h1>Artikel dengan tag <font className={styles.tag_heading}>{tag}</font></h1>
+                    <h2>Artikel dengan tag <span className={styles.tag_heading}>{tag}</span></h2>
                 </div>
                 <div className={styles.article_container}>
                     <div className={styles.article_layout}>
@@ -161,7 +166,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                                         <div className={styles.article_content}>
                                             <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <div className={styles.article_heading}>
-                                                    <h1>{article.title}</h1>
+                                                    <h3>{article.title}</h3>
                                                 </div>
                                             </Link>
                                             <span>Admin, {article.date}</span>

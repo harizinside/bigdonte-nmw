@@ -136,19 +136,19 @@ export default function Patient() {
           {
             "@type": "ListItem",
             position: 3,
-            name: `${name}`,
+            name: `${formattedName}`,
             item:  `${mainUrl}/layanan/${name}`
           },
           {
             "@type": "ListItem",
             position: 4,
-            name: `${slug}`,
+            name: `${formattedSlug}`,
             item: `${mainUrl}/layanan/${name}/${slug}`
           },
           {
             "@type": "ListItem",
             position: 5,
-            name: `${slug_sc}`,
+            name: `${formattedSlugSc}`,
             item: `${mainUrl}/layanan/${name}/${slug}/${slug_sc}`
           },
           {
@@ -160,6 +160,14 @@ export default function Patient() {
         ]
       }
   };
+
+  function formatText(text) {
+    return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
+            .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
+  }
+  const formattedName = formatText(name);
+  const formattedSlug = formatText(slug);
+  const formattedSlugSc = formatText(slug_sc);
 
   return (
     <>

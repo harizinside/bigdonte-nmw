@@ -2,18 +2,25 @@
     width: 100%;
     padding: 2.6vw 13.45vw;
 }
+.heading_hide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
 .heading_section{
     text-align: center;
 }
 .heading_section_start{
     text-align: start;
 } 
-.heading_section h1{
+.heading_section h2{
     font-family: var(--fairplay);
     color: #5A5A5A;
     font-size: 2.93vw;
 }
-.heading_section h1 font{
+.heading_section h2 span{
     color: #FF851A;
 }
 
@@ -79,7 +86,7 @@
 .tag_heading{
   text-transform: capitalize;
 }
-.heading_sidebar h1{
+.heading_sidebar h2{
     font-size: 1.6vw;
     font-family: var(--montserrat);
     color: #5A5A5A;
@@ -159,7 +166,7 @@
 .tabcontent_box_text a{
   text-decoration: none;
 }
-.tabcontent_box_text h1{
+.tabcontent_box_text h3{
     font-family: var(--montserrat);
     font-size: 1.36vw;
     color: #4C4C4C;
@@ -168,7 +175,7 @@
     font-weight: 600;
     margin-bottom: .1vw;
 }
-.tabcontent_box:hover .tabcontent_box_text h1{
+.tabcontent_box:hover .tabcontent_box_text h3{
   color: #FF851A;
 }
 .tabcontent_box_text span{
@@ -243,7 +250,7 @@
     height: 2.5vw;
     margin-bottom: 1.32vw;
   }
-  .article_heading h1{
+  .article_heading h3{
     font-size: .95vw;
     font-family: var(--montserrat);
     letter-spacing: .03vw;
@@ -256,7 +263,7 @@
     text-overflow: ellipsis;
     transition: .4s all;
   }
-  .article_box:hover .article_heading h1{
+  .article_box:hover .article_heading h3{
     color: #FF851A;
   }
   .article_content{
@@ -343,8 +350,8 @@
     -webkit-box-orient: vertical;   /* Mengatur orientasi box menjadi vertikal */
     overflow: hidden;               /* Menyembunyikan konten yang melebihi batas */
     -webkit-line-clamp: 3;          /* Membatasi teks hanya sampai 3 baris */
-    line-height: 1.5em;             /* Menentukan jarak antar baris */
-    max-height: 4.5em;              
+    line-height: 1.5;             /* Menentukan jarak antar baris */
+    max-height: 4.8vw;              
   }
 
   .article_pagination button{
@@ -359,6 +366,14 @@
   }
 
 @media (max-width:768px) {
+  .description{
+    display: -webkit-box;           /* Membuat elemen menjadi flexbox yang berorientasi vertikal */
+    -webkit-box-orient: vertical;   /* Mengatur orientasi box menjadi vertikal */
+    overflow: hidden;               /* Menyembunyikan konten yang melebihi batas */
+    -webkit-line-clamp: 3;          /* Membatasi teks hanya sampai 3 baris */
+    line-height: 1.5;             /* Menentukan jarak antar baris */
+    max-height: 18vw;              
+  }
   .article_pagination button{
     background-color: transparent;
     outline: none;
@@ -373,7 +388,7 @@
   .container{
     padding: 9vw 4vw;
   }
-  .heading_section h1{
+  .heading_section h2{
     font-size: 6.5vw;
   }
   .tabsContainer {
@@ -408,7 +423,7 @@
     display: grid;
     grid-template-columns: 100%;
   }
-  .heading_sidebar h1{
+  .heading_sidebar h2{
     display: none;
   }
   .tabcontent_section{
@@ -427,7 +442,7 @@
     font-size: 2.3vw;
     padding: .6vw 2.3vw;
   }
-  .tabcontent_box_text h1{
+  .tabcontent_box_text h3{
     font-size: 3.7vw;
     letter-spacing: .07vw;
     margin-bottom: 1vw;
@@ -484,7 +499,7 @@
     height: max-content;
     margin-bottom: 2vw;
   }
-  .article_heading h1{
+  .article_heading h3{
     font-size: 3.1vw;
   }
   .article_content span{

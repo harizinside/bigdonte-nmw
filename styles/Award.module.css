@@ -3,18 +3,25 @@
     padding: 2.7vw 13.45vw;
     padding-bottom: 8vw;
 }
+.heading_hide {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
 .heading_section{
     text-align: center;
 }
 .heading_section_start{
     text-align: start;
 }
-.heading_section h1{
+.heading_section h2{
     font-family: var(--fairplay);
     color: #5A5A5A;
     font-size: 2.93vw;
 }
-.heading_section h1 font{
+.heading_section h2 font{
     color: #FF851A;
 }
 .cabang_layout{
@@ -46,7 +53,7 @@
     flex-direction: column;
     gap: .4vw;
 }
-.cabang_box_content h1{
+.cabang_box_content h3{
     font-family: var(--montserrat);
     letter-spacing: .03vw;
     font-size: .9vw;
@@ -195,7 +202,7 @@
     .container{
         padding: 6vw 4vw;
     }
-    .heading_section h1{
+    .heading_section h2{
         font-size: 6.5vw;
     }
     .cabang_layout{
@@ -220,7 +227,7 @@
         border-radius: 0;
         gap: 1vw;
     }
-    .cabang_box_content h1{
+    .cabang_box_content h3{
         letter-spacing: .07vw;
         font-size: 3.6vw;
     }

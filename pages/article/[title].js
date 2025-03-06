@@ -9,6 +9,8 @@ import loadingStyles from "@/styles/Loading.module.css";
 import not from "@/styles/Not.module.css";
 import Link from 'next/link';
 import Head from 'next/head';
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from 'next/image';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -118,13 +120,13 @@ export async function getServerSideProps(context) {
                 <>
                     <div className={not.box}>
                         <div className={not.content}>
-                            <img src="../images/not-found.webp" alt='Artikel Tidak Ditemukan' loading='lazy'/>
+                            <img src="../images/not-found.webp" alt='Artikel Tidak Ditemukan'/>
                             <span>Artikel Tidak Ditemukan</span>
                         </div>
                     </div>
                     <div className={stylesAll.article_section}>
                         <div className={`${stylesAll.heading_section} ${stylesAll.heading_section_start}`}>
-                            <h1><font>Artikel</font> Lain</h1>
+                            <h2><span>Artikel</span> Lain</h2>
                         </div>
                         <div className={stylesAll.article_container}>
                             <div className={stylesAll.article_layout}>
@@ -140,13 +142,13 @@ export async function getServerSideProps(context) {
                                                 </Link>
                                             )}
                                             <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                                <img src={article.image} alt={article.title} loading='lazy'/>
+                                                <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                                             </Link>
                                         </div>
                                         <div className={stylesAll.article_content}>
                                             <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                                 <div className={stylesAll.article_heading}>
-                                                    <h1>{article.title}</h1>
+                                                    <h3>{article.title}</h3>
                                                 </div>
                                             </Link>
                                             <span>Admin, {article.date}</span>
@@ -188,11 +190,13 @@ export async function getServerSideProps(context) {
     ? cleanDescription.substring(0, 100) + "..." 
     : cleanDescription;
 
+    const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
+
     const articleSchema = {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: `${articleDetail.title ? `${articleDetail.title}` : `Artikel NMW Aesthetic Clinic`} - NMW Aesthetic Clinic`,
-        description: `${articleDetail.description}`,
+        description: `${plainText}`,
         url: `${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`,
         publisher: {
           "@type": "Organization",
@@ -264,15 +268,18 @@ export async function getServerSideProps(context) {
           <link rel="canonical" href={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`} />
 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </Head>
       <div className={banner.banner}>
-            <img src={articleDetail.image} alt={articleDetail.title} loading='lazy'/> 
+            <Image priority width={900} height={900} src={articleDetail.image} alt={articleDetail.title}/> 
             {articleDetail.image_source ? (
                 <div className={banner.image_source}>
                     <Link href={articleDetail.image_source} target="_blank">{articleDetail.image_source_name}</Link>
                 </div>
             ) : null }
+        </div>
+        <div className={breadcrumb.breadcrumb}>
+            <h5><Link href={'/'}>Home</Link> / <Link href={'/artikel'}>Artikel</Link> / <span><Link href={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}>{articleDetail.title}</Link></span></h5>
         </div>
         <div className={styles.container}>
             <div className={styles.detail_tag}>
@@ -317,13 +324,13 @@ export async function getServerSideProps(context) {
                                             </Link>
                                         )}
                                         <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                            <img src={article.image} alt={article.title} loading='lazy'/>
+                                            <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                                         </Link>
                                     </div>
                                     <div className={styles.article_content}>
                                         <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                             <div className={styles.article_heading}>
-                                                <h1>{article.title}</h1>
+                                                <h3>{article.title}</h3>
                                             </div>
                                         </Link>
                                         <span>Admin, {article.date}</span>
@@ -349,17 +356,16 @@ export async function getServerSideProps(context) {
                             <div className={styles.article_box} key={index}>
                                 <div className={`${styles.article_image} ${styles.article_image_product}`}>
                                     <Link href={product.link} target="_blank">
-                                        <img
+                                        <Image priority width={700} height={700}
                                             src={`${storageUrl}/${product.image}`}
                                             alt={product.name}
-                                            loading='lazy'
                                         />
                                     </Link>
                                 </div>
                                 <div className={`${styles.article_content} ${styles.article_product}`}>
                                     <Link href={product.link} target="_blank">
                                         <div className={styles.article_heading}>
-                                            <h1>{product.name}</h1>
+                                            <h3>{product.name}</h3>
                                         </div>
                                     </Link>
                                     <p>{product.description}</p>
@@ -382,15 +388,14 @@ export async function getServerSideProps(context) {
                             <div className={styles.box_service} key={tos.id}>
                                 <div className={styles.box_service_image}>
                                     <Link href={`/jenis-layanan/${tos.slug}`} >
-                                        <img
+                                        <Image priority width={800} height={800}
                                             src={`${storageUrl}/${tos.image}`}
                                             alt={tos.title}
-                                            loading='lazy'
                                         />
                                     </Link>
                                 </div>
                                 <div className={styles.box_service_content}>
-                                    <Link href={`/jenis-layanan/${tos.slug}`} ><h1>{tos.title}</h1></Link>
+                                    <Link href={`/jenis-layanan/${tos.slug}`} ><h2>{tos.title}</h2></Link>
                                     <p
                                         className={styles.service_description}
                                         dangerouslySetInnerHTML={{
@@ -418,10 +423,10 @@ export async function getServerSideProps(context) {
                     <div className={`${styles.sidebar_layout} ${styles.sidebar_layout_sc}`}>
                         <div className={`${styles.article_box} ${styles.doctor_box}`} key={doctor.id}>
                             <div className={`${styles.article_image} ${styles.article_image_product} ${styles.article_image_doctor}`}>
-                                <img
+                                <Image priority width={500} height={500}
                                     src={`${storageUrl}/${doctor.image}`}
                                     alt={doctor.name}
-                                    loading='lazy'
+                                
                                 />
                             </div>
                             <div className={styles.article_content}>
@@ -453,7 +458,7 @@ export async function getServerSideProps(context) {
                                         </Link>
                                     )}
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <img src={article.image} alt={article.title} loading='lazy'/>
+                                        <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                                     </Link>
                                 </div>
                                 <div className={styles.article_content}>

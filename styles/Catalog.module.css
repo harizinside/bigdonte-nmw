@@ -3,18 +3,25 @@
     padding: 2.7vw 13.45vw;
     padding-bottom: 9.4vw;
 }
+.heading_hide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
 .heading_section{
     text-align: center;
 }
 .heading_section_start{
     text-align: start;
 }
-.heading_section h1{
+.heading_section h2{
     font-family: var(--fairplay);
     color: #5A5A5A;
     font-size: 2.93vw;
 }
-.heading_section h1 font{
+.heading_section h2 span{
     color: #FF851A;
 }
 .box_galeri_layout{
@@ -41,7 +48,7 @@
     height: 100%;
     z-index: 1;
 }
-.box_galeri_heading h1{
+.box_galeri_heading h3{
     font-family: var(--montserrat);
     font-size: .97vw;
     font-weight: 600;
@@ -192,7 +199,7 @@
       padding: 7vw 4vw;
       padding-bottom: 9.4vw;
     }
-    .heading_section h1{
+    .heading_section h2{
       font-size: 6.5vw;
     }
     .box_galeri_layout{
@@ -205,7 +212,7 @@
         border-radius: 3vw;
         margin-bottom: 2.8vw;
     }
-    .box_galeri_heading h1{
+    .box_galeri_heading h3{
         font-size: 3.6vw;
         letter-spacing: .06vw;
         margin-bottom: 1.2vw;

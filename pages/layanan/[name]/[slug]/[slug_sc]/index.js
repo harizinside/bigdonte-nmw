@@ -6,6 +6,7 @@ import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from "next/head";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export async function getServerSideProps(context) {
   const { slug, slug_sc } = context.query;
@@ -138,13 +139,13 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
             {
               "@type": "ListItem",
               position: 3,
-              name: `${name}`,
+              name: `${formattedName}`,
               item:  `${mainUrl}/layanan/${name}`
             },
             {
               "@type": "ListItem",
               position: 4,
-              name: `${slug}`,
+              name: `${formattedSlug}`,
               item: `${mainUrl}/layanan/${name}/${slug}`
             },
             {
@@ -160,6 +161,13 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
     const cleanedDescription = initialServiceDetail.description
   ? initialServiceDetail.description.replace(/<\/?p>/g, "")
   : "Deskripsi tidak tersedia.";
+
+  function formatText(text) {
+    return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
+            .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
+  }
+  const formattedName = formatText(name);
+  const formattedSlug = formatText(slug);
 
   return (
     <>
@@ -186,13 +194,15 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
           </script>
       </Head>
       <div className={banner.banner}>
-          <img
-            src={`${storageUrl}/${initialServiceDetail.image}`}
-            alt={initialServiceDetail.title || "Banner image"}
-            loading="lazy"
-          />
-        </div>
-
+        <img
+          src={`${storageUrl}/${initialServiceDetail.image}`}
+          alt={initialServiceDetail.title || "Banner image"}
+          loading="lazy"
+        />
+      </div>
+      <div className={breadcrumb.breadcrumb}>
+          <h5><Link href={'/'}>Home</Link> / Layanan / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <Link href={`${mainUrl}/layanan/${name}/${slug}`}>{formattedSlug}</Link> / <span><Link href={`${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`}>Pasien {initialServiceDetail.title}</Link></span></h5>
+      </div>
       {/* Section 1 */}
       <div className={`${styles.section_1} ${styles.section_1_sc}`}>
         <div className={styles.section_1_heading}>
@@ -222,8 +232,8 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
       
       <div className={`${styles.section_2} ${styles.section_2_sc}`}> 
           <div className={`${styles.heading_section}`}> 
-              <h1>Pasien {initialServiceDetail.title.split(" ")[0]}{" "}
-              <font>{initialServiceDetail.title.split(" ").slice(1).join(" ")}</font></h1>
+              <h2>Pasien {initialServiceDetail.title.split(" ")[0]}{" "}
+              <span>{initialServiceDetail.title.split(" ").slice(1).join(" ")}</span></h2>
           </div>
           <div className={styles.box_galeri_layout}>
           {initialServiceDetailList.length > 0 ? (

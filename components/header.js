@@ -28,6 +28,7 @@ export default function Header() {
     const [settings, setSettings] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+    const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -216,6 +217,45 @@ export default function Header() {
         setShowPopup(false);  // Close the modal
     };
 
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "NMW Aesthetic Clinic",
+            "url": `${mainUrl}`,
+            "logo": `${storageUrl}/${settings.logo}`,
+            "description": "Klinik Aesthetic, Skincare, dan Dermatologi terpercaya di Jakarta.",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Jl. Petogogan II No.29 RT.008 RW.006 Kel. Pulo, Kec. Kebayoran Baru Kota Jakarta Selatan Prov. DKI Jakarta 12160",
+              "addressLocality": "Jakarta Selatan",
+              "addressRegion": "DKI Jakarta",
+              "postalCode": "12160",
+              "addressCountry": "ID"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+62 812-8036-0370",
+              "contactType": "customer service",
+              "areaServed": "ID",
+              "availableLanguage": "Indonesian"
+            },
+            "sameAs": socialMediaLinks.map(item => item.link) // Ambil hanya link dari API
+          },
+          {
+            "@type": "WebSite",
+            "name": "NMW Aesthetic Clinic",
+            "url": `${mainUrl}`,
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": `${mainUrl}/search?q={search_term_string}`,
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      };      
+
     return (
         <>
         <Head>
@@ -228,6 +268,9 @@ export default function Header() {
             <link rel="apple-touch-icon" href={`${storageUrl}/${settings.favicon}`} />
 
             <meta name="robots" content="index, follow" />
+            <script type="application/ld+json">
+            {JSON.stringify(schemaData)}
+            </script>
         </Head>
 
         <div className={styles.header}>

@@ -3,6 +3,8 @@ import styles from "@/styles/Catalog.module.css"
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from "next/image";
 
 export default function Katalog() {
   const [catalogs, setCatalogs] = useState([]);
@@ -116,25 +118,32 @@ export default function Katalog() {
           </script>
       </Head>
       <div className={banner.banner}>
-        <img
+        <Image
+          priority
+          width={900}
+          height={900}
           src="/images/catalogue-banner.webp"
           alt="Kebijakan Privasi NMW Aesthetic Clinic"
-          loading="lazy"
         />
       </div>
+      <div className={breadcrumb.breadcrumb}>
+            <h5><Link href={'/'}>Home</Link> / <span>Katalog</span> </h5>
+        </div>
+        <h1 className={styles.heading_hide}>Selamat Datang di Halaman Katalog Pada Website NMW Aesthetic Clinic</h1>
+
       <div className={styles.container}>
         <div className={`${styles.heading_section}`}>
-            <h1><font>Katalog</font> Harga</h1>
+            <h2><span>Katalog</span> Harga</h2>
         </div>
             <div className={styles.box_galeri_layout}>
                 {catalogs.map(catalog => (
                     <div className={styles.box_galeri} key={catalog.id}>
                         <div className={styles.box_galeri_image}>
-                            <img src={`${storageUrl}/${catalog.image}`} loading="lazy" alt={catalog.title}/>
+                            <Image width={500} height={500} priority src={`${storageUrl}/${catalog.image}`} alt={catalog.title}/>
                         </div>
                         <div className={styles.box_galeri_content}>
                             <div className={styles.box_galeri_heading}>
-                                <h1>{catalog.title}</h1>
+                                <h3>{catalog.title}</h3>
                             </div>
                             <div className={styles.box_galeri_text}>
                                 <p>Terakhir Diperbaharui</p>
@@ -151,7 +160,7 @@ export default function Katalog() {
         <div className={styles.section_4}>
             <div className={styles.heading_section_4}>
                 <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                    <h1><font>Dokter </font>Kami</h1>
+                    <h2><span>Dokter </span>Kami</h2>
                 </div>
             </div>
             <div className={styles.section_4_box}>

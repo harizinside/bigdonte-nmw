@@ -6,6 +6,8 @@ import { HiArrowLongRight } from "react-icons/hi2";
 import { useEffect } from 'react';
 import Head from 'next/head';
 import loadingStyles from "@/styles/Loading.module.css";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from 'next/image';
 
 export default function Article() {
     const [articles, setArticles] = useState([]);
@@ -122,20 +124,20 @@ export default function Article() {
   const schemaData = {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: `Kebijakan Privasi - NMW Aesthetic Clinic`,
+      name: `Artikel - NMW Aesthetic Clinic`,
       description: `Temukan jawaban atas pertanyaan umum tentang layanan, perawatan, konsultasi, dan prosedur medis di NMW Aesthetic Clinic. Dapatkan informasi lengkap untuk perawatan kecantikan dan kesehatan kulit Anda.`,
-      url: `${mainUrl}/kebijakan-privasi`,
+      url: `${mainUrl}/article`,
       publisher: {
       "@type": "Organization",
       name: "NMW Aesthetic Clinic",
       logo: {
           "@type": "ImageObject",
-          url: `${mainUrl}/images/kebijakan-privasi.png`
+          url: `${mainUrl}/images/slimming-treatment.webp`
       }
       },
       mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${mainUrl}/kebijakan-privasi`
+      "@id": `${mainUrl}/article`
       },
       breadcrumb: {
           "@type": "BreadcrumbList",
@@ -149,8 +151,8 @@ export default function Article() {
               {
               "@type": "ListItem",
               position: 2,
-                  name: "Kebijakan Privasi",
-                  item: `${mainUrl}/kebijakan-privasi`
+                  name: "Artikel",
+                  item: `${mainUrl}/article`
               }
           ]
       }
@@ -183,14 +185,18 @@ export default function Article() {
       <div className={banner.banner}>
         <img src="images/slimming-treatment.webp" loading='lazy' alt="Layanan Nmw Aesthetic Clinic"/>
     </div>
+    <div className={breadcrumb.breadcrumb}>
+        <h5><Link href={'/'}>Home</Link> / <span>Artikel</span></h5>
+    </div>
+    <h1 className={styles.heading_hide}>Selamat Datang di Page Artikel Website NMW Aesthetic Clinic</h1>
     <div className={styles.container}>
         <div className={styles.tabsContainer}>
             <div className={styles.tabContent_container}>
                 <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                    <h1><font>Artikel</font> Terbaru</h1>
+                    <h2><span>Artikel</span> Terbaru</h2>
                 </div>
                 <div className={styles.heading_sidebar}>
-                    <h1>Tag Artikel</h1>
+                    <h2>Tag Artikel</h2>
                 </div>
             </div>
             <div className={styles.tabContent}>
@@ -203,7 +209,7 @@ export default function Article() {
                             <div className={styles.tabcontent_box} key={article.id}>
                                 <div className={styles.tabcontent_box_img}>
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <img src={article.image} alt={article.title} loading='lazy'/>
+                                        <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                                     </Link>
                                     {tagsList.length > 0 && (
                                         <Link href={`/article/tag/${tagsList[0].trim()}`}>
@@ -213,7 +219,7 @@ export default function Article() {
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <h1>{article.title}</h1>
+                                        <h3>{article.title}</h3>
                                     </Link>
                                     <span>Admin, {article.date}</span>
                                     <div className={styles.description} dangerouslySetInnerHTML={{ __html: article.description }} />
@@ -250,7 +256,7 @@ export default function Article() {
     </div>
     <div className={styles.article_section}>
         <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-            <h1><font>Artikel</font> Lain</h1>
+            <h2><span>Artikel</span> Lain</h2>
         </div>
         <div className={styles.article_container}>
             <div className={styles.article_layout}>
@@ -266,13 +272,13 @@ export default function Article() {
                                     </Link>
                                 )}
                                 <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                    <img src={article.image} alt={article.title} loading='lazy'/>
+                                    <Image priority width={500} height={500} src={article.image} alt={article.title}/>
                                 </Link>
                             </div>
                             <div className={styles.article_content}>
                                 <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                     <div className={styles.article_heading}>
-                                        <h1>{article.title}</h1>
+                                        <h3>{article.title}</h3>
                                     </div>
                                 </Link>
                                 <span>Admin, {article.date}</span>

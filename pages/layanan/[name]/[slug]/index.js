@@ -6,6 +6,7 @@ import Link from 'next/link';
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from 'next/head';
+import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export async function getServerSideProps(context) {
     const { slug } = context.query;
@@ -99,14 +100,32 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                   item: `${mainUrl}`
               },
               {
+                "@type": "ListItem",
+                position: 2,
+                name: "Layanan",
+                item: `${mainUrl}/layanan`
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: `${formattedName}`,
+                item: `${mainUrl}/layanan/${name}`
+              },
+              {
               "@type": "ListItem",
-              position: 2,
-                  name: "Kebijakan Privasi",
+              position: 4,
+                  name: `${initialServiceDetail.title}`,
                   item: `${mainUrl}/layanan/${name}/${initialServiceDetail.slug}`
               }
           ]
       }
   };
+
+  function formatText(text) {
+        return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
+                .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
+    }
+    const formattedName = formatText(name);
 
   return (
     <>
@@ -138,7 +157,9 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                 alt={initialServiceDetail.name} loading='lazy'
             />
         </div>
-
+        <div className={breadcrumb.breadcrumb}>
+            <h5><Link href={'/'}>Home</Link> / Layanan / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <span><Link href={`${mainUrl}/layanan/${slug}/${initialServiceDetail.slug}`}>{initialServiceDetail.title}</Link></span></h5>
+        </div>
         <div className={`${styles.section_1} ${styles.section_1_sc}`}>
             <div className={styles.section_1_heading}>
                 <h1 >
@@ -183,7 +204,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                         initialServiceDetailList.map((serviceDetailListing) => (
                             <div className={styles.box_service} key={serviceDetailListing.id}>
                                 <div className={styles.box_service_content}>
-                                    <h1>{serviceDetailListing.title}</h1>
+                                    <h3>{serviceDetailListing.title}</h3>
                                     <p>{serviceDetailListing.description.replace(/<\/?p>/g, "")}</p>
                                 </div>
                                 <div className={styles.box_service_btn}>

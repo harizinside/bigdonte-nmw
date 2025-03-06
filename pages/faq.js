@@ -3,6 +3,9 @@ import styles from "@/styles/faq.module.css"
 import { IoChevronDown } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Link from "next/link";
 
 const FAQPage = () => {
     const [faqs, setFaqs] = useState([]);
@@ -119,11 +122,15 @@ const FAQPage = () => {
     </Head>
 
     <div className={banner.banner}>
-        <img src="images/faq_banner.webp" loading="lazy" alt="Faq Nmw Aesthetic Clinic"/>
+        <Image priority width={800} height={800} src="/images/faq_banner.webp" alt="Faq Nmw Aesthetic Clinic"/>
     </div>
+    <div className={breadcrumb.breadcrumb}>
+        <h5><Link href={'/'}>Home</Link> / <span><Link href={'/faq'}>FaQ</Link></span></h5>
+    </div>
+    <h1 className={styles.heading_hide}>Selamat Datang di Halaman Faq Pada Website NMW Aesthetic Clinic</h1>
     <div className={styles.faqPage}>
         <div className={`${styles.heading_section}`}>
-            <h1><font>FAQ</font> (Pertanyaan Umum)</h1>
+            <h2><span>FAQ</span> (Pertanyaan Umum)</h2>
         </div>
         <div className={styles.faqList}>
             {faqs.map((faq, index) => (

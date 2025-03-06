@@ -78,7 +78,7 @@
   color: #5A5A5A;
   font-size: 2.93vw;
 }
-.heading_section h2 font{
+.heading_section h2 span{
   color: #FF851A;
 }
 .heading_hide {
@@ -155,7 +155,7 @@
 .box_service_second .box_service_content{
   text-align: start;
 }
-.box_service_content h1{
+.box_service_content h3{
   font-size: 1.73vw;
   font-family: var(--montserrat);
   color: #4C4C4C;
@@ -194,7 +194,7 @@
   background-color: #FF851A;
   color:white;
 }
-.box_service_second h1{
+.box_service_second h3{
   color: white;
 }
 .box_service_second p{
@@ -504,7 +504,7 @@
   height: 2.5vw;
   margin-bottom: 1.32vw;
 }
-.article_heading h1{
+.article_heading h3{
   font-size: .95vw;
   font-family: var(--montserrat);
   letter-spacing: .03vw;
@@ -517,7 +517,7 @@
     text-overflow: ellipsis;
     transition: .4s all;
 }
-.article_box:hover .article_heading h1{
+.article_box:hover .article_heading h3{
   color: #FF851A;
 }
 .article_content span{
@@ -686,7 +686,7 @@
   .box_service_content{
     padding: 4vw;
   }
-  .box_service_content h1{
+  .box_service_content h3{
     font-size: 4vw;
     margin-bottom: 1.6vw;
   }
