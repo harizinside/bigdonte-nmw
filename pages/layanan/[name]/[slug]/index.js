@@ -72,6 +72,8 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
         );
     }
 
+    const formattedName = formatText(name);
+
   const schemaData = {
       "@context": "https://schema.org",
       "@type": "WebPage",
@@ -125,7 +127,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
         return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
                 .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
     }
-    const formattedName = formatText(name);
+    
 
   return (
     <>
@@ -223,10 +225,10 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                 <div
                     className={`${styles.heading_section} ${styles.heading_section_start}`}
                 >
-                    <h1>
-                        <font>Dokter </font>
+                    <h2>
+                        <span>Dokter </span>
                         Kami
-                    </h1>
+                    </h2>
                 </div>
             </div>
             <div className={styles.section_4_box}>
