@@ -33,7 +33,7 @@ const FAQPage = () => {
         };
   
         fetchData();
-      }, []);
+      }, [baseUrl]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,7 +51,7 @@ const FAQPage = () => {
         };
  
         fetchData();
-    }, []);
+    }, [baseUrl]);
 
   const [activeIndex, setActiveIndex] = useState(null);
 

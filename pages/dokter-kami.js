@@ -332,7 +332,7 @@ export default function DokterKami() {
                         ) : (
                             <div className={loadingStyles.box}>
                                 <div className={loadingStyles.content}>
-                                    <img src="../images/logo.svg" loading="lazy"/>
+                                    <img src="../images/logo.svg" alt="Logo" loading="lazy"/>
                                     <span>Loading</span>
                                 </div>
                             </div>

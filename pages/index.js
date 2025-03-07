@@ -62,7 +62,7 @@ export default function Home() {
     };
 
     fetchData();
-}, []);    
+}, [baseUrl]);    
 
   useEffect(() => {
     const fetchData = async () => {

@@ -54,7 +54,7 @@ export default function Article() {
         };
     
         fetchData();
-    }, []);    
+    }, [baseUrl]);    
     
     useEffect(() => {
         const fetchData = async () => {
@@ -73,7 +73,7 @@ export default function Article() {
         };
     
         fetchData();
-      }, [currentPage]); // Fetch ulang saat currentPage berubah
+      }, [currentPage, baseUrl]); // Fetch ulang saat currentPage berubah
 
       useEffect(() => {
         const fetchData = async () => {
@@ -87,7 +87,7 @@ export default function Article() {
         };
 
         fetchData();
-      }, []);
+      }, [baseUrl]);
     
       // Fungsi untuk menangani klik halaman berikutnya
         const handleNextPage = () => {

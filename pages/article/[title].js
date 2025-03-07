@@ -106,57 +106,53 @@ export async function getServerSideProps(context) {
       const contentRef = useRef(null);
   
       useEffect(() => {
-          if (contentRef.current) {
-              const headings = contentRef.current.querySelectorAll("h2, h3");
-              const tocItems = Array.from(headings).map((heading, index) => {
-                  const id = `section-${index}`;
-                  heading.setAttribute("id", id); // Tambahkan ID ke setiap heading
-                  return { id, text: heading.innerText, tag: heading.tagName };
-              });
-  
-              setToc(tocItems);
-          }
-      }, [articleDetail.description]);
+        if (contentRef.current) {
+            const headings = contentRef.current.querySelectorAll("h2, h3");
+            const tocItems = Array.from(headings).map((heading, index) => {
+                const id = `section-${index}`;
+                heading.setAttribute("id", id);
+                return { id, text: heading.innerText, tag: heading.tagName };
+            });
+
+            setToc(tocItems);
+        }
+    }, [articleDetail.description]);
   
       // Sisipkan Daftar Isi setelah paragraf pertama
       let modifiedDescription = articleDetail.description;
       if (toc.length > 0) {
-          const tocHTML = `
-              <div class=${styles.table_of_content}>
-                  <h2>Daftar Isi</h2>
-                  <ul>
-                      ${toc.map(item => `
-                          <li class="${item.tag === "H2" ? "h2-item" : "h3-item"}">
-                              <a href="#${item.id}" class="toc-link" data-target="${item.id}">${item.text}</a>
-                          </li>
-                      `).join("")}
-                  </ul>
-              </div>
-          `;
-          modifiedDescription = modifiedDescription.replace(/(<p[^>]*>.*?<\/p>)/, `$1${tocHTML}`);
-      }
+        const tocHTML = `
+            <div class=${styles.table_of_content}>
+                <h2>Daftar Isi</h2>
+                <ul>
+                    ${toc.map(item => `
+                        <li class="${item.tag === "H2" ? "h2-item" : "h3-item"}">
+                            <a href="#${item.id}" class="toc-link" data-target="${item.id}">${item.text}</a>
+                        </li>
+                    `).join("")}
+                </ul>
+            </div>
+        `;
+        modifiedDescription = modifiedDescription.replace(/(<p[^>]*>.*?<\/p>)/, `$1${tocHTML}`);
+    }
   
       useEffect(() => {
-          // Tambahkan event listener untuk smooth scroll
-          const links = document.querySelectorAll(".toc-link");
-          links.forEach(link => {
-              link.addEventListener("click", (e) => {
-                  e.preventDefault();
-                  const targetId = link.getAttribute("data-target");
-                  const target = document.getElementById(targetId);
-                  if (target) {
-                      target.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
-              });
-          });
-  
-          return () => {
-              // Cleanup event listener saat komponen di-unmount
-              links.forEach(link => {
-                  link.removeEventListener("click", () => {});
-              });
-          };
-      }, [toc]);
+        const links = document.querySelectorAll(".toc-link");
+        const handleClick = (e) => {
+            e.preventDefault();
+            const targetId = e.target.getAttribute("data-target");
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        };
+
+        links.forEach(link => link.addEventListener("click", handleClick));
+
+        return () => {
+            links.forEach(link => link.removeEventListener("click", handleClick));
+        };
+    }, [toc]);
 
   
       const handleNextPage = () => {
@@ -170,6 +166,29 @@ export async function getServerSideProps(context) {
           setPage(page - 1);
           }
       };
+
+      const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
+
+    const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
+
+    const shortDescription = cleanDescription.length > 100 
+    ? cleanDescription.substring(0, 100) + "..." 
+    : cleanDescription;
+
+    const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
+
+    const [htmlContent, setHtmlContent] = useState("");
+
+    const [htmlContentSc, setHtmlContentSc] = useState("Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini");
+
+    useEffect(() => {
+        setHtmlContentSc(tos?.description && tos.description !== "-" ? tos.description : "");
+    }, [tos]);
+    
+
+    useEffect(() => {
+        setHtmlContent(articleDetail.description);
+    }, [articleDetail.description]);
 
       if (!articleDetail) {
             return (
@@ -238,32 +257,7 @@ export async function getServerSideProps(context) {
             );
         }
 
-      const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
-
-    const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
-
-    const shortDescription = cleanDescription.length > 100 
-    ? cleanDescription.substring(0, 100) + "..." 
-    : cleanDescription;
-
-    const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
-
-    const [htmlContent, setHtmlContent] = useState("");
-
-    const [htmlContentSc, setHtmlContentSc] = useState("Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini");
-
-    useEffect(() => {
-        if (tos && tos.description && tos.description !== "-") {
-            setHtmlContentSc(tos.description);
-        } else {
-            setHtmlContentSc(""); // Set konten kosong jika null atau "-"
-        }
-    }, [tos?.description]); 
-    
-
-    useEffect(() => {
-        setHtmlContent(articleDetail.description); // Data hanya di-set setelah client mount
-    }, [articleDetail.description]);
+      
 
     const articleSchema = {
         "@context": "https://schema.org",
