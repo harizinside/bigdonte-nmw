@@ -152,15 +152,15 @@
         padding: 6vw 4vw;
     }
     .heading_section h2{
-        font-size: 6.5vw;
+        font-size: 8.5vw;
     }
     .cabang_layout{
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         margin-top: 6vw;
-        grid-gap: 3vw;
+        grid-gap: 5vw;
     }
     .cabang_box_image{
-        height: 35vw;
+        height: 55vw;
         border-radius: 2.4vw;
         margin-bottom: 2.3vw;
     }
@@ -171,27 +171,27 @@
     }
     .cabang_box_content h3{
         letter-spacing: .07vw;
-        font-size: 3vw;
+        font-size: 5.5vw;
     }
     .cabang_box_text{
-        gap: 2.6vw;
+        gap: 3.6vw;
     }
     .cabang_box_detail{
-        gap: 1.5vw;
+        gap: 2vw;
     }
     .cabang_box_detail h4{
-        font-size: 2.7vw;
+        font-size: 3.6vw;
         letter-spacing: .06vw;
     }
     .cabang_box_detail p{
-        font-size: 2.5vw;
+        font-size: 3.6vw;
         letter-spacing: .04vw;
     }
     .cabang_box_button{
         display: flex;
-        gap: 1vw;
+        gap: 2.3vw;
         justify-content: center;
-        margin-top: 2vw;
+        margin-top: 4vw;
     }
     .cabang_box_button a{
         text-decoration: none;
@@ -201,16 +201,16 @@
         padding: 0 2.2vw;
         padding-right: 2.2vw;
         height: 7vw;
-        font-size: 2.4vw !important;
+        font-size: 3.6vw !important;
         letter-spacing: .05vw;
-        gap: .9vw;
+        gap: 1.6vw;
     }
     .cabang_box_button a:last-child button{
         width: 7vw;
         height: 7vw;
-        font-size: 3vw;
+        font-size: 4vw;
     }
     .cabang_box_button a:first-child button svg{
-        font-size: 3vw;
+        font-size: 4vw;
     }
 }

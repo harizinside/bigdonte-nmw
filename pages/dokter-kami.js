@@ -281,7 +281,7 @@ export default function DokterKami() {
                 <div className={styles.dokter_heading}>
                     <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
                         <h2>
-                            <font>Dokter</font> Kami
+                            <span>Dokter</span> Kami
                         </h2>
                     </div>
                     <div className={styles.tabs}>

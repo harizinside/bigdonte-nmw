@@ -102,6 +102,62 @@ export async function getServerSideProps(context) {
       const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
       const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
+      const [toc, setToc] = useState([]);
+      const contentRef = useRef(null);
+  
+      useEffect(() => {
+          if (contentRef.current) {
+              const headings = contentRef.current.querySelectorAll("h2, h3");
+              const tocItems = Array.from(headings).map((heading, index) => {
+                  const id = `section-${index}`;
+                  heading.setAttribute("id", id); // Tambahkan ID ke setiap heading
+                  return { id, text: heading.innerText, tag: heading.tagName };
+              });
+  
+              setToc(tocItems);
+          }
+      }, [articleDetail.description]);
+  
+      // Sisipkan Daftar Isi setelah paragraf pertama
+      let modifiedDescription = articleDetail.description;
+      if (toc.length > 0) {
+          const tocHTML = `
+              <div class=${styles.table_of_content}>
+                  <h2>Daftar Isi</h2>
+                  <ul>
+                      ${toc.map(item => `
+                          <li class="${item.tag === "H2" ? "h2-item" : "h3-item"}">
+                              <a href="#${item.id}" class="toc-link" data-target="${item.id}">${item.text}</a>
+                          </li>
+                      `).join("")}
+                  </ul>
+              </div>
+          `;
+          modifiedDescription = modifiedDescription.replace(/(<p[^>]*>.*?<\/p>)/, `$1${tocHTML}`);
+      }
+  
+      useEffect(() => {
+          // Tambahkan event listener untuk smooth scroll
+          const links = document.querySelectorAll(".toc-link");
+          links.forEach(link => {
+              link.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  const targetId = link.getAttribute("data-target");
+                  const target = document.getElementById(targetId);
+                  if (target) {
+                      target.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }
+              });
+          });
+  
+          return () => {
+              // Cleanup event listener saat komponen di-unmount
+              links.forEach(link => {
+                  link.removeEventListener("click", () => {});
+              });
+          };
+      }, [toc]);
+
   
       const handleNextPage = () => {
           if (page < totalPages) {
@@ -191,6 +247,23 @@ export async function getServerSideProps(context) {
     : cleanDescription;
 
     const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
+
+    const [htmlContent, setHtmlContent] = useState("");
+
+    const [htmlContentSc, setHtmlContentSc] = useState("Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini");
+
+    useEffect(() => {
+        if (tos && tos.description && tos.description !== "-") {
+            setHtmlContentSc(tos.description);
+        } else {
+            setHtmlContentSc(""); // Set konten kosong jika null atau "-"
+        }
+    }, [tos?.description]); 
+    
+
+    useEffect(() => {
+        setHtmlContent(articleDetail.description); // Data hanya di-set setelah client mount
+    }, [articleDetail.description]);
 
     const articleSchema = {
         "@context": "https://schema.org",
@@ -298,7 +371,30 @@ export async function getServerSideProps(context) {
                         <span>{articleDetail.author}, {articleDetail.date}</span>
                     </div>
                     <div className={styles.content_text}>
-                        <div dangerouslySetInnerHTML={{ __html: articleDetail.description }} />
+                        {/* {toc.length > 0 && (
+                            <div className={styles.table_of_content}>
+                                <h2>Daftar Isi</h2>
+                                <ul>
+                                    {toc.map((item, index) => (
+                                        <li key={index} className={item.tag === "H2" ? "h2-item" : "h3-item"}>
+                                            <a
+                                                href={`#${item.id}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    const target = document.getElementById(item.id);
+                                                    if (target) {
+                                                        target.scrollIntoView({ behavior: "smooth", block: "start" });
+                                                    }
+                                                }}
+                                            >
+                                                {item.text}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )} */}
+                         <div key={modifiedDescription} ref={contentRef} dangerouslySetInnerHTML={{ __html: modifiedDescription }} />
                         <div className={styles.author_meta}>
                             <p>Penulis : {articleDetail.author}</p>
                             <p>Editor : {articleDetail.editor}</p>
@@ -396,15 +492,7 @@ export async function getServerSideProps(context) {
                                 </div>
                                 <div className={styles.box_service_content}>
                                     <Link href={`/jenis-layanan/${tos.slug}`} ><h2>{tos.title}</h2></Link>
-                                    <p
-                                        className={styles.service_description}
-                                        dangerouslySetInnerHTML={{
-                                            __html:
-                                            tos.description && tos.description !== '-'
-                                                ? tos.description
-                                                : 'Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini',
-                                        }}
-                                        />
+                                    <p className={styles.service_description} dangerouslySetInnerHTML={{ __html: htmlContentSc }} />
                                     <div className={styles.box_service_btn}>
                                         <Link href={`/jenis-layanan/${tos.slug}`} >
                                             <button>Lihat Detail</button>
@@ -431,7 +519,7 @@ export async function getServerSideProps(context) {
                             </div>
                             <div className={styles.article_content}>
                                 <div className={styles.article_heading}>
-                                    <h1>{doctor.name}</h1>
+                                    <h3>{doctor.name}</h3>
                                 </div>
                                 <p>{doctor.position}</p>
                             </div>
@@ -464,7 +552,7 @@ export async function getServerSideProps(context) {
                                 <div className={styles.article_content}>
                                     <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
                                         <div className={styles.article_heading}>
-                                            <h1>{article.title}</h1>
+                                            <h3>{article.title}</h3>
                                         </div>
                                     </Link>
                                     <span>Admin, {article.date}</span>

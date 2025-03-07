@@ -52,6 +52,12 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
+    const [htmlContent, setHtmlContent] = useState("");
+
+    useEffect(() => {
+        setHtmlContent(initialServiceDetail.description || "Deskripsi tidak tersedia.");
+    }, [initialServiceDetail.description]);
+
     const formattedPhone = initialSettings.phone && initialSettings.phone.startsWith('0')
         ? '62' + initialSettings.phone.slice(1)  
         : initialSettings.phone;
@@ -170,12 +176,12 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
                 </h1>
             </div>
             <div className={styles.section_1_content}>
-                <div
-                    className={styles.service_description}
-                    dangerouslySetInnerHTML={{
-                        __html: initialServiceDetail.description || "Deskripsi tidak tersedia.",
-                    }}
-                />
+            <div
+                className={styles.service_description}
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+                suppressHydrationWarning 
+            />
+
                 <Link href={`https://api.whatsapp.com/send?phone=${formattedPhone}`} target='blank_' ><button className={styles.btn_layanan}>Buat Janji Temu Sekarang <FaWhatsapp/></button></Link>
             </div>
         </div>
@@ -184,7 +190,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
             <div className={`${styles.modal} ${showPopup ? styles.active : ""}`}>
                 <div className={styles.overlay_modal}></div>
                 <div className={styles.modal_content}>
-                    <h1>Verifikasi Usia</h1>
+                    <h2>Verifikasi Usia</h2>
                     <p>
                         Situs web ini berisi materi yang dibatasi usia yang mengandung unsur dewasa. 
                         Dengan ini Anda menyatakan bahwa Anda setidaknya berusia 18 tahun atau lebih, 

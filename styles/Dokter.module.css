@@ -225,7 +225,7 @@
         padding: 7vw 4vw;
     }
     .heading_section h2{
-        font-size: 6.5vw;
+        font-size: 8.5vw;
     }
     .dokter_heading{
         display: grid;
@@ -234,30 +234,35 @@
         align-items: flex-end;
     }
     .tabs {
-        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        overflow-x: scroll;
         grid-gap: 2.5vw;
         margin-bottom: 2vw;
     }
     .tab {
-        padding: 1vw 0;
-        font-size: 2.6vw;
+        padding: 1.4vw 4vw;
+        font-size: 3.5vw;
         letter-spacing: .07vw;
+        width: max-content;
     }
     .activeTab {
-        padding: 1vw 0;
-        font-size: 2.6vw;
+        padding: 1.4vw 4vw;
+        font-size: 3.5vw;
         letter-spacing: .07vw;
+        width: max-content;
     }
     .tabContent{
         margin-top: 5vw;
     }
     .cabang_layout{
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         margin-top: 4.5vw;
-        grid-gap: 3vw;
+        grid-gap: 5vw;
     }
     .cabang_box_image{
-        height: 42vw;
+        height: 87vw;
         border-radius: 3vw;
         margin-bottom: 2.5vw;
         border:.3vw solid #FF851A;
@@ -267,9 +272,9 @@
         border-radius: 3vw;
         gap: 3vw;
     }
-    .cabang_box_content h1{
+    .cabang_box_content h3{
         letter-spacing: .07vw;
-        font-size: 3vw;
+        font-size: 4vw;
     }
     .cabang_box_text{
         gap: 2.6vw;
@@ -278,11 +283,11 @@
         gap: 1.5vw;
     }
     .cabang_box_detail h3{
-        font-size: 2.7vw;
+        font-size: 3vw;
         letter-spacing: .06vw;
     }
     .cabang_box_content span{
-        font-size: 2.5vw;
+        font-size: 4vw;
         letter-spacing: .04vw;
     }
     .cabang_box_button{
@@ -301,20 +306,20 @@
         margin-top: 10vw;
       }
       .article_pagination a{
-        font-size: 3.7vw;
+        font-size: 4.5vw;
       }
       .active_pagination{
         font-size: 4.7vw !important;
       }
       .article_pagination a svg{
-        font-size: 3.4vw;
+        font-size: 3.9vw;
         margin-top: .3vw;
       }
       .article_pagination button{
         background-color: transparent;
         outline: none;
         border: none;
-        font-size: 3vw;
+        font-size: 3.4vw;
         letter-spacing: .06vw;
         font-family: var(--poppins);
         color: #4C4C4C;
@@ -322,7 +327,7 @@
       }
       .article_pagination span{
         font-family: var(--poppins);
-        font-size: 3vw;
+        font-size: 3.4vw;
         letter-spacing: .06vw;
         cursor: pointer;
         text-decoration: none;

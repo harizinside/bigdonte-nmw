@@ -100,6 +100,14 @@ export default function Patient() {
     );
   }
 
+  function formatText(text) {
+    return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
+            .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
+  }
+  const formattedName = formatText(name);
+  const formattedSlug = formatText(slug);
+  const formattedSlugSc = formatText(slug_sc);
+
   const schemaData = {
       "@context": "https://schema.org",
       "@type": "WebPage",
@@ -161,13 +169,7 @@ export default function Patient() {
       }
   };
 
-  function formatText(text) {
-    return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
-            .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
-  }
-  const formattedName = formatText(name);
-  const formattedSlug = formatText(slug);
-  const formattedSlugSc = formatText(slug_sc);
+  
 
   return (
     <>

@@ -470,7 +470,7 @@
     padding: 1.3vw 2vw;
   }
 
-  .modal_content h1{
+  .modal_content h2{
     font-family: var(--fairplay);
     color: #5A5A5A;
     font-size: 1.7vw;
@@ -567,13 +567,13 @@
         padding: 4vw 5vw;
       }
     
-      .modal_content h1{
-        font-size: 5.8vw;
+      .modal_content h2{
+        font-size: 7vw;
         letter-spacing: .06vw;
         margin-bottom: 4vw;
       }
       .modal_content p{
-        font-size: 2.8vw;
+        font-size: 3vw;
         letter-spacing: .05vw;
       }
       .button_layout{
@@ -584,7 +584,7 @@
         margin-bottom:5.5vw;
       }
       .button_layout button{
-        font-size: 2.8vw; 
+        font-size: 3.4vw; 
         letter-spacing: .07vw;
         padding: 1.6vw .5vw;
       }
@@ -647,12 +647,12 @@
         margin-bottom: 3vw;
     }
     .section_1_content p{
-        font-size: 2.5vw;
+        font-size: 3vw;
         letter-spacing: .04vw;
     }
     .btn_layanan{
         letter-spacing: .05vw;
-        font-size: 3.1vw;
+        font-size: 3.5vw;
         margin-top: 2.5vw;
         gap: 1.7vw;
         padding: 1.48vw 3vw;
@@ -687,15 +687,15 @@
     }
     
     .service_description{
-        font-size: 2.5vw;
+        font-size: 3vw;
         letter-spacing: .03vw;
         font-family: var(--montserrat);
         color: #4C4C4C;
         line-height: 1.5;
         margin-bottom: 1vw;
     }
-    .heading_section h1{
-        font-size: 6.5vw;
+    .heading_section h2{
+        font-size: 7.8vw;
     }
     .box_galeri_layout{
         grid-template-columns: repeat(1, 1fr);
@@ -723,7 +723,7 @@
         top: 5vw;
     }
     .button_image button{
-        font-size: 2vw;
+        font-size: 3vw;
         letter-spacing: .05vw;
         padding: .34vw 2vw;
         padding-top: .6vw;
@@ -742,14 +742,14 @@
         margin-bottom: 1.2vw;
     }
     .box_galeri_heading h3{
-        font-size: 3.2vw;
+        font-size: 4vw;
         letter-spacing: .1vw;
     }
     .box_galeri_text{
         margin-top: 2.6vw;
     }
     .box_galeri_text p{
-        font-size: 2.5vw;
+        font-size: 3vw;
         letter-spacing: .05vw;
         line-height: 1.4;
     }
@@ -758,7 +758,7 @@
         margin-top: 2.57vw;
     }
     .box_galeri_button button{
-        font-size: 2.7vw;
+        font-size: 3vw;
         letter-spacing: .07vw;
         padding: .8vw 3vw;
     }
@@ -800,13 +800,13 @@
     .box_service_layout_sc .box_service_content{
         padding: 0 0;
     }
-    .box_service_content h1{
-        font-size: 3vw;
+    .box_service_content h3{
+        font-size: 3.5vw;
         letter-spacing: .12vw;
         margin-bottom: 1.7vw;
     }
     .box_service_content p{
-        font-size: 2.3vw;
+        font-size: 3vw;
         letter-spacing: .07vw;
     }
     .box_service_layout_sc .box_service_content p{
@@ -817,7 +817,7 @@
     }
     .box_service_btn button{
         margin-top: 4vw;
-        font-size: 2.3vw;
+        font-size: 3vw;
         letter-spacing: .1vw;
         padding: .8vw 3vw;
     }
@@ -846,12 +846,12 @@
         background-color: transparent;
       }
       .section_4_box p{
-        font-size: 2.5vw;
+        font-size: 3vw;
         letter-spacing: .08vw;
         margin-bottom: 2.4vw;
       }
       .section_4_box button{
-        font-size: 2.5vw;
+        font-size: 3vw;
         letter-spacing: .08vw;
         padding: .8vw 3vw;
         margin-top: 2.5vw;

@@ -651,10 +651,10 @@
     text-align: start;
   }
   .heading_section h2{
-    font-size: 6.5vw;
+    font-size: 8.5vw;
   }
   .heading_section p{
-    font-size: 3vw;
+    font-size: 3.4vw;
   }
   .section_1{
     padding: 11vw 0;
@@ -691,13 +691,13 @@
     margin-bottom: 1.6vw;
   }
   .box_service_content p{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     margin-left: .1vw;
     height: max-content;
     -webkit-line-clamp: 3;
   }
   .box_service_content button{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: .48vw 2.3vw;
     margin-top: 3.2vw;
   }
@@ -710,19 +710,21 @@
   .section_2_text{
     margin-top: 4.5vw;
   }
-  .section_2_text img{
-    border-radius: 4vw;
-    margin-bottom: 4vw;
-    height: 28vw;
-    object-fit: cover;
+  .section_2_img{
+    width: 100%;
+    height: 25vw;
+    position: relative;
+    border-radius: 2.2vw;
+    margin-bottom: 2.2vw;
+    overflow: hidden;
   }
   .section_2_text p{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: 0 0vw;
     margin-bottom: 2.8vw;
   }
   .section_2_text button{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: .8vw 3vw;
     padding-top: 1vw;
     margin-top: 1.2vw;
@@ -746,12 +748,12 @@
     margin-top: 5vw;
   }
   .section_3_box p{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     margin-bottom: 2.5vw;
-    padding-right: 29vw;
+    padding-right: 20vw;
   }
   .section_3_box button{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: .8vw 3vw;
     padding-top: 1vw;
     margin-top: 2.2vw;
@@ -822,7 +824,7 @@
     background-color: transparent;
   }
   .section_4_box p{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     margin-top: 4vw;
     padding:0 4vw;
     margin-bottom: 1.3vw;
@@ -840,7 +842,7 @@
     display: none;
   }
   .section_4_box button{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: .8vw 3vw;
     padding-top: .96vw;
     margin-top: 2.8vw;
@@ -864,20 +866,21 @@
     height: max-content;
     margin-bottom: 2vw;
   }
-  .article_heading h1{
-    font-size: 3.1vw;
+  .article_heading h3{
+    font-size: 3.7vw;
+    line-height: 1.5;
   }
   .article_content span{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
   }
   .article_image button{
     left: 2.3vw;
     top: 2.3vw;
-    font-size: 2.4vw;
+    font-size: 3.4vw;
     padding: .7vw 3vw;
   }
   .btn_more{
-    font-size: 2.5vw;
+    font-size: 3.4vw;
     padding: .8vw 3vw;
     padding-top: 1vw;
     margin-top: 6vw;
@@ -894,7 +897,7 @@
     gap: 6vw;
   }
   .section_5_layout h4{
-    font-size: 3vw;
+    font-size: 4vw;
     margin-bottom: 2.8vw;
   }
   .section_5_logo img{

@@ -378,7 +378,7 @@
     background-color: transparent;
     outline: none;
     border: none;
-    font-size: 2.8vw;
+    font-size: 3vw;
     letter-spacing: .06vw;
     font-family: var(--poppins);
     color: #4C4C4C;
@@ -386,10 +386,11 @@
   }
 
   .container{
-    padding: 9vw 4vw;
+    padding: 4vw 4vw;
+    padding-top: 0;
   }
   .heading_section h2{
-    font-size: 6.5vw;
+    font-size: 8.5vw;
   }
   .tabsContainer {
     margin-top: 7vw;
@@ -404,12 +405,12 @@
   .tab {
     padding: 1.6vw 3.4vw;
     width: 100%;
-    font-size: 2.8vw;
+    font-size: 3vw;
     letter-spacing: .08vw;
   }
   .activeTab {
     padding: 1.6vw 3.4vw;
-    font-size: 2.8vw;
+    font-size: 3vw;
     letter-spacing: .08vw;
     width: 100%;
   }
@@ -439,24 +440,24 @@
     left: 3vw;
     top: 3vw;
     letter-spacing: .09vw;
-    font-size: 2.3vw;
+    font-size: 3vw;
     padding: .6vw 2.3vw;
   }
   .tabcontent_box_text h3{
-    font-size: 3.7vw;
+    font-size: 4.3vw;
     letter-spacing: .07vw;
     margin-bottom: 1vw;
   }
   .tabcontent_box_text span{
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .tabcontent_box_text p, .tabcontent_box_text span, .tabcontent_box_text strong, .tabcontent_box_text b{
-      font-size: 2.5vw;
+      font-size: 3vw;
       letter-spacing: .06vw;
       margin-top: 2.4vw;
   }
   .tabcontent_box_text button{
-    font-size: 2.5vw;
+    font-size: 3vw;
     letter-spacing: .07vw;
     padding: .8vw 3vw;
     margin-top: 3vw;
@@ -476,7 +477,7 @@
   }
   .article_sidebar_button button{
       letter-spacing: .06vw;
-      font-size: 2.6vw;
+      font-size: 3vw;
       padding: .8vw 3vw;
   }
 
@@ -500,22 +501,22 @@
     margin-bottom: 2vw;
   }
   .article_heading h3{
-    font-size: 3.1vw;
+    font-size: 3.8vw;
   }
   .article_content span{
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
   .article_image button{
     left: 2.3vw;
     top: 2.3vw;
-    font-size: 2.4vw;
+    font-size: 3.2vw;
     padding: .7vw 3vw;
   }
   .article_section a{
     text-decoration: none;
   }
   .btn_more{
-    font-size: 2.5vw;
+    font-size: 3vw;
     padding: .8vw 3vw;
     padding-top: 1vw;
     margin-top: 5vw;
@@ -532,12 +533,13 @@
     gap: 3vw;
     padding-bottom: 2vw;
     margin-top: 10vw;
+    font-size: 3.6vw;
   }
   .article_pagination a{
-    font-size: 3.7vw;
+    font-size: 4.3vw;
   }
   .active_pagination{
-    font-size: 4.7vw !important;
+    font-size: 6vw !important;
   }
   .article_pagination a svg{
     font-size: 3.4vw;

@@ -30,6 +30,16 @@ export default function Header() {
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
+    const [isSticky, setIsSticky] = useState(true);
+
+    useEffect(() => {
+        if (router.pathname.startsWith("/article/")) {
+            setIsSticky(false);
+        } else {
+            setIsSticky(true);
+        }
+    }, [router.pathname]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -273,7 +283,7 @@ export default function Header() {
             </script>
         </Head>
 
-        <div className={styles.header}>
+        <div className={isSticky ? styles.header : styles.headerNoSticky}>
             {isLoading ? (
                 <div className="skeleton-logo skeleton-logo-100" />
             ) : (

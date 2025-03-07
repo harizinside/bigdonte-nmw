@@ -17,6 +17,47 @@
 .container_content{
     padding-right: 4vw;
 }
+.table_of_content{
+  border: .1vw solid #FF851A;
+  padding: 1.3vw;
+  padding-bottom: .6vw;
+  border-radius: .7vw;
+  margin-bottom: 1.5vw;
+  width: 70%;
+}
+.table_of_content h2{
+  font-size: 1.1vw !important;
+}
+.table_of_content ul li{
+  list-style: decimal;
+}
+.table_of_content ul li a{
+  font-size: .9vw;
+  color:#4C4C4C;
+  letter-spacing: .05vw;
+}
+@media (max-width:768px) {
+  .table_of_content{
+    border: .12vw solid #FF851A;
+    padding: 5vw;
+    padding-bottom: 1vw;
+    border-radius: 3vw;
+    margin-bottom: 4.5vw;
+    margin-top: 5vw;
+    width: 100%;
+  }
+  .table_of_content h2{
+    font-size: 4vw !important;
+    margin-bottom: 2.4vw !important;
+  }
+  .table_of_content ul li{
+    margin-bottom: 2vw !important;
+  }
+  .table_of_content ul li a{
+    font-size: 3vw;
+    letter-spacing: .08vw;
+  }
+}
 .detail_tag{
   display: flex;
   gap: .6vw;
@@ -403,7 +444,7 @@
       margin-top: 5vw;
     }
     .layanan_heading h3{
-      font-size: 5.7vw;
+      font-size: 7vw;
       letter-spacing: .06vw;
     }
     .box_service_layout{
@@ -473,7 +514,7 @@
     }
     .detail_tag button{
       letter-spacing: .06vw;
-      font-size: 2.6vw;
+      font-size: 3vw;
       padding: .8vw 3vw;
       width: max-content;
     }
@@ -482,37 +523,39 @@
       margin-bottom: 3vw;
     }
     .content_heading h1{
-      font-size: 3.9vw;
+      font-size: 4.3vw;
       letter-spacing: .06vw;
     }
     .content_heading span{
-      font-size: 2.6vw;
+      font-size: 3vw;
      }
      .content_text p{
-      font-size: 2.8vw;
+      font-size: 3vw;
       letter-spacing: .05vw;
       line-height: 1.6;
       padding-right: 0;
+      margin-bottom: 3.4vw;
     }
+    .content_text h1, .content_text h2, .content_text h3, .content_text h4, .content_text h5, .content_text h6{
+      font-size: 4vw;
+      letter-spacing: .07vw;
+      margin-bottom: 3.4vw;
+  }
     .content_text strong, .content_text b{
-        font-size: 2.5vw;
         letter-spacing: .05vw;
         line-height: 1.6;
+        font-size: inherit;
     }
     .content_text img{
       border-radius: 2.5vw;
       margin: 4vw 0;
     }
-    .content_text h1, .content_text h2, .content_text h3, .content_text h4, .content_text h5, .content_text h6{
-        font-size: 4.2vw;
-        letter-spacing: .07vw;
-        margin-bottom: 1.3vw;
-    }
+    
     .content_text ul, .content_text ol{
         margin-left: 3vw;
     }
     .content_text ul li, .content_text ol li{
-        font-size: 2.8vw;
+        font-size: 3vw;
         letter-spacing: .05vw;
     }
 
@@ -530,7 +573,7 @@
       letter-spacing: .06vw;
     }
     .sidebar_heading a{
-        font-size: 2.3vw;
+        font-size: 3vw;
         letter-spacing: .06vw;
         margin-bottom: .18vw;
     }
@@ -550,27 +593,28 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .article_heading h2{
-      font-size: 3.1vw;
+    .article_heading h3{
+      font-size: 3.6vw;
     }
     .article_content span{
-      font-size: 2.5vw;
+      font-size: 3vw;
     }
     .article_content p{
-      font-size: 2.5vw;
+      font-size: 3vw;
       letter-spacing: .1vw;
+      line-height: 1.5;
     }
     .article_image button{
       left: 2.3vw;
       top: 2.3vw;
-      font-size: 2.4vw;
+      font-size: 3vw;
       padding: .7vw 3vw;
     }
     .article_section a{
       text-decoration: none;
     }
     .btn_more{
-      font-size: 2.5vw;
+      font-size: 3vw;
       padding: .8vw 3vw;
       padding-top: 1vw;
       margin-top: 5vw;

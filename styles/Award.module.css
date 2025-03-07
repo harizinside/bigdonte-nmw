@@ -203,7 +203,7 @@
         padding: 6vw 4vw;
     }
     .heading_section h2{
-        font-size: 6.5vw;
+        font-size: 8vw;
     }
     .cabang_layout{
         grid-template-columns: repeat(1, 1fr);
@@ -238,11 +238,11 @@
         gap: 1.5vw;
     }
     .cabang_box_detail h3{
-        font-size: 2.7vw;
+        font-size: 4vw;
         letter-spacing: .06vw;
     }
     .cabang_box_content p{
-        font-size: 2.8vw;
+        font-size: 3.5vw;
         letter-spacing: .04vw;
     }
     .cabang_box_button{

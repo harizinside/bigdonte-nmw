@@ -103,6 +103,13 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
       );
     }
 
+    function formatText(text) {
+      return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
+              .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
+    }
+    const formattedName = formatText(name);
+    const formattedSlug = formatText(slug);
+
     const schemaData = {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -162,12 +169,7 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
   ? initialServiceDetail.description.replace(/<\/?p>/g, "")
   : "Deskripsi tidak tersedia.";
 
-  function formatText(text) {
-    return text.replace(/-/g, ' ') // Mengganti "-" dengan spasi
-            .replace(/\b\w/g, char => char.toUpperCase()); // Kapitalisasi setiap kata
-  }
-  const formattedName = formatText(name);
-  const formattedSlug = formatText(slug);
+  
 
   return (
     <>
@@ -290,10 +292,10 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
           <div
             className={`${styles.heading_section} ${styles.heading_section_start}`}
           >
-            <h1>
-              <font>Dokter </font>
+            <h2>
+              <span>Dokter </span>
               Kami
-            </h1>
+            </h2>
           </div>
         </div>
         <div className={styles.section_4_box}>

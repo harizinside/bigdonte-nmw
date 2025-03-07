@@ -19,3 +19,13 @@
     color: #FF851A;
     text-decoration: none;
 }
+@media (max-width:768px) {
+    .breadcrumb{
+        padding: 4vw 4vw;
+    }
+    .breadcrumb h5{
+        letter-spacing: .08vw;
+        font-size: 3.3vw;
+        line-height: 1.6;
+    }
+}
