@@ -7,6 +7,7 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from 'next/head';
 import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
     const { slug } = context.query;
@@ -160,13 +161,16 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
           </script>
       </Head>
         <div className={banner.banner}>
-            <img
+            <Image
+                priority
+                width={800}
+                height={800}
                 src={`${storageUrl}/${initialServiceDetail.image}`}
-                alt={initialServiceDetail.name} loading='lazy'
+                alt={initialServiceDetail.name}
             />
         </div>
         <div className={breadcrumb.breadcrumb}>
-            <h5><Link href={'/'}>Home</Link> / Layanan / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <span><Link href={`${mainUrl}/layanan/${slug}/${initialServiceDetail.slug}`}>{initialServiceDetail.title}</Link></span></h5>
+            <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <span><Link href={`${mainUrl}/layanan/${slug}/${initialServiceDetail.slug}`}>{initialServiceDetail.title}</Link></span></h5>
         </div>
         <div className={`${styles.section_1} ${styles.section_1_sc}`}>
             <div className={styles.section_1_heading}>

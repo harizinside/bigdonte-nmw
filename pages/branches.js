@@ -30,16 +30,13 @@ export default function Branches() {
                     const parsedCache = JSON.parse(cachedData);
                     
                     if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        console.log('Data updated from API');
                         setBranchs(data.data);
                         localStorage.setItem('promoCache', JSON.stringify(data.data));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                     } else {
-                        console.log('Loaded from cache');
                         setBranchs(parsedCache);
                     }
                 } else {
-                    console.log('Fetched from API');
                     setBranchs(data.data);
                     localStorage.setItem('promoCache', JSON.stringify(data.data));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
@@ -51,7 +48,6 @@ export default function Branches() {
             console.error('Error fetching banners:', error);
             if (cachedData) {
                 setBranchs(JSON.parse(cachedData));
-                console.log('Loaded from cache after API error');
             }
         } finally {
             setLoading(false);

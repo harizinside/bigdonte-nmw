@@ -40,8 +40,6 @@ export async function getServerSideProps(context) {
             );
 
             if (matchedService) {
-
-                console.log(matchedService.id)
                 // Fetch service details
                 const serviceDetailRes = await fetch(`${baseUrl}/service_detail/${matchedService.id}`);
                 const serviceDetailData = await serviceDetailRes.json();
@@ -179,7 +177,7 @@ export default function Layanan({
             <Image priority width={500} height={500} src={`${storageUrl}/${serviceDetail.image}`} alt={serviceDetail.name} />
         </div>
         <div className={breadcrumb.breadcrumb}>
-            <h5><Link href={'/'}>Home</Link> / Layanan / <span><Link href={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`}>{serviceDetail.name}</Link></span></h5>
+            <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <span><Link href={`${mainUrl}/layanan/${encodeURIComponent(serviceDetail.name.replace(/\s+/g, '-').toLowerCase())}`}>{serviceDetail.name}</Link></span></h5>
         </div>
         <div className={styles.section_1}>
             <div className={styles.section_1_heading}>
@@ -217,10 +215,12 @@ export default function Layanan({
                         <div className={styles.box_galeri} key={galeriPatient.id}>
                             {/* Image Section */}
                             <div className={styles.box_galeri_image}>
-                                <img
+                                <Image
+                                    width={800}
+                                    height={800}
+                                    priority
                                     src={`${storageUrl}/${galeriPatient.image}`}
                                     alt={galeriPatient.name || "Galeri Image"}
-                                    loading="lazy"
                                 />
                                 <div className={styles.button_image}>
                                     <button type="button">Sebelum</button>
@@ -267,9 +267,12 @@ export default function Layanan({
                 {typeServices.services.map((typeService) => (
                 <div className={styles.box_service} key={typeService.id}>
                     <div className={styles.box_service_image}>
-                    <img
+                    <Image
+                        width={800}
+                        height={800}
+                        priority
                         src={`${storageUrl}/${typeService.image2 || typeService.image}`}
-                        alt={typeService.title} loading='lazy'
+                        alt={typeService.title}
                     />
                     </div>
                     <div className={styles.box_service_content}>
@@ -295,9 +298,12 @@ export default function Layanan({
                     <div className={styles.box_galeri}>
                         <div className={styles.box_galeri_image}>
                             <div className={styles.box_galeri_overlay}></div>
-                            <img
+                            <Image 
+                            priority
+                            width={800}
+                            height={800}
                             src={`${storageUrl}/${typeService.image}`}
-                            alt={typeService.title} loading='lazy'
+                            alt={typeService.title}
                             />
                             <div
                             className={`${styles.button_image} ${styles.button_image_sc}`}

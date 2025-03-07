@@ -7,6 +7,7 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from "next/head";
 import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from "next/image";
 
 export async function getServerSideProps(context) {
   const { slug, slug_sc } = context.query;
@@ -27,7 +28,6 @@ export async function getServerSideProps(context) {
           serviceDetail = serviceDetailData.data;
           // Ambil serviceId dari serviceDetail jika slug_sc ada
           const serviceId = serviceDetail.id;
-          console.log("Service ID from /stos/: " + serviceId);
 
           // Ambil data pasien berdasarkan serviceId
           const serviceDetailListRes = await fetch(`${baseUrl}/patient/${serviceId}`);
@@ -48,12 +48,9 @@ export async function getServerSideProps(context) {
         const serviceDetailSubRes = await fetch(`${baseUrl}/service_two/${slug}`);
         const serviceDetailSubData = await serviceDetailSubRes.json();
 
-        console.log("serviceDetailSubData : " + JSON.stringify(serviceDetailSubData));
-
         if (serviceDetailSubData?.data) {
           serviceDetail = serviceDetailSubData.data;
           const serviceId = serviceDetailSubData.data.id;
-          console.log("Service ID from /service_two/: " + serviceId);
 
           // Ambil data pasien berdasarkan serviceId
           const serviceDetailListRes = await fetch(`${baseUrl}/patient/${serviceId}`);
@@ -196,14 +193,16 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
           </script>
       </Head>
       <div className={banner.banner}>
-        <img
+        <Image 
+          priority
+          width={800}
+          height={800}
           src={`${storageUrl}/${initialServiceDetail.image}`}
           alt={initialServiceDetail.title || "Banner image"}
-          loading="lazy"
         />
       </div>
       <div className={breadcrumb.breadcrumb}>
-          <h5><Link href={'/'}>Home</Link> / Layanan / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <Link href={`${mainUrl}/layanan/${name}/${slug}`}>{formattedSlug}</Link> / <span><Link href={`${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`}>Pasien {initialServiceDetail.title}</Link></span></h5>
+          <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <Link href={`${mainUrl}/layanan/${name}/${slug}`}>{formattedSlug}</Link> / <span><Link href={`${mainUrl}/layanan/${name}/${slug}/${initialServiceDetail.slug}`}>Pasien {initialServiceDetail.title}</Link></span></h5>
       </div>
       {/* Section 1 */}
       <div className={`${styles.section_1} ${styles.section_1_sc}`}>
@@ -243,10 +242,12 @@ export default function SubJenisLayanan({ initialSettings, initialServiceDetail,
                   <div className={styles.box_galeri} key={galeriPatient.id}>
                       {/* Image Section */}
                       <div className={styles.box_galeri_image}>
-                          <img
+                          <Image
+                              priority
+                              width={800}
+                              height={800}
                               src={`${storageUrl}/${galeriPatient.image}`}
                               alt={galeriPatient.name || "Galeri Image"}
-                              loading="lazy"
                           />
                           <div className={styles.button_image}>
                               <button type="button">Sebelum</button>

@@ -139,7 +139,7 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                 </script>
             </Head>
             <div className={breadcrumb.breadcrumb}>
-                <h5><Link href={'/'}>Home</Link> / <Link href={'/artikel'}>Artikel</Link> / Tag / <span className={styles.tag_heading}><Link href={`${mainUrl}/article/tag/${tag || ''}`}>{tag}</Link></span></h5>
+                <h5><Link href={'/'}>Home</Link> / <Link href={'/article'}>Artikel</Link> / Tag / <span className={styles.tag_heading}><Link href={`${mainUrl}/article/tag/${tag || ''}`}>{tag}</Link></span></h5>
             </div>
             <div className={styles.article_section}>
                 

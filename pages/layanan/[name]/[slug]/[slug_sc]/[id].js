@@ -6,6 +6,8 @@ import Link from "next/link";
 import loadingStyles from "@/styles/Loading.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Head from "next/head";
+import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from "next/image";
 
 export default function Patient() {
   const router = useRouter();
@@ -62,7 +64,6 @@ export default function Patient() {
           const dataPatient = await responsePatient.json();
           if (dataPatient && dataPatient.data) {
             setPatientDetail(dataPatient.data); // Set patient details
-            console.log("Pasien: ", dataPatient.data); // Display patient data in console
           } else {
             console.error("Data pasien tidak ditemukan:", dataPatient);
           }
@@ -198,11 +199,16 @@ export default function Patient() {
 
       {/* Banner */}
       <div className={banner.banner}>
-        <img
+        <Image
+          priority
+          width={800}
+          height={800}
           src={`${storageUrl}/${serviceDetail.image}`}
           alt={serviceDetail.name || "Banner image"}
-          loading="lazy"
         />
+      </div>
+      <div className={breadcrumb.breadcrumb}>
+          <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <Link href={`${mainUrl}/layanan/${name}/${slug}`}>{formattedSlug}</Link> / <Link href={`${mainUrl}/layanan/${name}/${slug}/${slug_sc}`}>Pasien {formattedSlugSc}</Link> / <span>Pasien {formattedSlugSc} {id}</span></h5>
       </div>
 
       {/* Section 1 */}
@@ -242,10 +248,12 @@ export default function Patient() {
             <div className={styles.box_galeri} key={patientDetail.id}>
               {/* Gambar Pasien */}
               <div className={styles.box_galeri_image}>
-                <img
+                <Image
+                  priority
+                  width={800}
+                  height={800}
                   src={`${storageUrl}/${patientDetail.image}`}
                   alt={patientDetail.name || "Galeri Image"}
-                  loading="lazy"
                 />
                 <div className={styles.button_image}>
                   <button type="button">Sebelum</button>
@@ -256,10 +264,12 @@ export default function Patient() {
             <div className={styles.box_galeri} key={patientDetail.id}>
               {/* Gambar Pasien */}
               <div className={styles.box_galeri_image}>
-                <img
+                <Image
+                  priority
+                  width={800}
+                  height={800}
                   src={`${storageUrl}/${patientDetail.image2}`}
                   alt={patientDetail.name || "Galeri Image"}
-                  loading="lazy"
                 />
                 <div className={styles.button_image}>
                   <button type="button">Sebelum</button>
@@ -280,10 +290,10 @@ export default function Patient() {
           <div
             className={`${styles.heading_section} ${styles.heading_section_start}`}
           >
-            <h1>
+            <h2>
               <font>Dokter </font>
               Kami
-            </h1>
+            </h2>
           </div>
         </div>
         <div className={styles.section_4_box}>

@@ -31,8 +31,6 @@ export async function getServerSideProps() {
         const response = await fetch(`${baseUrl}/doctor?page=${page}&per_page=${perPage}`);
         const doctorsData = await response.json();
 
-        console.log("data", doctorsData)
-
         return {
             props: {
                 initialPositions: ["Semua Departemen", ...filteredPositions],

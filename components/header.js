@@ -90,7 +90,6 @@ export default function Header() {
             setDropdownActive(dropdownName); // Open the clicked menu
         }
     };
-
     
 
     const handleHamburger = () => {
@@ -135,7 +134,6 @@ export default function Header() {
                             setSettings(data);
                             localStorage.setItem('settingCache', JSON.stringify(data));
                             localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                            console.log('Cache updated after API check');
                         } 
                     } else {
                         console.error('Invalid API response:', data);
@@ -155,7 +153,6 @@ export default function Header() {
                     setSettings(data);
                     localStorage.setItem('settingCache', JSON.stringify(data));
                     localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                    console.log('Fetched and cached from API');
                 } else {
                     console.error('Invalid API response:', data);
                 }

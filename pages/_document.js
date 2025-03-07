@@ -21,9 +21,6 @@ export default function Document() {
         <Script
           src="https://prahwa.net/tracking.js"
           strategy="afterInteractive"
-          onLoad={() => {
-            console.log('Tracking script loaded successfully.');
-          }}
           onError={(e) => {
             console.error('Error loading tracking script:', e);
           }}

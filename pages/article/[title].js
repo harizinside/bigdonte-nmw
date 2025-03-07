@@ -103,57 +103,7 @@ export async function getServerSideProps(context) {
       const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
 
       const [toc, setToc] = useState([]);
-      const contentRef = useRef(null);
-  
-      useEffect(() => {
-        if (contentRef.current) {
-            const headings = contentRef.current.querySelectorAll("h2, h3");
-            const tocItems = Array.from(headings).map((heading, index) => {
-                const id = `section-${index}`;
-                heading.setAttribute("id", id);
-                return { id, text: heading.innerText, tag: heading.tagName };
-            });
-
-            setToc(tocItems);
-        }
-    }, [articleDetail.description]);
-  
-      // Sisipkan Daftar Isi setelah paragraf pertama
-      let modifiedDescription = articleDetail.description;
-      if (toc.length > 0) {
-        const tocHTML = `
-            <div class=${styles.table_of_content}>
-                <h2>Daftar Isi</h2>
-                <ul>
-                    ${toc.map(item => `
-                        <li class="${item.tag === "H2" ? "h2-item" : "h3-item"}">
-                            <a href="#${item.id}" class="toc-link" data-target="${item.id}">${item.text}</a>
-                        </li>
-                    `).join("")}
-                </ul>
-            </div>
-        `;
-        modifiedDescription = modifiedDescription.replace(/(<p[^>]*>.*?<\/p>)/, `$1${tocHTML}`);
-    }
-  
-      useEffect(() => {
-        const links = document.querySelectorAll(".toc-link");
-        const handleClick = (e) => {
-            e.preventDefault();
-            const targetId = e.target.getAttribute("data-target");
-            const target = document.getElementById(targetId);
-            if (target) {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-        };
-
-        links.forEach(link => link.addEventListener("click", handleClick));
-
-        return () => {
-            links.forEach(link => link.removeEventListener("click", handleClick));
-        };
-    }, [toc]);
-
+        
   
       const handleNextPage = () => {
           if (page < totalPages) {
@@ -169,26 +119,75 @@ export async function getServerSideProps(context) {
 
       const tags = articleDetail.tags ? articleDetail.tags.split(',') : [];
 
-    const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
-
-    const shortDescription = cleanDescription.length > 100 
-    ? cleanDescription.substring(0, 100) + "..." 
-    : cleanDescription;
-
-    const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
-
-    const [htmlContent, setHtmlContent] = useState("");
-
-    const [htmlContentSc, setHtmlContentSc] = useState("Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini");
-
-    useEffect(() => {
-        setHtmlContentSc(tos?.description && tos.description !== "-" ? tos.description : "");
-    }, [tos]);
-    
-
-    useEffect(() => {
-        setHtmlContent(articleDetail.description);
-    }, [articleDetail.description]);
+      const cleanDescription = articleDetail.description.replace(/<[^>]*>/g, ''); // Menghapus semua tag HTML
+  
+      const shortDescription = cleanDescription.length > 100 
+      ? cleanDescription.substring(0, 100) + "..." 
+      : cleanDescription;
+  
+      const plainText = articleDetail.description.replace(/<\/?[^>]+(>|$)/g, "");
+  
+      const [htmlContent, setHtmlContent] = useState("");
+  
+      const [htmlContentSc, setHtmlContentSc] = useState("Klik lihat detail untuk mendapatkan informasi selengkapnya tentang layanan ini");
+  
+      useEffect(() => {
+          if (tos && tos.description && tos.description !== "-") {
+              setHtmlContentSc(tos.description);
+          } else {
+              setHtmlContentSc("");
+          }
+      }, [tos]);
+      
+      const contentRef = useRef(null);
+  
+      useEffect(() => {
+          if (!contentRef.current) return;
+      
+          // Buat parser untuk memodifikasi HTML sebelum render
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(articleDetail.description, "text/html");
+      
+          const headings = doc.querySelectorAll("h2, h3");
+          const tocItems = [];
+      
+          headings.forEach((heading, index) => {
+              const id = `section-${index}`;
+              heading.setAttribute("id", id);
+              tocItems.push({ id, text: heading.innerText, tag: heading.tagName });
+          });
+      
+          setToc(tocItems);
+      
+          // Set ulang description dengan ID yang sudah ditambahkan
+          const modifiedDescription = doc.body.innerHTML;
+          setModifiedContent(modifiedDescription);
+      }, [articleDetail.description]);
+      
+      const [modifiedContent, setModifiedContent] = useState("");
+          
+      const handleScrollToSection = (e, sectionId) => {
+          e.preventDefault(); // Hindari navigasi default dari anchor
+      
+          const section = document.getElementById(sectionId);
+          if (section) {
+              const offset = 80; // Sesuaikan dengan tinggi navbar jika ada
+              const targetPosition = section.getBoundingClientRect().top + window.scrollY - offset;
+              window.scrollTo({ top: targetPosition, behavior: "smooth" });
+          } else {
+              console.warn(`Target not found: ${sectionId}, retrying...`);
+      
+              // Coba lagi setelah 100ms jika elemen belum ditemukan
+              setTimeout(() => {
+                  const section = document.getElementById(sectionId);
+                  if (section) {
+                      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+                  } else {
+                      console.error(`Target still not found: ${sectionId}`);
+                  }
+              }, 100);
+          }
+      };
 
       if (!articleDetail) {
             return (
@@ -257,7 +256,13 @@ export async function getServerSideProps(context) {
             );
         }
 
-      
+    
+    
+    
+
+    // useEffect(() => {
+    //     setHtmlContent(articleDetail.description); 
+    // }, [articleDetail.description]);
 
     const articleSchema = {
         "@context": "https://schema.org",
@@ -346,7 +351,7 @@ export async function getServerSideProps(context) {
             ) : null }
         </div>
         <div className={breadcrumb.breadcrumb}>
-            <h5><Link href={'/'}>Home</Link> / <Link href={'/artikel'}>Artikel</Link> / <span><Link href={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}>{articleDetail.title}</Link></span></h5>
+            <h5><Link href={'/'}>Home</Link> / <Link href={'/article'}>Artikel</Link> / <span><Link href={`${mainUrl}/article/${encodeURIComponent(articleDetail.title.replace(/\s+/g, '-').toLowerCase())}`}>{articleDetail.title}</Link></span></h5>
         </div>
         <div className={styles.container}>
             <div className={styles.detail_tag}>
@@ -365,7 +370,7 @@ export async function getServerSideProps(context) {
                         <span>{articleDetail.author}, {articleDetail.date}</span>
                     </div>
                     <div className={styles.content_text}>
-                        {/* {toc.length > 0 && (
+                        {toc.length > 0 && (
                             <div className={styles.table_of_content}>
                                 <h2>Daftar Isi</h2>
                                 <ul>
@@ -373,13 +378,8 @@ export async function getServerSideProps(context) {
                                         <li key={index} className={item.tag === "H2" ? "h2-item" : "h3-item"}>
                                             <a
                                                 href={`#${item.id}`}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    const target = document.getElementById(item.id);
-                                                    if (target) {
-                                                        target.scrollIntoView({ behavior: "smooth", block: "start" });
-                                                    }
-                                                }}
+                                                className="toc-link"
+                                                onClick={(e) => handleScrollToSection(e, item.id)}
                                             >
                                                 {item.text}
                                             </a>
@@ -387,8 +387,10 @@ export async function getServerSideProps(context) {
                                     ))}
                                 </ul>
                             </div>
-                        )} */}
-                         <div key={modifiedDescription} ref={contentRef} dangerouslySetInnerHTML={{ __html: modifiedDescription }} />
+                        )}
+                        <div ref={contentRef}>
+                            <div dangerouslySetInnerHTML={{ __html: modifiedContent }} />
+                        </div>
                         <div className={styles.author_meta}>
                             <p>Penulis : {articleDetail.author}</p>
                             <p>Editor : {articleDetail.editor}</p>

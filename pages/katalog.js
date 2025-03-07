@@ -27,16 +27,13 @@ export default function Katalog() {
                     const parsedCache = JSON.parse(cachedData);
                     
                     if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        console.log('Data updated from API');
                         setCatalogs(data.data);
                         localStorage.setItem('promoCache', JSON.stringify(data.data));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                     } else {
-                        console.log('Loaded from cache');
                         setCatalogs(parsedCache);
                     }
                 } else {
-                    console.log('Fetched from API');
                     setCatalogs(data.data);
                     localStorage.setItem('promoCache', JSON.stringify(data.data));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
@@ -48,7 +45,6 @@ export default function Katalog() {
             console.error('Error fetching banners:', error);
             if (cachedData) {
                 setCatalogs(JSON.parse(cachedData));
-                console.log('Loaded from cache after API error');
             }
         }
     };

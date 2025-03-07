@@ -88,9 +88,6 @@ export default function Home() {
                         setSettings(data);
                         localStorage.setItem('settingCache', JSON.stringify(data));
                         localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                        console.log('Cache updated after API check');
-                    } else {
-                        console.log('No changes detected in API data');
                     }
                 } else {
                     console.error('Invalid API response:', data);
@@ -110,7 +107,6 @@ export default function Home() {
                 setSettings(data);
                 localStorage.setItem('settingCache', JSON.stringify(data));
                 localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                console.log('Fetched and cached from API');
             } else {
                 console.error('Invalid API response:', data);
             }
@@ -136,7 +132,6 @@ export default function Home() {
               setServices(JSON.parse(cachedServices));
               setServiceDetails(JSON.parse(cachedDetails));
               setIsLoading(false); 
-              console.log('Loaded from cache');
               return;
           }
 
@@ -164,7 +159,6 @@ export default function Home() {
                   localStorage.setItem('servicesCache', JSON.stringify(data.data));
                   localStorage.setItem('serviceDetailsCache', JSON.stringify(detailsMap));
                   localStorage.setItem('servicesCacheExpiry', (now + 6 * 60 * 60 * 1000).toString()); 
-                  console.log('Fetched from API and updated cache');
               } else {
                   console.error('Invalid response data format:', data);
               }
@@ -194,16 +188,13 @@ export default function Home() {
                     const parsedCache = JSON.parse(cachedData);
                     
                     if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        console.log('Data updated from API');
                         setPromos(data.data);
                         localStorage.setItem('promoCache', JSON.stringify(data.data));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                     } else {
-                        console.log('Loaded from cache');
                         setPromos(parsedCache);
                     }
                 } else {
-                    console.log('Fetched from API');
                     setPromos(data.data);
                     localStorage.setItem('promoCache', JSON.stringify(data.data));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
@@ -215,7 +206,6 @@ export default function Home() {
             console.error('Error fetching banners:', error);
             if (cachedData) {
                 setPromos(JSON.parse(cachedData));
-                console.log('Loaded from cache after API error');
             }
         } finally {
             setIsLoading(false);

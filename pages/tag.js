@@ -27,7 +27,6 @@ export default function TagsPage() {
             try {
                 const response = await fetch(`${baseUrl}/setting`);
                 const data = await response.json();
-                console.log('Fetched data:', data);  // Log the entire response
   
                 if (data && data.social_media) {
                     setSettings(data); // Set the entire response object to settings
