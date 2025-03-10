@@ -170,7 +170,7 @@ export default function JenisLayanan({ initialSettings, initialServiceDetail, in
             />
         </div>
         <div className={breadcrumb.breadcrumb}>
-            <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <span><Link href={`${mainUrl}/layanan/${slug}/${initialServiceDetail.slug}`}>{initialServiceDetail.title}</Link></span></h5>
+            <h5><Link href={'/'}>Home</Link> / <Link href={`${mainUrl}/layanan`}>Layanan</Link> / <Link href={`${mainUrl}/layanan/${name}`}>{formattedName}</Link> / <span><Link href={`${mainUrl}/layanan/${name}/${initialServiceDetail.slug}`}>{initialServiceDetail.title}</Link></span></h5>
         </div>
         <div className={`${styles.section_1} ${styles.section_1_sc}`}>
             <div className={styles.section_1_heading}>
