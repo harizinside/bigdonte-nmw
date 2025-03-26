@@ -256,7 +256,7 @@ export default function DetailArtikel() {
           name: "NMW Aesthetic Clinic",
           logo: {
             "@type": "ImageObject",
-            url: `${article.image ? `${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`}`
+            url: `${storageUrl}/${article.image}`
           }
         },
         mainEntityOfPage: {
@@ -265,7 +265,7 @@ export default function DetailArtikel() {
         },
         image: {
           "@type": "ImageObject",
-          url: `${article.image}`
+          url: `${storageUrl}/${article.image}`
         },
         author: {
           "@type": "Person",
