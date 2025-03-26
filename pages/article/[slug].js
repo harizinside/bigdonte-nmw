@@ -302,27 +302,29 @@ export default function DetailArtikel() {
 
     return (
         <>
-        <Head>
-           <title>{article?.title}</title>
-           <meta name="description" content={article?.description ? `${article?.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
-           <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
+        {article && (
+            <Head>
+            <title>{article?.title}</title>
+            <meta name="description" content={article?.description ? `${article?.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article?.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
+            <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
 
-           <meta property="og:title" content={article?.title ? `${article?.title}` : `Artikel NMW Aesthetic Clinic`}  />
-           <meta property="og:description" content={article.description ? `${article.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
-           <meta property="og:type" content="website" />
-           <meta property="og:url" content={`${mainUrl}/article/${article.slug}`} />
-           <meta property="og:image" content={article.image ? `${storageUrl}/${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+            <meta property="og:title" content={article?.title ? `${article?.title}` : `Artikel NMW Aesthetic Clinic`}  />
+            <meta property="og:description" content={article.description ? `${article.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article?.description.length > 100 ? '...' : ''}` : 'Artikel Deskripsi'}/>
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={`${mainUrl}/article/${article.slug}`} />
+            <meta property="og:image" content={article.image ? `${storageUrl}/${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
-           <meta name="twitter:card" content="summary_large_image" />
-           <meta name="twitter:title" content={article.title} />
-           <meta name="twitter:description" content={article.description ? `${article.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article.description.length > 100 ? '...' : ''}` : 'article Deskripsi'}/>
-           <meta name="twitter:image" content={article.image ? `${storageUrl}/${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={article.title} />
+            <meta name="twitter:description" content={article.description ? `${article.description.replace(/<[^>]+>/g, '').slice(0, 100)}${article.description.length > 100 ? '...' : ''}` : 'article Deskripsi'}/>
+            <meta name="twitter:image" content={article.image ? `${storageUrl}/${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`} />
 
-           <link rel="canonical" href={`${mainUrl}/article/${article.slug}`} />
+            <link rel="canonical" href={`${mainUrl}/article/${article.slug}`} />
 
-           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-       </Head>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        </Head>
+        )}
         <div className={banner.banner}>
              <Image priority width={900} height={900} src={`${storageUrl}/${article.image}`}  alt={article.title}/> 
              {article.image_source ? (
