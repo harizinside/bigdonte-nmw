@@ -18,7 +18,7 @@ const FAQPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${baseUrl}/setting`);
+                const response = await fetch(`api/settings`);
                 const data = await response.json();
   
                 if (data && data.social_media) {
@@ -34,23 +34,26 @@ const FAQPage = () => {
         fetchData();
       }, [baseUrl]);
 
-    useEffect(() => {
+      useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`${baseUrl}/faq`);
                 const data = await response.json();
-                if (data && data.data) { // Pastikan data dan data.data ada
-                setFaqs(data.data); // Setel data objek banner
+    
+                if (data && data.faqs) {
+                    // Reverse data sebelum menyimpannya ke state
+                    setFaqs([...data.faqs].reverse());
                 } else {
-                console.error('Invalid response data format:', data);
+                    console.error('Invalid response data format:', data);
                 }
             } catch (error) {
-                console.error('Error fetching banners:', error);
+                console.error('Error fetching FAQs:', error);
             }
         };
- 
+    
         fetchData();
     }, [baseUrl]);
+    
 
   const [activeIndex, setActiveIndex] = useState(null);
 

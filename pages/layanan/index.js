@@ -1,17 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import banner from "@/styles/Banner.module.css";
 import styles from "@/styles/Layanan.module.css";
 import breadcrumb from "@/styles/Breadcrumb.module.css"
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
+import loadingStyles from "@/styles/Loading.module.css"
 
 export default function LayananPage(){
     const [settings, setSettings] = useState([]);
     const [services, setServices] = useState([]);
-     const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
@@ -25,25 +25,20 @@ export default function LayananPage(){
             // Cek apakah cache valid
             if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
                 setSettings(JSON.parse(cachedSetting));
-                setIsLoading(false);
                 
                 // Lakukan pengecekan data API untuk pembaruan data
                 try {
-                    const response = await fetch(`${baseUrl}/setting`);
+                    const response = await fetch(`${baseUrl}/settings`);
                     const data = await response.json();
-    
-                    if (data && data.social_media) {
-                        const cachedData = JSON.parse(cachedSetting);
-                        
-                        // Bandingkan data baru dengan cache
-                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
-                            setSettings(data);
-                            localStorage.setItem('settingCache', JSON.stringify(data));
-                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                        } 
-                    } else {
-                        console.error('Invalid API response:', data);
-                    }
+                    
+                    const cachedData = JSON.parse(cachedSetting);
+                    
+                    // Bandingkan data baru dengan cache
+                    if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                        setSettings(data);
+                        localStorage.setItem('settingCache', JSON.stringify(data));
+                        localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                    } 
                 } catch (error) {
                     console.error('Error checking API for updates:', error);
                 }
@@ -52,20 +47,14 @@ export default function LayananPage(){
     
             // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
-                const response = await fetch(`${baseUrl}/setting`);
+                const response = await fetch(`${baseUrl}/settings`);
                 const data = await response.json();
     
-                if (data && data.social_media) {
-                    setSettings(data);
-                    localStorage.setItem('settingCache', JSON.stringify(data));
-                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                } else {
-                    console.error('Invalid API response:', data);
-                }
+                setSettings(data);
+                localStorage.setItem('settingCache', JSON.stringify(data));
+                localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
             } catch (error) {
                 console.error('Error fetching settings:', error);
-            } finally {
-                setIsLoading(false);
             }
         };
     
@@ -82,24 +71,22 @@ export default function LayananPage(){
                 const response = await fetch(`${baseUrl}/service`);
                 const data = await response.json();
     
-                if (data && data.data) {
-                    let servicesData = data.data;
+                if (data && data.services) {
+                    let servicesData = data.services;
     
                     if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
                         const parsedCache = JSON.parse(cachedData);
-                        if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                            servicesData = data.data;
+                        if (JSON.stringify(parsedCache) !== JSON.stringify(data.services)) {
+                            servicesData = data.services;
                         } else {
                             servicesData = parsedCache;
                         }
                     } else {
-                        servicesData = data.data;
+                        servicesData = data.services;
                     }
     
-                    // Ambil detail service setelah mendapatkan daftar
-                    const detailedServices = await fetchServiceDetails(servicesData);
     
-                    setServices(detailedServices);
+                    setServices(data.services);
                     localStorage.setItem('promoCache', JSON.stringify(servicesData));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                 } else {
@@ -114,38 +101,6 @@ export default function LayananPage(){
     
         fetchDataService();
     }, [baseUrl]);
-    
-    const fetchServiceDetails = async (services) => {
-    
-        return await Promise.all(
-            services.map(async (service) => {
-                try {
-                    const res = await fetch(`${baseUrl}/service_detail/${service.id}`);
-                    const detail = await res.json();
-    
-                    return {
-                        ...service,
-                        image: detail.data?.image ? `${storageUrl}/${detail.data.image}` : '/images/detail-artikel-banner.png',
-                        image_2: detail.data?.image_2 ? `${storageUrl}/${detail.data.image_2}` : null,
-                        description: detail.data?.description || '',
-                    };
-                } catch (error) {
-                    console.error(`Error fetching service ${service.id}:`, error);
-                    return { ...service, image: '/images/detail-artikel-banner.png' };
-                }
-            })
-        );
-    };    
-
-    const generateSlug = (text) => {
-        return text
-            .toLowerCase() // Ubah ke huruf kecil
-            .replace(/\s+/g, '-') // Ganti spasi dengan "-"
-            .replace(/[^a-z0-9\-]/g, '') // Hapus karakter selain huruf, angka, dan "-"
-            .replace(/-+/g, '-') // Hapus duplikasi tanda "-"
-            .trim(); // Hilangkan spasi di awal dan akhir
-    };
-    
     
 
     const formattedPhone = settings.phone && settings.phone.startsWith('0')
@@ -252,17 +207,11 @@ export default function LayananPage(){
 
             <div className={styles.box_galeri_layout}>
             {services.map((service) => (
-                <Link href={`layanan/${generateSlug(service.name)}`} key={service.id}>
+                <Link href={`layanan/${service.slug}`} key={service._id}>
                     <div className={styles.box_galeri}>
                         <div className={styles.box_galeri_image}>
                             <div className={styles.box_galeri_overlay}></div>
-                            <Image
-                                width={800}
-                                height={800}
-                                priority
-                                src={service.image}
-                                alt={service.name}
-                            />
+                            <Image priority width={500} height={500} src={`${storageUrl}${service.imageCover}`} alt={service.name}/>
                             <div className={`${styles.button_image} ${styles.button_image_sc}`}>
                                 <button>{service.name}</button>
                             </div>
@@ -273,6 +222,15 @@ export default function LayananPage(){
 
             </div>
         </div>
+
+        {isLoading && (
+            <div className={loadingStyles.box}>
+                <div className={loadingStyles.content}>
+                    <img src="/images/logo.svg" loading="lazy"/>
+                    <span>LOADING</span>
+                </div>
+            </div>
+        )}
             
         </>
     );

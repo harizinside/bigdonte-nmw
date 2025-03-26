@@ -81,6 +81,13 @@
     line-height: 1.5;
     margin-left: .96vw;
 }
+.service_description a{
+    font-size: .83vw;
+    letter-spacing: .03vw;
+    font-family: var(--montserrat);
+    color: #FF851A;
+    line-height: 1.5;
+}
 
 @media (max-width:768px) {
     .section_1{

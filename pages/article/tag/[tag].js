@@ -7,6 +7,7 @@ import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import loadingStyles from "@/styles/Loading.module.css";
 import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
     const { tag } = context.query;
@@ -15,18 +16,19 @@ export async function getServerSideProps(context) {
     let articlesAll = [];
     let filteredArticles = [];
     let tags = [];
+    let dataTags = [];
     let settings = {};
 
     try {
         // Fetch site settings
-        const settingsRes = await fetch(`${baseUrl}/setting`);
+        const settingsRes = await fetch(`${baseUrl}/settings`);
         settings = await settingsRes.json();
 
         // Fetch articles
         const articlesRes = await fetch(`${baseUrl}/article-new`);
         const articlesData = await articlesRes.json();
-        if (articlesData?.data) {
-            articlesAll = articlesData.data;
+        if (articlesData?.articles) {
+            articlesAll = articlesData?.articles;
             // Filter articles by tag if available
             if (tag) {
                 filteredArticles = articlesAll.filter(article => article.tags && article.tags.includes(tag));
@@ -38,6 +40,7 @@ export async function getServerSideProps(context) {
         // Fetch tags for filtering purposes
         const tagsRes = await fetch(`${baseUrl}/get-tag`);
         tags = await tagsRes.json();
+        dataTags = tags?.tags
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -46,13 +49,13 @@ export async function getServerSideProps(context) {
         props: {
             articlesAll,
             filteredArticles,
-            tags,
+            dataTags,
             settings
         }
     };
 }
 
-export default function TagPage({ articlesAll, filteredArticles, tags, settings }) {
+export default function TagPage({ articlesAll, filteredArticles, tags, dataTags, settings }) {
     const router = useRouter();
     const { tag } = router.query;
     const [currentPage, setCurrentPage] = useState(1);
@@ -114,6 +117,15 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
         }
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("id-ID", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }).format(date);
+    };
+
     const metaImage = displayedArticles.length > 0 ? displayedArticles[0].image : `${mainUrl}/images/kebijakan-privasi.png`;
 
     return (
@@ -150,27 +162,27 @@ export default function TagPage({ articlesAll, filteredArticles, tags, settings 
                     <div className={styles.article_layout}>
                         {displayedArticles.length > 0 ? (
                             displayedArticles.map((article) => {
-                                const tagsList = article.tags ? article.tags.split(',') : [];
+                                const firstTag = article.tags?.[0] || "";
                                 return (
-                                    <div className={styles.article_box} key={article.id}>
+                                    <div className={styles.article_box} key={article._id}>
                                         <div className={styles.article_image}>
-                                            {tagsList.length > 0 && (
-                                                <Link href={`/article/tag/${tagsList[0].trim()}`}>
-                                                    <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
+                                            {firstTag && (
+                                                <Link href={`/article/tag/${firstTag.trim()}`}>
+                                                    <button className={styles.tag_article_img}>#{firstTag.trim()}</button>
                                                 </Link>
                                             )}
-                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                                <img src={article.image} alt={article.title} loading='lazy'/>
+                                            <Link href={`/article/${article.slug}`}>
+                                                <Image priority width={500} height={500} src={`${storageUrl}${article.image}`} alt={article.title}/>
                                             </Link>
                                         </div>
                                         <div className={styles.article_content}>
-                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <Link href={`/article/${article.slug}`}>
                                                 <div className={styles.article_heading}>
                                                     <h3>{article.title}</h3>
                                                 </div>
                                             </Link>
-                                            <span>Admin, {article.date}</span>
-                                            <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                            <span>{article.author}, {formatDate(article.date)}</span>
+                                            <Link href={`/article/${article.slug}`}>
                                                 <button className={styles.btn_more}>Baca Selengkapnya</button>
                                             </Link>
                                         </div>

@@ -542,7 +542,26 @@
   }
   .empty img{
     width: 34vw;
-    
+  }
+
+  .emptyPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    height: 65vh;
+    padding-top: 3vw;
+  }
+  .emptyPage h1{
+    font-family: var(--montserrat);
+    font-size: 1vw;
+    color: #4C4C4C;
+    letter-spacing: .04vw;
+    margin-top: 1vw;
+  }
+  .emptyPage img{
+    width: 34vw;
   }
 
   @media (max-width:768px) {
@@ -559,6 +578,22 @@
       }
       .empty img{
         width: 64vw;
+        
+      }
+    .emptyPage{
+        height: 37vh;
+        padding-top: 12vw;
+        text-align: center;
+      }
+      .emptyPage h1{
+        font-family: var(--montserrat);
+        font-size: 4vw;
+        color: #4C4C4C;
+        letter-spacing: .04vw;
+        margin-top: 5vw;
+      }
+      .emptyPage img{
+        width: 75vw;
         
       }
       .modal_content {

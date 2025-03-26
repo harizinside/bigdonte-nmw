@@ -25,7 +25,7 @@ export default function TagsPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${baseUrl}/setting`);
+                const response = await fetch(`api/settings`);
                 const data = await response.json();
   
                 if (data && data.social_media) {

@@ -13,7 +13,7 @@ export default function Article() {
     const [articles, setArticles] = useState([]);
     const [articlesAll, setArticlesAll] = useState([]);
     const [tags, setTags] = useState([]);
-    const [currentPage, setCurrentPage] = useState(2); // Menyimpan halaman yang aktif
+    const [currentPage, setCurrentPage] = useState(1); // Menyimpan halaman yang aktif
     const [totalPages, setTotalPages] = useState(1); 
     const [loading, setLoading] = useState(true); // Tambahkan state loading
 
@@ -24,11 +24,11 @@ export default function Article() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${baseUrl}/article-new`);
+                const response = await fetch(`api/article-new`);
                 const data = await response.json();
-                if (data && data.data) { // Pastikan data dan data.data ada
+                if (data && data.articles) { // Pastikan data dan data.data ada
                     // Ambil artikel dari data.data
-                    const articles = data.data;
+                    const articles = data.articles;
     
                     // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
                     const sortedArticles = articles.sort((a, b) => {
@@ -58,29 +58,31 @@ export default function Article() {
     
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const response = await fetch(`${baseUrl}/article?page=${currentPage}`);
-            const data = await response.json();
-            if (data) {
-              setArticlesAll(data.data); // Simpan artikel yang didapat
-              setTotalPages(data.meta.last_page); // Simpan total halaman
-            } else {
-              console.error('Invalid response data format:', data);
+            setLoading(true); // Aktifkan loading saat fetch mulai
+            try {
+                const response = await fetch(`/api/article-new`);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                
+                const data = await response.json();
+    
+                // Hilangkan 3 artikel terbaru
+                setArticlesAll(data.articles.slice(3));
+            } catch (error) {
+                console.error("❌ Error fetching articles:", error);
+            } finally {
+                setLoading(false); // Matikan loading setelah fetch selesai
             }
-          } catch (error) {
-            console.error('Error fetching articles:', error);
-          }
         };
     
         fetchData();
-      }, [currentPage, baseUrl]); // Fetch ulang saat currentPage berubah
+    }, []);    
 
       useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`${baseUrl}/get-tag`);
                 const data = await response.json();
-                setTags(data); // Langsung mengatur data JSON yang diterima
+                setTags(data?.tags); // Langsung mengatur data JSON yang diterima
             } catch (error) {
                 console.error('Error fetching tags:', error);
             }
@@ -88,25 +90,15 @@ export default function Article() {
 
         fetchData();
       }, [baseUrl]);
-    
-      // Fungsi untuk menangani klik halaman berikutnya
-        const handleNextPage = () => {
-            if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-            }
-        };
 
-        // Fungsi untuk menangani klik halaman sebelumnya
-        const handlePrevPage = () => {
-            if (currentPage > 2) {
-            setCurrentPage(currentPage - 1); // Mulai dari halaman 2
-            }
-        };
-
-        // Fungsi untuk menangani klik halaman tertentu
-        const handlePageClick = (page) => {
-            setCurrentPage(page + 1); // Map angka halaman mulai dari 1 ke halaman asli
-        };
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }).format(date);
+      };
 
       if (loading) {
             return (
@@ -133,7 +125,7 @@ export default function Article() {
       logo: {
           "@type": "ImageObject",
           url: `${mainUrl}/images/slimming-treatment.webp`
-      }
+        }
       },
       mainEntityOfPage: {
       "@type": "WebPage",
@@ -203,27 +195,27 @@ export default function Article() {
                 <div className={styles.tabcontent_layout}>
                     <div className={styles.tabcontent_section}>
                     {articles.map((article) => {
-                        const tagsList = article.tags ? article.tags.split(',') : [];
+                        const firstTag = article.tags?.[0] || "";
 
                         return (
-                            <div className={styles.tabcontent_box} key={article.id}>
+                            <div className={styles.tabcontent_box} key={article._id}>
                                 <div className={styles.tabcontent_box_img}>
-                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                        <Image priority width={500} height={500} src={article.image} alt={article.title}/>
+                                    <Link href={`/article/${article.slug}`}>
+                                        <Image priority width={500} height={500}  src={`${storageUrl}/${article.image}`}  alt={article.title}/>
                                     </Link>
-                                    {tagsList.length > 0 && (
-                                        <Link href={`/article/tag/${tagsList[0].trim()}`}>
-                                            <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
-                                        </Link>
+                                    {firstTag && (
+                                    <Link href={`/article/tag/${firstTag.trim()}`}>
+                                        <button className={styles.tag_article_img}>#{firstTag.trim()}</button>
+                                    </Link>
                                     )}
                                 </div>
                                 <div className={styles.tabcontent_box_text}>
-                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${article.slug}`}>
                                         <h3>{article.title}</h3>
                                     </Link>
-                                    <span>Admin, {article.date}</span>
+                                    <span>{article.author}, {formatDate(article.date)}</span>
                                     <div className={styles.description} dangerouslySetInnerHTML={{ __html: article.description }} />
-                                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                    <Link href={`/article/${article.slug}`}>
                                         <button>Baca Selengkapnya</button>
                                     </Link>
                                 </div>
@@ -260,60 +252,37 @@ export default function Article() {
         </div>
         <div className={styles.article_container}>
             <div className={styles.article_layout}>
-                {articlesAll.map(article => {
-                    const tagsList = article.tags ? article.tags.split(',') : [];
+                {articlesAll.map((article, index) => {
+                    const firstTag = article.tags?.[0] || "";
 
-                    return(
-                        <div className={styles.article_box} key={article.id}>
+                    return (
+                        <div className={styles.article_box} key={article._id || index}>
                             <div className={styles.article_image}>
-                                {tagsList.length > 0 && (
-                                    <Link href={`/article/tag/${tagsList[0].trim()}`}>
-                                        <button>#{tagsList[0].trim()}</button>
+                                {firstTag && (
+                                    <Link href={`/article/tag/${firstTag.trim()}`}>
+                                        <button className={styles.tag_article_img}>#{firstTag.trim()}</button>
                                     </Link>
                                 )}
-                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                                    <Image priority width={500} height={500} src={article.image} alt={article.title}/>
+                                <Link href={`/article/${article.slug}`}>
+                                    <Image priority width={500} height={500} src={`${storageUrl}${article.image}`} alt={article.title}/>
                                 </Link>
                             </div>
                             <div className={styles.article_content}>
-                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                                <Link href={`/article/${article.slug}`}>
                                     <div className={styles.article_heading}>
                                         <h3>{article.title}</h3>
                                     </div>
                                 </Link>
-                                <span>Admin, {article.date}</span>
-                                <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}><button className={styles.btn_more}>Baca Selengkapnya</button></Link>
+                                <span>{article.author}, {formatDate(article.date)}</span>
+                                <Link href={`/article/${article.slug}`}>
+                                    <button className={styles.btn_more}>Baca Selengkapnya</button>
+                                </Link>
                             </div>
                         </div>
-                    )
+                    );
                 })}
             </div>
-            <div className={styles.article_pagination}>
-            {/* Tombol "Sebelumnya" */}
-            <button onClick={handlePrevPage} disabled={currentPage === 2}>
-                Sebelumnya
-            </button>
 
-            {/* Menampilkan nomor halaman */}
-            {[...Array(totalPages - 1)].map((_, index) => {
-                const pageNumber = index + 2; // Menampilkan halaman mulai dari 2, tetapi treat itu sebagai halaman 1
-
-                return (
-                <button
-                    key={index}
-                    className={currentPage === pageNumber ? styles.active_pagination : ''}
-                    onClick={() => setCurrentPage(pageNumber)} // Navigasi ke halaman yang benar
-                >
-                    {index + 1} {/* Menampilkan halaman mulai dari 1, tetapi tetap berfungsi untuk navigasi ke page 2 */}
-                </button>
-                );
-            })}
-
-            {/* Tombol "Selanjutnya" */}
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                Selanjutnya
-            </button>
-            </div>
 
 
             

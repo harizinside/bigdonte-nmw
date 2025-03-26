@@ -7,10 +7,11 @@ import loadingStyles from "@/styles/Loading.module.css";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import breadcrumb from "@/styles/Breadcrumb.module.css"
+import Image from "next/image";
 
 export default function Branches() {
   const [branchs, setBranchs] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
@@ -25,20 +26,22 @@ export default function Branches() {
             const response = await fetch(`${baseUrl}/branch`);
             const data = await response.json();
 
-            if (data && data.data) {
+            if (data && data.branches) {
+                const reversedBranches = [...data.branches].reverse(); // Reverse tanpa modifikasi asli
+                
                 if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
                     const parsedCache = JSON.parse(cachedData);
                     
-                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        setBranchs(data.data);
-                        localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.branches)) {
+                        setBranchs(reversedBranches);
+                        localStorage.setItem('promoCache', JSON.stringify(reversedBranches));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                     } else {
-                        setBranchs(parsedCache);
+                        setBranchs([...parsedCache].reverse()); // Reverse data dari cache
                     }
                 } else {
-                    setBranchs(data.data);
-                    localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    setBranchs(reversedBranches);
+                    localStorage.setItem('promoCache', JSON.stringify(reversedBranches));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                 }
             } else {
@@ -47,7 +50,7 @@ export default function Branches() {
         } catch (error) {
             console.error('Error fetching banners:', error);
             if (cachedData) {
-                setBranchs(JSON.parse(cachedData));
+                setBranchs([...JSON.parse(cachedData)].reverse()); // Reverse cache jika fetch gagal
             }
         } finally {
             setLoading(false);
@@ -55,7 +58,7 @@ export default function Branches() {
     };
 
     fetchData();
-  }, [baseUrl]);
+    }, [baseUrl]);
 
   const schemaData = {
         "@context": "https://schema.org",
@@ -133,14 +136,21 @@ export default function Branches() {
                     {branchs.map(branch => (
                         <div className={styles.cabang_box} key={branch.id}>
                             <div className={styles.cabang_box_image}>
-                                <img src={branch.image} loading="lazy" alt={branch.name}/>
+                                <Image
+                                    width={500}
+                                    height={500}
+                                    src={`${storageUrl}${branch.image ||
+                                        "Loading..."}`}
+                                    alt={branch.name}
+                                    priority
+                                />
                             </div>
                             <div className={styles.cabang_box_content}>
                                 <h3>{branch.name}</h3>
                                 <div className={styles.cabang_box_text}>
                                     <div className={styles.cabang_box_detail}>
                                         <h4>Alamat</h4>
-                                        <p>{branch.address.replace(/<\/?p>/g, '')}</p>
+                                        <p>{branch.address}</p>
                                     </div>
                                     <div className={styles.cabang_box_detail}>
                                         <h4>Operasional</h4>
@@ -161,6 +171,15 @@ export default function Branches() {
                     ))}
                 </div>
             </div>
+
+            {loading && (
+                <div className={loadingStyles.box}>
+                    <div className={loadingStyles.content}>
+                        <img src="/images/logo.svg" loading="lazy" alt="Loading"/>
+                        <span>LOADING</span>
+                    </div>
+                </div>
+            )}
     </>
   );
 }

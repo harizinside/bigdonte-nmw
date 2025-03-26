@@ -1,32 +1,35 @@
 import axios from 'axios';
-import FormData from 'form-data';
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { email } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-    const url = 'https://nmw.prahwa.net/api/subscribers';
+  const { email } = req.body;
 
-    try {
-      // Buat instance FormData
-      const formData = new FormData();
-      formData.append('email', email);
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
 
-      // Kirim data menggunakan axios
-      const response = await axios.post(url, formData, {
+  const url = 'https://nmw-cms.vercel.app/api/subscribers';
+
+  try {
+    const response = await axios.post(
+      url,
+      JSON.stringify({ email }), // Kirim data sebagai JSON string
+      {
         headers: {
-          ...formData.getHeaders(), // Menggunakan header yang dihasilkan oleh FormData
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY}`,
         },
-      });
+      }
+    );
 
-      res.status(response.status).json(response.data);
-    } catch (error) {
-      console.error(error);
-      res.status(error.response ? error.response.status : 500).json({
-        error: error.response?.data || 'An error occurred',
-      });
-    }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
+    return res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error("Error posting to API:", error.response?.data || error.message);
+    return res.status(error.response?.status || 500).json({
+      error: error.response?.data || 'An error occurred',
+    });
   }
 }

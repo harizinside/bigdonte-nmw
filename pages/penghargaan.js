@@ -13,23 +13,25 @@ export default function Penghargaan() {
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`${baseUrl}/achievment`);
-            const data = await response.json();
-            if (data && data.data) { // Pastikan data dan data.data ada
-            setAchievments(data.data); // Setel data objek banner
-            } else {
-            console.error('Invalid response data format:', data);
-            }
-        } catch (error) {
-            console.error('Error fetching banners:', error);
-        }
-    };
-
-    fetchData();
-    }, []);
+    useEffect(() => {
+          const fetchData = async () => {
+            try {
+    
+              const response = await fetch(`/api/achievment`);
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+    
+                const result = await response.json();
+                
+                setAchievments(result.achievements);
+              } catch (error) {
+                console.error("Error fetching services:", error);
+              }
+          };
+    
+          fetchData();
+        }, []);
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -134,7 +136,7 @@ export default function Penghargaan() {
             </div>
             <div className={styles.cabang_layout}>
                 {achievments.map(achievment => (
-                <div className={styles.cabang_box} key={achievment.id}>
+                <div className={styles.cabang_box} key={achievment._id}>
                     <div 
                         className={styles.cabang_box_image} 
                         onClick={() => handleImageClick(`${storageUrl}/${achievment.image}`)}
@@ -144,9 +146,7 @@ export default function Penghargaan() {
                     <div className={styles.cabang_box_content}>
                         <h3>{achievment.heading}</h3>
                         <div className={styles.cabang_box_text}>
-                        <div 
-                            dangerouslySetInnerHTML={{ __html: achievment.description }} 
-                            />
+                        <p>{achievment.description}</p>
                         </div>
                     </div>
                 </div>

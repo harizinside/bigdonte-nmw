@@ -31,198 +31,164 @@ export default function Home() {
 
   const [isLoading, setIsLoading] = useState(true);
 
+//   useEffect(() => {
+//     const fetchData = async () => {
+//         try {
+//             const response = await fetch(`${baseUrl}/article-new`);
+//             const data = await response.json();
+//             if (data && data.data) { // Pastikan data dan data.data ada
+//                 // Ambil artikel dari data.data
+//                 const articles = data.data;
+
+//                 // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
+//                 const sortedArticles = articles.sort((a, b) => {
+//                     const dateA = new Date(a.date);
+//                     const dateB = new Date(b.date);
+//                     const createdAtA = new Date(a.created_at);
+//                     const createdAtB = new Date(b.created_at);
+
+//                     // Urutkan berdasarkan 'date' jika ada, jika tidak, urutkan berdasarkan 'created_at'
+//                     return (dateB - dateA) || (createdAtB - createdAtA);
+//                 });
+
+//                 // Ambil 3 artikel pertama setelah diurutkan
+//                 setArticles(sortedArticles.slice(0, 3));
+//             } else {
+//                 console.error('Invalid response data format:', data);
+//             }
+//         } catch (error) {
+//             console.error('Error fetching articles:', error);
+//         }
+//     };
+
+//     fetchData();
+// }, [baseUrl]);    
+
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`${baseUrl}/article-new`);
-            const data = await response.json();
-            if (data && data.data) { // Pastikan data dan data.data ada
-                // Ambil artikel dari data.data
-                const articles = data.data;
+        const fetchData = async () => {
+            if (typeof window === "undefined") return;
 
-                // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
-                const sortedArticles = articles.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-                    const createdAtA = new Date(a.created_at);
-                    const createdAtB = new Date(b.created_at);
+            const cachedSetting = localStorage.getItem("settingCache");
+            const cachedSettingExpired = localStorage.getItem("settingCacheExpired");
+            const now = Date.now();
 
-                    // Urutkan berdasarkan 'date' jika ada, jika tidak, urutkan berdasarkan 'created_at'
-                    return (dateB - dateA) || (createdAtB - createdAtA);
-                });
+            // **Cek apakah cache masih berlaku**
+            if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+                const cachedData = JSON.parse(cachedSetting);
+                setSettings(cachedData);
+                setIsLoading(false);
 
-                // Ambil 3 artikel pertama setelah diurutkan
-                setArticles(sortedArticles.slice(0, 3));
-            } else {
-                console.error('Invalid response data format:', data);
-            }
-        } catch (error) {
-            console.error('Error fetching articles:', error);
-        }
-    };
+                // **Periksa apakah data di API lebih baru**
+                try {
+                    const response = await fetch(`/api/settings`);
+                    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
-    fetchData();
-}, [baseUrl]);    
-
-  useEffect(() => {
-    const fetchData = async () => {
-        const cachedSetting = localStorage.getItem('settingCache');
-        const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
-        const now = new Date().getTime();
-
-        // Cek apakah cache valid
-        if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
-            setSettings(JSON.parse(cachedSetting));
-            setIsLoading(false);
-            
-            // Lakukan pengecekan data API untuk pembaruan data
-            try {
-                const response = await fetch(`${baseUrl}/setting`);
-                const data = await response.json();
-
-                if (data && data.social_media) {
-                    const cachedData = JSON.parse(cachedSetting);
-                    
-                    // Bandingkan data baru dengan cache
-                    if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                    const data = await response.json();
+                    if (data && data.updatedAt && cachedData.updatedAt !== data.updatedAt) {
                         setSettings(data);
-                        localStorage.setItem('settingCache', JSON.stringify(data));
-                        localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                        localStorage.setItem("settingCache", JSON.stringify(data));
+                        localStorage.setItem("settingCacheExpired", (now + 86400000).toString());
                     }
-                } else {
-                    console.error('Invalid API response:', data);
+                } catch (error) {
+                    console.error("Error checking API for updates:", error);
+                }
+                return;
+            }
+
+            // **Ambil data baru jika cache tidak ada atau expired**
+            try {
+                const response = await fetch(`/api/settings`);
+                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+                const data = await response.json();
+                if (data && data.updatedAt) {
+                    setSettings(data);
+                    localStorage.setItem("settingCache", JSON.stringify(data));
+                    localStorage.setItem("settingCacheExpired", (now + 86400000).toString());
                 }
             } catch (error) {
-                console.error('Error checking API for updates:', error);
+                console.error("Error fetching settings:", error);
+            } finally {
+                setIsLoading(false);
             }
-            return;
-        }
+        };
 
-        // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+      const fetchArticles = async () => {
         try {
-            const response = await fetch(`${baseUrl}/setting`);
-            const data = await response.json();
 
-            if (data && data.social_media) {
-                setSettings(data);
-                localStorage.setItem('settingCache', JSON.stringify(data));
-                localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-            } else {
-                console.error('Invalid API response:', data);
-            }
-        } catch (error) {
-            console.error('Error fetching settings:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    fetchData();
-  }, [baseUrl]);
-
-  useEffect(() => {
-      const fetchServices = async () => {
-          setIsLoading(true); // Tambahkan ini di awal
-          const cachedServices = localStorage.getItem('servicesCache');
-          const cachedDetails = localStorage.getItem('serviceDetailsCache');
-          const cacheExpiry = localStorage.getItem('servicesCacheExpiry');
-          const now = new Date().getTime();
-
-          if (cachedServices && cachedDetails && cacheExpiry && now < parseInt(cacheExpiry)) {
-              setServices(JSON.parse(cachedServices));
-              setServiceDetails(JSON.parse(cachedDetails));
-              setIsLoading(false); 
-              return;
+          const response = await fetch(`/api/articles`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
           }
 
-          try {
-              const response = await fetch(`${baseUrl}/service`);
-              const data = await response.json();
-
-              if (data && data.data) {
-                  setServices(data.data);
-
-                  const serviceDetailsPromises = data.data.map(async (service) => {
-                      const responseDetail = await fetch(`${baseUrl}/service_detail/${service.id}`);
-                      const detailData = await responseDetail.json();
-                      return { id: service.id, detail: detailData?.data };
-                  });
-
-                  const resolvedDetails = await Promise.all(serviceDetailsPromises);
-                  const detailsMap = resolvedDetails.reduce((acc, { id, detail }) => {
-                      if (detail) acc[id] = detail;
-                      return acc;
-                  }, {});
-
-                  setServiceDetails(detailsMap);
-
-                  localStorage.setItem('servicesCache', JSON.stringify(data.data));
-                  localStorage.setItem('serviceDetailsCache', JSON.stringify(detailsMap));
-                  localStorage.setItem('servicesCacheExpiry', (now + 6 * 60 * 60 * 1000).toString()); 
-              } else {
-                  console.error('Invalid response data format:', data);
-              }
+            const result = await response.json();
+            
+            setArticles(result.articles.slice(0, 3));
           } catch (error) {
-              console.error('Error fetching services or details:', error);
-          } finally {
-              setIsLoading(false); 
+            console.error("Error fetching articles:", error);
+          }
+      };
+
+      fetchArticles();
+    }, []);
+
+    useEffect(() => {
+      const fetchServices = async () => {
+        try {
+
+          const response = await fetch(`/api/service`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+            const result = await response.json();
+            
+            setServices(result.services.slice(0, 6));
+          } catch (error) {
+            console.error("Error fetching services:", error);
           }
       };
 
       fetchServices();
-  }, [baseUrl]);
+    }, []);
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-        const cachedData = localStorage.getItem('promoCache');
-        const cacheExpiry = localStorage.getItem('promoCacheExpiry');
-        const now = new Date().getTime();
-
+    useEffect(() => {
+      const fetchPromos = async () => {
         try {
-            const response = await fetch(`${baseUrl}/promo`);
-            const data = await response.json();
 
-            if (data && data.data) {
-                if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
-                    const parsedCache = JSON.parse(cachedData);
-                    
-                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        setPromos(data.data);
-                        localStorage.setItem('promoCache', JSON.stringify(data.data));
-                        localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
-                    } else {
-                        setPromos(parsedCache);
-                    }
-                } else {
-                    setPromos(data.data);
-                    localStorage.setItem('promoCache', JSON.stringify(data.data));
-                    localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
-                }
-            } else {
-                console.error('Invalid response data format:', data);
-            }
-        } catch (error) {
-            console.error('Error fetching banners:', error);
-            if (cachedData) {
-                setPromos(JSON.parse(cachedData));
-            }
-        } finally {
-            setIsLoading(false);
-        }
+          const response = await fetch(`/api/promo`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+            const result = await response.json();
+            
+            setPromos(result.promos);
+          } catch (error) {
+            console.error("Error fetching promos:", error);
+          }
+      };
+
+      fetchPromos();
+    }, []);
+
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(date);
     };
-
-    fetchData();
-  }, [baseUrl]);
 
 
   const midIndex = Math.ceil(services.length / 2);
   const firstHalf = services.slice(0, midIndex); // First half of the services
   const secondHalf = services.slice(midIndex); 
-
-  const formattedPhone = settings.phone && settings.phone.startsWith('0')
-    ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
-    : settings.phone;
 
   const schemaData = {
     "@context": "https://schema.org",
@@ -235,7 +201,7 @@ export default function Home() {
       name: "NMW Aesthetic Clinic",
       logo: {
         "@type": "ImageObject",
-        url: `${storageUrl}/${settings.logo}`
+        url: `${storageUrl}${settings.logo}`
       }
     },
     mainEntityOfPage: {
@@ -264,14 +230,14 @@ export default function Home() {
           <meta property="og:image" content={`${mainUrl}/images/favicon.png`} />
           <meta property="og:url" content={mainUrl} />
           <meta property="og:type" content="website" />
-          <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+          <link rel="icon" href={`${storageUrl}${settings.favicon}`} />
           
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="NMW Aesthetic Clinic" />
           <meta name="twitter:description" content={settings.meta_description} />
-          <meta name="twitter:image" content={`${storageUrl}/${settings.favicon}`} />
+          <meta name="twitter:image" content={`${storageUrl}${settings.favicon}`} />
 
-          <link rel="icon" href={`${storageUrl}/${settings.favicon}`} />
+          <link rel="icon" href={`${storageUrl}${settings.favicon}`} />
 
           <link rel="canonical" href={mainUrl} />
 
@@ -298,7 +264,7 @@ export default function Home() {
         >
           {promos.map(promo => (
             <SwiperSlide key={promo.id}>
-              <Link href={promo.link ? promo.link : `/promo/${encodeURIComponent(promo.title.replace(/\s+/g, '-').toLowerCase())}`} target="blank_">
+              <Link href={promo.link ? promo.link : `/promo/${promo.slug}`} target="blank_">
                 <div
                   className={styles.banner}
                   style={{ backgroundImage: `url(${storageUrl}/${promo.image})` }}
@@ -366,26 +332,27 @@ export default function Home() {
                     controller={{ control: firstSwiper }}
                 >
                     {firstHalf.map((service) => (
-                        <SwiperSlide key={service.id}>
+                        <SwiperSlide key={service._id}>
                             <div className={styles.box_service_layout}>
                                 <div className={`${styles.box_service}`}>
                                     <div className={styles.box_service_content}>
                                         <h3>{service.name}</h3>
                                         <p>
-                                          {serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '')}
+                                          {service.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '')}
                                         </p>
 
-                                        <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <Link href={`/layanan/${service.slug}`}>
                                             <button>Lihat Detail</button>
                                         </Link>
                                     </div>
                                     <div className={styles.box_service_image}>
                                         <Image
-                                            width={700}
-                                            height={700}
-                                            priority
-                                            src={`${storageUrl}/${serviceDetails[service.id]?.image_2 || "placeholder.png"}`}
+                                            width={500}
+                                            height={500}
+                                            src={`${storageUrl}${service.imageCover ||
+                                                "Loading..."}`}
                                             alt={service.name}
+                                            priority
                                         />
                                     </div>
                                 </div>
@@ -403,18 +370,18 @@ export default function Home() {
                     controller={{ control: secondSwiper }}
                 >
                     {secondHalf.map((service) => (
-                        <SwiperSlide key={service.id}>
+                        <SwiperSlide key={service._id}>
                             <div
                                 className={`${styles.box_service_layout} ${styles.box_service_layout_second}`}
                             >
                                 <div className={`${styles.box_service} ${styles.box_service_second}`}>
                                     <div className={styles.box_service_content}>
-                                        <h3>{serviceDetails[service.id]?.name || service.name}</h3>
+                                        <h3>{service.name || service.name}</h3>
                                         <p>
-                                          {serviceDetails[service.id]?.description ? serviceDetails[service.id]?.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
+                                          {service.description ? service.description.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '') : "Loading..."}
                                         </p>
 
-                                        <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                                        <Link href={`/layanan/${service.slug}`}>
                                             <button>Lihat Detail</button>
                                         </Link>
                                     </div>
@@ -422,7 +389,7 @@ export default function Home() {
                                         <Image
                                             width={500}
                                             height={500}
-                                            src={`${storageUrl}/${serviceDetails[service.id]?.image_2 ||
+                                            src={`${storageUrl}${service.imageCover ||
                                                 "Loading..."}`}
                                             alt={service.name}
                                             priority
@@ -492,27 +459,33 @@ export default function Home() {
           </div>
           <div className={styles.article_layout}>
             {articles.map(article => {
-              const tagsList = article.tags ? article.tags.split(',') : [];
+              const firstTag = article.tags?.[0] || "";
 
               return(
-                <div className={styles.article_box} key={article.id}> 
+                <div className={styles.article_box} key={article._id}> 
                   <div className={styles.article_image}>
-                    {tagsList.length > 0 && (
-                        <Link href={`/article/tag/${tagsList[0].trim()}`}>
-                            <button className={styles.tag_article_img}>#{tagsList[0].trim()}</button>
-                        </Link>
+                    {firstTag && (
+                      <Link href={`/article/tag/${firstTag.trim()}`}>
+                        <button className={styles.tag_article_img}>#{firstTag.trim()}</button>
+                      </Link>
                     )}
-                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
-                      <Image priority width={500} height={500} src={article.image} alt={article.title}/>
+                    <Link href={`/article/${article.slug}`}>
+                      <Image
+                          width={500}
+                          height={500}
+                          src={`${storageUrl}${article.image}`}
+                          alt={article.title}
+                          priority
+                      />
                     </Link>
                   </div>
                   <div className={styles.article_content}>
-                    <Link href={`/article/${encodeURIComponent(article.title.replace(/\s+/g, '-').toLowerCase())}`}>
+                    <Link href={`/article/${article.slug}`}>
                       <div className={styles.article_heading}>
                         <h3>{article.title}</h3>
                       </div>
                     </Link>
-                    <span>Admin, {article.date}</span>
+                    <span>{article.author}, {formatDate(article.date)}</span>
                   </div>
                 </div>
               )
