@@ -228,7 +228,7 @@ export default function DokterKami() {
         };
     
         fetchDoctor();
-    }, [activeTab, currentPage, doctors]);
+    }, [activeTab, currentPage]);
 
     const handleTabClick = (index) => {
         setActiveTab(index);
