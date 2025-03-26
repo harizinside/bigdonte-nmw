@@ -528,6 +528,12 @@ export default function Home() {
               <Image width={700} height={700} style={{ height: "auto", width: "100%" }} src="/images/logo_payment.webp" priority alt="Metode Pembayaran NMW Aesthetic Clinic"/>
             </div>
           </div>
+          <div div className={styles.section_5_layout}>
+            <h4>Afiliasi Pembayaran</h4>
+            <div className={`${styles.section_5_logo_very_small} ${styles.section_5_logo_very_small}`}>
+              <img src="images/affiliasi_payment.webp" loading="lazy" alt="Metode Pembayaran Afiliasi NMW Aesthetic Clinic"/>
+            </div>
+          </div>
           <div className={styles.section_5_layout}>
             <h4>Bank Transfer</h4>
             <div className={styles.section_5_logo}>

@@ -605,9 +605,9 @@
 .section_5_logo_small img{
   width:19.7vw;
 }
-
-
-
+.section_5_logo_very_small img{
+  width: 7.8vw;
+}
 
 @media (max-width:768px) {
   .banner{
@@ -642,8 +642,6 @@
   .banner_content button svg{
     font-size: 3vw;
   }
-
-
   .heading_section{
     text-align: center;
   }
@@ -701,8 +699,6 @@
     padding: .48vw 2.3vw;
     margin-top: 3.2vw;
   }
-
-
   .section_2{
     padding: 10vw 4vw;
     padding-top: 9vw;
@@ -729,8 +725,6 @@
     padding-top: 1vw;
     margin-top: 1.2vw;
   }
-
-
   .section_3{
     padding: 15vw 4vw;
     padding-bottom: 16vw;
@@ -905,5 +899,8 @@
   }
   .section_5_logo_small img{
     width:50%;
+  }
+  .section_5_logo_very_small img{
+    width: 20%;
   }
 }
