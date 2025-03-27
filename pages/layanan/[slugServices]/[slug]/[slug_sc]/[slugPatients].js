@@ -39,8 +39,91 @@ export default function Patient({ settings, patients }) {
     );
   }
 
+  const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: `${patients.name} - NMW Aesthetic Clinic`,
+      description: `${patients.description}`,
+      url: `${main}/layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`,
+      publisher: {
+        "@type": "Organization",
+        name: "NMW Aesthetic Clinic",
+        logo: {
+          "@type": "ImageObject",
+          url: `${storageUrl}/${settings.logo}`
+        }
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `${mainUrl}/layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`
+      },
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Beranda",
+            item: `${mainUrl}`
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Layanan",
+            item: `${mainUrl}/layanan`
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: `${formattedName}`,
+            item:  `${mainUrl}/layanan/${slugServices}`
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: `${formattedSlug}`,
+            item: `${mainUrl}/layanan/${slugServices}/${slug}`
+          },
+          {
+            "@type": "ListItem",
+            position: 5,
+            name: `${formattedSlugSc}`,
+            item: `${mainUrl}/layanan/${slugServices}/${slug}/${slug_sc}`
+          },
+          {
+            "@type": "ListItem",
+            position: 5,
+            name: `${patients.name}`,
+            item: `${mainUrl}/layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`
+          }
+        ]
+      }
+  };
+
   return(
     <>
+    <Head>
+        <title>{patients.name ? `${patients.name}` : `Layanan NMW Aesthetic Clinic`}  | NMW Aesthetic Clinic</title>
+        <meta name="description" content={patients.description ? `${patients.description.replace(/<[^>]+>/g, '').slice(0, 100)}${patients.description.length > 100 ? '...' : ''}` : 'Pasien NMW Aesthetic Clinic'} />
+        <meta name="keywords" content="kebijakan privasi, kebijakan, privasi, kebijakan privasi nmw clinic, nmw clinic" />
+
+        <meta property="og:title" content={patients.name ? `${patients.name}` : `Pasien NMW Aesthetic Clinic`}   />
+        <meta property="og:description" content={patients.description ? `${patients.description.replace(/<[^>]+>/g, '').slice(0, 100)}${patients.description.length > 100 ? '...' : ''}` : 'Pasien NMW Aesthetic Clinic'} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${mainUrl}/Layanan/${slugServices}/${slug}/${slug_sc}/${servicesType.slug}`} />
+        <meta property="og:image" content={patients.image ? `${storageUrl}/${patients.image}` : `${mainUrl}/images/logo.svg`} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={patients.name ? `${patients.name}` : `Pasien NMW Aesthetic Clinic`}  />
+        <meta name="twitter:description" content={patients.description ? `${patients.description.replace(/<[^>]+>/g, '').slice(0, 100)}${patients.description.length > 100 ? '...' : ''}` : 'Pasien NMW Aesthetic Clinic'} />
+        <meta name="twitter:image" content={patients.image ? `${storageUrl}/${patients.image}` : `${mainUrl}/images/logo.svg`} />
+
+        <link rel="canonical" href={`${mainUrl}/Layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`} />
+
+        <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+        </script>
+      </Head>
       <div className={banner.banner}>
          <Image
           priority
