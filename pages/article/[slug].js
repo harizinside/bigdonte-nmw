@@ -165,7 +165,7 @@ const DetailArtikel = ({ article, articlesAll, doctor, services, productAll }) =
       name: "NMW Aesthetic Clinic",
       logo: {
         "@type": "ImageObject",
-        url: `${article.image ? `${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`}`
+        url: `${article.image ? `${storageUrl}/${article.image}` : `${mainUrl}/images/kebijakan-privasi.png`}`
       }
     },
     mainEntityOfPage: {
@@ -174,7 +174,7 @@ const DetailArtikel = ({ article, articlesAll, doctor, services, productAll }) =
     },
     image: {
       "@type": "ImageObject",
-      url: `${article.image}`
+      url: `${storageUrl}/${article.image}`
     },
     author: {
       "@type": "Person",
