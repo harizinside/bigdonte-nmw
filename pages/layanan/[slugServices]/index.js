@@ -162,7 +162,7 @@ export default function Layanan({ services, patient, servicesList, settings }) {
 
   return (
     <div>
-      <Head>
+        <Head>
         <title>{services.name ? `${services.name}` : `Layanan NMW Aesthetic Clinic`} | NMW Aesthetic Clinic</title>
         <meta name="description" content={services.name ? `${services.name}` : `Layanan NMW Aesthetic Clinic`} />
         <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
@@ -181,9 +181,9 @@ export default function Layanan({ services, patient, servicesList, settings }) {
         <link rel="canonical" href={`${mainUrl}/layanan/${services.slug}`} />
 
         <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
+            {JSON.stringify(schemaData)}
         </script>
-      </Head>
+        </Head>
       <div className={banner.banner}>
         <Image priority width={500} height={500} src={`${storageUrl}/${services.imageBanner}`} alt={services.name} />
       </div>
