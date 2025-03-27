@@ -157,7 +157,7 @@ export default function LayananPage(){
         <meta property="og:description" content="Dapatkan berbagai layanan kecantikan dan perawatan kulit terbaik di NMW Aesthetic Clinic. Konsultasi dengan dokter kecantikan berpengalaman sekarang!" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`${mainUrl}/layanan`} />
-        <meta property="og:image" content={`${storageUrl}/images/detail-artikel-banner.png`} />
+        <meta property="og:image" content={`${mainUrl}/images/detail-artikel-banner.png`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="NMW Aesthetic Clinic" />
@@ -165,7 +165,7 @@ export default function LayananPage(){
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Layanan NMW Aesthetic Clinic - Perawatan Kulit & Estetika Medis" />
         <meta name="twitter:description" content="Klinik kecantikan terbaik dengan layanan estetika medis, bedah plastik, dan perawatan kulit profesional." />
-        <meta name="twitter:image" content={`${storageUrl}/images/detail-artikel-banner.png`} />
+        <meta name="twitter:image" content={`${mainUrl}/images/detail-artikel-banner.png`} />
 
         <link rel="canonical" href={`${mainUrl}/layanan`} />
 
