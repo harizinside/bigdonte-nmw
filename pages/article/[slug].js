@@ -33,7 +33,7 @@ export const getServerSideProps = async (context) => {
 
   const responseProduct = await fetch(`${baseUrl}/product?id=${article.products.join(",")}`);
   const product = await responseProduct.json();
-  const productAll = product.products
+  const productAll = product.products || [];
 
   return {
     props: {
@@ -328,39 +328,40 @@ const DetailArtikel = ({ article, articlesAll, doctor, services, productAll }) =
         </div>
       </div>
       <div className={styles.container_sc}>
-        {/* {Array.isArray(articles.products) && articles.products.length > 0 ? ( */}
+        {productAll.length > 0 ? (
         <div className={styles.product_detail}>
-          <div className={styles.layanan_heading}>
+            <div className={styles.layanan_heading}>
             <h3>Produk <font>Artikel Ini</font></h3>
-          </div>
-          <div className={styles.product_detail_layout}>
+            </div>
+            <div className={styles.product_detail_layout}>
             {productAll.map((product, index) => (
-              <div className={styles.article_box} key={index}>
+                <div className={styles.article_box} key={index}>
                 <div className={`${styles.article_image} ${styles.article_image_product}`}>
-                  <Link href={product.link} target="_blank">
+                    <Link href={product.link} target="_blank">
                     <Image priority width={700} height={700}
-                      src={`${storageUrl}/${product.image}`}
-                      alt={product.name}
+                        src={`${storageUrl}/${product.image}`}
+                        alt={product.name}
                     />
-                  </Link>
+                    </Link>
                 </div>
                 <div className={`${styles.article_content} ${styles.article_product}`}>
-                  <Link href={product.link} target="_blank">
+                    <Link href={product.link} target="_blank">
                     <div className={styles.article_heading}>
-                      <h3>{product.name}</h3>
+                        <h3>{product.name}</h3>
                     </div>
-                  </Link>
-                  <p>{product.description}</p>
-                  <Link href={product.link} target="_blank">
+                    </Link>
+                    <p>{product.description}</p>
+                    <Link href={product.link} target="_blank">
                     <button className={styles.btn_more}>Lihat Produk</button>
-                  </Link>
+                    </Link>
                 </div>
-              </div>
+                </div>
             ))}
-          </div>
+            </div>
         </div>
-        {/* ) : null } */}
+        ) : null}
         <div className={styles.container_layout}>
+        {services && services._id ? (
           <div className={styles.layanan}>
             <div className={styles.layanan_heading}>
               <h3>Terkait <font>Artikel Ini</font></h3>
@@ -389,6 +390,8 @@ const DetailArtikel = ({ article, articlesAll, doctor, services, productAll }) =
               </div>
             </div>
           </div>
+            ) : null}
+          {doctor && doctor._id ? (
           <div className={styles.container_sidebar}>
             <div className={styles.layanan_heading}>
               <h3> <font>Dokter</font> Terkait</h3>
@@ -410,6 +413,7 @@ const DetailArtikel = ({ article, articlesAll, doctor, services, productAll }) =
               </div>
             </div>
           </div>
+            ) : null}
         </div>
         <div className={`${styles.container_sidebar} ${styles.mobile_block}`}>
           <div className={styles.sidebar_heading}>
