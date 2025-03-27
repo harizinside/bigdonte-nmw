@@ -1,14 +1,48 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import banner from "@/styles/Banner.module.css";
-import styles from "@/styles/Layanan.module.css";
-import breadcrumb from "@/styles/Breadcrumb.module.css"
-import Link from 'next/link';
-import { FaWhatsapp } from "react-icons/fa";
-import loadingStyles from "@/styles/Loading.module.css";
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaWhatsapp } from "react-icons/fa";
+import banner from "@/styles/Banner.module.css";
+import styles from "@/styles/Layanan.module.css";
+import breadcrumb from "@/styles/Breadcrumb.module.css";
+import loadingStyles from "@/styles/Loading.module.css";
 import notFound from '@/public/images/data_empty.webp';
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slugServices } = params;
+
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
+  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
+
+  const settingsRes = await fetch(`${baseUrl}/settings`);
+  const settingsData = await settingsRes.json();
+  const settings = settingsData.settings || [];
+
+  const servicesRes = await fetch(`${baseUrl}/service_detail/${slugServices}`);
+  const servicesData = await servicesRes.json();
+  const services = servicesData;
+
+  const patientRes = await fetch(`${baseUrl}/patient?services=${slugServices}`);
+  const patientData = await patientRes.json();
+  const patient = patientData.patients;
+
+  const servicesListRes = await fetch(`${baseUrl}/serviceList?services=${slugServices}`);
+  const servicesListData = await servicesListRes.json();
+  const servicesList = servicesListData.servicesList;
+
+  return {
+    props: {
+      services,
+      patient,
+      servicesList,
+      settings,
+    },
+  };
+}
 
 export default function Layanan({ services, patient, servicesList, settings }) {
   const router = useRouter();
@@ -17,105 +51,6 @@ export default function Layanan({ services, patient, servicesList, settings }) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [template, setTemplate] = useState(true);
-  const [servicesListState, setServicesList] = useState(null);
-  const [patientState, setPatient] = useState(null);
-  const [slug, setSlug] = useState(null);
-  const [slugSc, setSlugSc] = useState(null);
-
-  useEffect(() => {
-    if (!slugServices) return; // Hindari fetch jika slugServices masih undefined
-
-    const fetchServices = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${baseUrl}/service_detail/${slugServices}`);
-        const result = await response.json();
-        setTemplate(result.template)
-      } catch (error) {
-        console.error("Error fetching services:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, [slugServices]);
-
-  useEffect(() => {
-    if (!slugServices) return; // Hindari fetch jika slugServices masih undefined
-
-    const fetchServicesList = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${baseUrl}/serviceList?services=${slugServices}`);
-        const result = await response.json();
-        const reversedData = Array.isArray(result.servicesList) ? [...result.servicesList].reverse() : [];
-        setServicesList(reversedData);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServicesList();
-  }, [slugServices]);
-
-  useEffect(() => {
-    if (!slugServices) return; // Hindari fetch jika slugServices masih undefined
-
-    const fetchPatients = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${baseUrl}/patient?services=${slugServices}`);
-        const result = await response.json();
-        if (result?.patients?.length > 0) {
-          setPatient(result.patients.slice(0, 3));
-          setSlug(result.patients[0]?.id_servicesList?.slug || "default-slug");
-          setSlugSc(result.patients[0]?.id_servicesType?.slug || "default-slug-sc");
-        } else {
-          console.warn("❌ Tidak ada pasien yang ditemukan");
-          setSlug("default-slug");
-          setSlugSc("default-slug-sc");
-        }
-      } catch (error) {
-        console.error("❌ Error fetching services:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPatients();
-  }, [slugServices]);
-
-  if (loading) {
-    return (
-      <div className={loadingStyles.box}>
-        <div className={loadingStyles.content}>
-          <img src="/images/logo.svg" loading="lazy" />
-          <span>LOADING</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) return <p>Error: {error}</p>;
-
-  if (!services || !patientState || !servicesListState) {
-    return (
-      <div className={styles.emptyPage}>
-        <img src="../../images/data_empty.webp" loading="lazy" alt="Data not found" />
-        <h1>Layanan Tidak Ditemukan</h1>
-      </div>
-    );
-  }
 
   const schemaData = {
     "@context": "https://schema.org",
@@ -160,9 +95,18 @@ export default function Layanan({ services, patient, servicesList, settings }) {
     }
   };
 
+  if (!services || !patient || !servicesList) {
+    return (
+      <div className={styles.emptyPage}>
+        <img src={notFound} alt="Data not found" />
+        <h1>Layanan Tidak Ditemukan</h1>
+      </div>
+    );
+  }
+
   return (
     <div>
-        <Head>
+      <Head>
         <title>{services.name ? `${services.name}` : `Layanan NMW Aesthetic Clinic`} | NMW Aesthetic Clinic</title>
         <meta name="description" content={services.name ? `${services.name}` : `Layanan NMW Aesthetic Clinic`} />
         <meta name="keywords" content="layanan medis, perawatan kulit, bedah plastik, konsultasi kesehatan, perawatan kecantikan, NMW Clinic, layanan kecantikan, perawatan wajah, estetika medis, klinik estetika, perawatan anti-aging, operasi plastik, perawatan rambut, perawatan tubuh, terapi kecantikan, klinik kecantikan NMW, dokter kecantikan, solusi kecantikan, layanan kecantikan medis, klinik bedah plastik, rejuvenasi kulit, konsultasi bedah plastik" />
@@ -181,9 +125,9 @@ export default function Layanan({ services, patient, servicesList, settings }) {
         <link rel="canonical" href={`${mainUrl}/layanan/${services.slug}`} />
 
         <script type="application/ld+json">
-            {JSON.stringify(schemaData)}
+          {JSON.stringify(schemaData)}
         </script>
-        </Head>
+      </Head>
       <div className={banner.banner}>
         <Image priority width={500} height={500} src={`${storageUrl}/${services.imageBanner}`} alt={services.name} />
       </div>
@@ -204,7 +148,7 @@ export default function Layanan({ services, patient, servicesList, settings }) {
         </div>
       </div>
 
-      {patientState?.length > 0 && (
+      {patient.length > 0 && (
         <div className={styles.section_2}>
           <div className={styles.heading_section}>
             <h2>
@@ -212,7 +156,7 @@ export default function Layanan({ services, patient, servicesList, settings }) {
             </h2>
           </div>
           <div className={styles.box_galeri_layout}>
-            {patientState.map((galeriPatient) => (
+            {patient.map((galeriPatient) => (
               <div className={styles.box_galeri} key={galeriPatient._id}>
                 {/* Image Section */}
                 <div className={styles.box_galeri_image}>
@@ -260,9 +204,9 @@ export default function Layanan({ services, patient, servicesList, settings }) {
           </div>
 
           {/* Jika template === false, tampilkan layout service */}
-          {services.template === false && Array.isArray(servicesListState) && servicesListState.length > 0 && (
+          {services.template === false && servicesList.length > 0 && (
             <div className={styles.box_service_layout}>
-              {servicesListState.map((typeService) => (
+              {servicesList.map((typeService) => (
                 <div className={styles.box_service} key={typeService._id}>
                   <div className={styles.box_service_image}>
                     <Image
@@ -290,9 +234,9 @@ export default function Layanan({ services, patient, servicesList, settings }) {
           )}
 
           {/* Jika template === true, tampilkan layout galeri */}
-          {services.template === true && Array.isArray(servicesListState) && servicesListState.length > 0 && (
+          {services.template === true && servicesList.length > 0 && (
             <div className={styles.box_galeri_layout}>
-              {servicesListState.map((typeService) => (
+              {servicesList.map((typeService) => (
                 <Link href={`/layanan/${services.slug}/${typeService.slug}`} key={typeService._id}>
                   <div className={styles.box_galeri}>
                     <div className={styles.box_galeri_image}>
@@ -334,38 +278,4 @@ export default function Layanan({ services, patient, servicesList, settings }) {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { params } = context;
-  const { slugServices } = params;
-
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-
-  const settingsRes = await fetch(`${baseUrl}/settings`);
-  const settingsData = await settingsRes.json();
-  const settings = settingsData.settings || [];
-
-  const servicesRes = await fetch(`${baseUrl}/service_detail/${slugServices}`);
-  const servicesData = await servicesRes.json();
-  const services = servicesData;
-
-  const patientRes = await fetch(`${baseUrl}/patient?services=${slugServices}`);
-  const patientData = await patientRes.json();
-  const patient = patientData.patients;
-
-  const servicesListRes = await fetch(`${baseUrl}/serviceList?services=${slugServices}`);
-  const servicesListData = await servicesListRes.json();
-  const servicesList = servicesListData.servicesList;
-
-  return {
-    props: {
-      services,
-      patient,
-      servicesList,
-      settings,
-    },
-  };
 }
