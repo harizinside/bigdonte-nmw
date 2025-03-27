@@ -139,12 +139,12 @@ export default function TagPage({ articlesAll, filteredArticles, tags, dataTags,
                 <meta property="og:description" content={`Artikel dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={`${mainUrl}/article/tag/${tag || ''}`} />
-                <meta property="og:image" content={`${storageUrl}/${article.image}${metaImage}`} />
+                <meta property="og:image" content={`${storageUrl}/${metaImage}`} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={`Tag ${tag ? tag : 'NMW Aesthetic Clinic'} | NMW Aesthetic Clinic`} />
                 <meta name="twitter:description" content={`article dengan tag ${tag || 'NMW Aesthetic Clinic'}`} />
-                <meta name="twitter:image" content={`${storageUrl}/${article.image}${metaImage}`} />
+                <meta name="twitter:image" content={`${storageUrl}/${metaImage}`} />
 
                 <script type="application/ld+json">
                     {JSON.stringify(schemaData)}
