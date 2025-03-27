@@ -10,18 +10,27 @@ import Image from 'next/image';
 
 export const getServerSideProps = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
-  const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
 
   const responseArticles = await fetch(`${baseUrl}/article-new`);
   const dataArticles = await responseArticles.json();
+
+  if (dataArticles.status === false) {
+    return {
+      props: {
+        articles: [],
+        tags: [],
+      },
+    };
+  }
+
+  const filteredArticles = dataArticles.articles.filter(article => article.status === true);
 
   const responseTags = await fetch(`${baseUrl}/get-tag`);
   const dataTags = await responseTags.json();
 
   return {
     props: {
-      articles: dataArticles.articles,
+      articles: filteredArticles,
       tags: dataTags.tags,
     },
   };
@@ -31,10 +40,8 @@ export default function Article({ articles, tags }) {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
-  const [loading, setLoading] = useState(true);
-  const [articlesAll, setArticlesAll] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Menyimpan halaman yang aktif
-  const [totalPages, setTotalPages] = useState(1); 
+    const [loading, setLoading] = useState(true);
+    const [articlesAll, setArticlesAll] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
