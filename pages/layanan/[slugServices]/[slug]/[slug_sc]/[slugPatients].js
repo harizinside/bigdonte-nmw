@@ -44,7 +44,7 @@ export default function Patient({ settings, patients }) {
       "@type": "WebPage",
       name: `${patients.name} - NMW Aesthetic Clinic`,
       description: `${patients.description}`,
-      url: `${main}/layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`,
+      url: `${mainUrl}/layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`,
       publisher: {
         "@type": "Organization",
         name: "NMW Aesthetic Clinic",
@@ -110,7 +110,7 @@ export default function Patient({ settings, patients }) {
         <meta property="og:title" content={patients.name ? `${patients.name}` : `Pasien NMW Aesthetic Clinic`}   />
         <meta property="og:description" content={patients.description ? `${patients.description.replace(/<[^>]+>/g, '').slice(0, 100)}${patients.description.length > 100 ? '...' : ''}` : 'Pasien NMW Aesthetic Clinic'} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${mainUrl}/Layanan/${slugServices}/${slug}/${slug_sc}/${servicesType.slug}`} />
+        <meta property="og:url" content={`${mainUrl}/Layanan/${slugServices}/${slug}/${slug_sc}/${patients.slug}`} />
         <meta property="og:image" content={patients.image ? `${storageUrl}/${patients.image}` : `${mainUrl}/images/logo.svg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
