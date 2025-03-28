@@ -43,38 +43,41 @@ export default function Article({ articles, tags }) {
     const [loading, setLoading] = useState(true);
     const [articlesAll, setArticlesAll] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const responseArticles = await fetch(`${baseUrl}/article-new`);
-        const dataArticles = await responseArticles.json();
-
-        const responseTags = await fetch(`${baseUrl}/get-tag`);
-        const dataTags = await responseTags.json();
-
-        // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
-        const sortedArticles = dataArticles.articles.sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          const createdAtA = new Date(a.created_at);
-          const createdAtB = new Date(b.created_at);
-
-          // Urutkan berdasarkan 'date' jika ada, jika tidak, urutkan berdasarkan 'created_at'
-          return (dateB - dateA) || (createdAtB - createdAtA);
-        });
-
-        // Ambil 3 artikel pertama setelah diurutkan
-        setArticlesAll(sortedArticles.slice(3));
-
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    useEffect(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        try {
+          const responseArticles = await fetch(`${baseUrl}/article-new`);
+          const dataArticles = await responseArticles.json();
+    
+          const responseTags = await fetch(`${baseUrl}/get-tag`);
+          const dataTags = await responseTags.json();
+    
+          // Urutkan artikel berdasarkan 'date' dan 'created_at' yang paling baru
+          const sortedArticles = dataArticles.articles.sort((a, b) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            const createdAtA = new Date(a.created_at);
+            const createdAtB = new Date(b.created_at);
+    
+            // Urutkan berdasarkan 'date' jika ada, jika tidak, urutkan berdasarkan 'created_at'
+            return (dateB - dateA) || (createdAtB - createdAtA);
+          });
+    
+          // Filter artikel berdasarkan status
+          const filteredArticles = sortedArticles.filter(article => article.status === true);
+    
+          // Ambil 3 artikel pertama setelah diurutkan dan difilter
+          setArticlesAll(filteredArticles.slice(3));
+    
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchData();
+    }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -228,6 +231,7 @@ export default function Article({ articles, tags }) {
           </div> 
         </div>
       </div>
+      {articlesAll.length > 0 && (
       <div className={styles.article_section}>
         <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
           <h2><span>Artikel</span> Lain</h2>
@@ -266,6 +270,7 @@ export default function Article({ articles, tags }) {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

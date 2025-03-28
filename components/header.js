@@ -211,41 +211,47 @@ export default function Header() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const cachedPopup = localStorage.getItem('popupCache');
-            const popupTimestamp = localStorage.getItem('popupTimestamp');
-            const popupShown = localStorage.getItem('popupShown');
-            const now = Date.now();
-    
-            // Jika popup sudah ditampilkan kurang dari 1 jam, gunakan cache
-            if (popupShown === 'true' && popupTimestamp && now - parseInt(popupTimestamp) < 60 * 60 * 1000) {
-                if (cachedPopup) {
-                    setPopupData(JSON.parse(cachedPopup));
-                }
-                setIsLoading(false);
-                return;
+          const cachedPopup = localStorage.getItem('popupCache');
+          const popupTimestamp = localStorage.getItem('popupTimestamp');
+          const popupShown = localStorage.getItem('popupShown');
+          const now = Date.now();
+      
+          // Jika popup sudah ditampilkan kurang dari 1 jam, gunakan cache
+          if (popupShown === 'true' && popupTimestamp && now - parseInt(popupTimestamp) < 60 * 60 * 1000) {
+            if (cachedPopup) {
+              const cachedPopupData = JSON.parse(cachedPopup);
+              if (Array.isArray(cachedPopupData) && cachedPopupData.length > 0) {
+                setPopupData(cachedPopupData);
+                setShowPopup(true);
+              }
             }
-    
-            try {
-                const response = await fetch(`${baseUrl}/popup`);
-                const data = await response.json();
-    
-                if (data?.popups?.length > 0) {
-                    const popupItem = data.popups[0]; // Ambil popup pertama jika berbentuk array
-                    setPopupData(popupItem);
-                    localStorage.setItem('popupCache', JSON.stringify(popupItem));
-                    localStorage.setItem('popupTimestamp', now.toString());
-                    localStorage.setItem('popupShown', 'true');
-                    setShowPopup(true);
-                }
-            } catch (error) {
-                console.error("Error fetching popup data:", error);
-            } finally {
-                setIsLoading(false);
+            setIsLoading(false);
+            return;
+          }
+      
+          try {
+            const response = await fetch(`${baseUrl}/popup`);
+            const data = await response.json();
+      
+            if (data.popups) {
+              const popupItems = data.popups.filter(popup => popup.status === true);
+              if (popupItems.length > 0) {
+                setPopupData(popupItems);
+                localStorage.setItem('popupCache', JSON.stringify(popupItems));
+                localStorage.setItem('popupTimestamp', now.toString());
+                localStorage.setItem('popupShown', 'true');
+                setShowPopup(true);
+              }
             }
+          } catch (error) {
+            console.error("Error fetching popup data:", error);
+          } finally {
+            setIsLoading(false);
+          }
         };
-    
+      
         fetchData();
-    }, [baseUrl]);
+      }, [baseUrl]);
 
     const socialMediaLinks = settings?.social_media ? JSON.parse(settings.social_media) : [];
 
@@ -356,22 +362,22 @@ export default function Header() {
                     </div>
                 </div>
             )}
-            {showPopup && popupData?.link && (
-                <div className={`${popup.modal} ${popup.active}`}>
-                    <div className={popup.modal_overlay} onClick={closeModal}></div>
-                    {isLoading || !popupData?.image ? (
-                        <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
-                    ) : (
-                        <div className={popup.modal_content}>
-                            <span className={popup.close} onClick={closeModal}>
-                                <IoMdClose />
-                            </span>
-                            <Link href={popupData.link} target="_blank">
-                                <img src={`${storageUrl}/${popupData.image}`} loading="lazy" alt="Promo NMW Skincare" />
-                            </Link>
-                        </div>
-                    )}
+            {showPopup && popupData && popupData.length > 0 && popupData[0].link && (
+            <div className={`${popup.modal} ${popup.active}`}>
+                <div className={popup.modal_overlay} onClick={closeModal}></div>
+                {isLoading || !popupData[0].image ? (
+                <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
+                ) : (
+                <div className={popup.modal_content}>
+                    <span className={popup.close} onClick={closeModal}>
+                    <IoMdClose />
+                    </span>
+                    <Link href={popupData[0].link} target="_blank">
+                    <img src={`${storageUrl}/${popupData[0].image}`} loading="lazy" alt="Promo NMW Skincare" />
+                    </Link>
                 </div>
+                )}
+            </div>
             )}
 
             <div className={styles.nav_bottom}>
