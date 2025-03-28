@@ -12,7 +12,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ['nmw.prahwa.net'], // Tambahkan domain tempat gambar di-host
+    domains: ['nmw.prahwa.net', 'nmw-cms.vercel.app'], // Tambahkan domain tempat gambar di-host
     formats: ['image/webp'], // Pastikan format modern diaktifkan
   },
 };

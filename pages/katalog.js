@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import breadcrumb from "@/styles/Breadcrumb.module.css"
 import Image from "next/image";
+import loadingStyles from "@/styles/Loading.module.css"
 
 export default function Katalog() {
   const [catalogs, setCatalogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
   const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
@@ -22,20 +24,20 @@ export default function Katalog() {
             const response = await fetch(`${baseUrl}/catalog`);
             const data = await response.json();
 
-            if (data && data.data) {
+            if (data && data.catalogs) {
                 if (cachedData && cacheExpiry && now < parseInt(cacheExpiry)) {
                     const parsedCache = JSON.parse(cachedData);
                     
-                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.data)) {
-                        setCatalogs(data.data);
-                        localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    if (JSON.stringify(parsedCache) !== JSON.stringify(data.catalogs)) {
+                        setCatalogs(data.catalogs);
+                        localStorage.setItem('promoCache', JSON.stringify(data.catalogs));
                         localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                     } else {
                         setCatalogs(parsedCache);
                     }
                 } else {
-                    setCatalogs(data.data);
-                    localStorage.setItem('promoCache', JSON.stringify(data.data));
+                    setCatalogs(data.catalogs);
+                    localStorage.setItem('promoCache', JSON.stringify(data.catalogs));
                     localStorage.setItem('promoCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
                 }
             } else {
@@ -46,6 +48,8 @@ export default function Katalog() {
             if (cachedData) {
                 setCatalogs(JSON.parse(cachedData));
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -170,6 +174,15 @@ export default function Katalog() {
             </div>
             </div>
         </div>
+
+        {loading && (
+            <div className={loadingStyles.box}>
+                <div className={loadingStyles.content}>
+                    <img src="/images/logo.svg" loading="lazy"/>
+                    <span>LOADING</span>
+                </div>
+            </div>
+        )}
     </>
   );
 }

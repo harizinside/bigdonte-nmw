@@ -9,58 +9,90 @@ export default function Footer(){
 
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(null);
+    const [loading, setLoading] = useState(null);
     const [message, setMessage] = useState('');
+    const [error, setError] = useState(null);
+
   
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         setStatus(null);
         setMessage('');
-    
+        setError(null); // Reset error sebelum request baru
+      
         try {
-            const response = await fetch(`${baseUrl}/subscribe`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
-    
-            if (response.ok) {
-                setStatus('success');
-                setMessage('Terima Kasih Telah Berlangganan');
-                setEmail(''); // Reset input
-            } else {
-                const errorData = await response.json();
-                setStatus('error');
-                setMessage(errorData.error || 'Ada Kesalahan');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setStatus('error');
-            setMessage('Terjadi kesalahan yang tidak terduga.');
+          const response = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+      
+          const data = await response.json();
+      
+          if (response.status === 400) {
+            setError("Email sudah terdaftar");
+            return;
+          }
+      
+          if (!response.ok) {
+            setError(data.error || "Terjadi kesalahan");
+            return;
+          }
+      
+          console.log('Success:', data);
+          setMessage('Berhasil berlangganan!');
+        } catch (err) {
+          console.error("❌ Error:", err);
+          setError("Terjadi kesalahan, silakan coba lagi.");
         }
-    };
-     
+      };
+                
+      
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${baseUrl}/setting`);
-                const data = await response.json();
-   
-                if (data) { // We no longer check data.data, just check if data exists
-                    setSettings(data); // Set the entire response object to settings
-                } else {
-                    console.error('Invalid response data format:', data);
+        useEffect(() => {
+            const fetchData = async () => {
+                const cachedSetting = localStorage.getItem('settingCache');
+                const cachedSettingExpired = localStorage.getItem('settingCacheExpired');
+                const now = new Date().getTime();
+        
+                // Cek apakah cache valid
+                if (cachedSetting && cachedSettingExpired && now < parseInt(cachedSettingExpired)) {
+                    setSettings(JSON.parse(cachedSetting));
+                    
+                    // Lakukan pengecekan data API untuk pembaruan data
+                    try {
+                        const response = await fetch(`${baseUrl}/settings`);
+                        const data = await response.json();
+                        
+                        const cachedData = JSON.parse(cachedSetting);
+                        
+                        // Bandingkan data baru dengan cache
+                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                            setSettings(data);
+                            localStorage.setItem('settingCache', JSON.stringify(data));
+                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                        } 
+                    } catch (error) {
+                        console.error('Error checking API for updates:', error);
+                    }
+                    return;
                 }
-            } catch (error) {
-                console.error('Error fetching settings:', error);
-            }
-        };
-   
-        fetchData();
-    }, []);
+        
+                // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
+                try {
+                    const response = await fetch(`${baseUrl}/settings`);
+                    const data = await response.json();
+        
+                    setSettings(data);
+                    localStorage.setItem('settingCache', JSON.stringify(data));
+                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                } catch (error) {
+                    console.error('Error fetching settings:', error);
+                }
+            };
+        
+            fetchData();
+        }, [baseUrl]);
    
     const formattedPhone = settings.phone && settings.phone.startsWith('0')
     ? '62' + settings.phone.slice(1)  // Replace the first 0 with 62
@@ -77,18 +109,11 @@ export default function Footer(){
                         <p>Daftar untuk tips perawatan kulit, saran ahli acara eksklusif dari NMW Aesthetic Clinic</p>
                         <form onSubmit={handleSubmit}>
                             <div className={styles.form_layout}>
-                                <input type='email' placeholder='email@gmail.com'  id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/><button type="submit">Berlangganan</button>
+                                <input type='email' placeholder='email@gmail.com'  id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/><button type="submit">{loading ? "Loading..." : "Berlangganan"}</button>
                             </div>
                         </form>
-                        {status && (
-                            <div className={styles.eror}
-                            style={{
-                                color: status === 'success' ? '#fff' : '#fff',
-                            }}
-                            >
-                            {message}
-                            </div>
-                        )}
+                        {error && <p className={styles.eror}>{error}</p>} {/* Tampilkan error jika ada */}
+                        {message && <p className={styles.eror}>{message}</p>}
                     </div>
                 </div>
                 <div className={styles.contact_footer}>
@@ -96,7 +121,7 @@ export default function Footer(){
                     <div className={styles.contact_footer_layout}>
                         <div className={styles.contact_footer_box}>
                             <h5>Alamat</h5>
-                            <p>{settings.address}</p>
+                            <p>{settings.address_footer}</p>
                         </div>
                         <div className={styles.contact_footer_box}>
                             <h5>Layanan Pelanggan</h5>

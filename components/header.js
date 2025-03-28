@@ -7,7 +7,7 @@ import { FaFacebook, FaInstagram, FaTiktok, FaYoutube, FaTwitter, FaLinkedin, Fa
 import { IoLogoWhatsapp } from "react-icons/io5";
 import Link from "next/link";
 import 'animate.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from "next/router";
 import { IoIosMenu } from "react-icons/io";
 import { CgClose } from "react-icons/cg";
@@ -19,13 +19,14 @@ export default function Header() {
     const [dropdownActive, setDropdownActive] = useState(null); // Track active dropdown
     const router = useRouter();
     const [services, setServices] = useState([]);
-    const [popupData, setPopupData] = useState([]);
+    const [popupData, setPopupData] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     const headerRef = useRef(null); // Reference to header element
     const [menuActive, setMenuActive] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true); // State to track loading state
     const [settings, setSettings] = useState([]);
+    const [socials, setSocials] = useState([]);
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const storageUrl = process.env.NEXT_PUBLIC_API_STORAGE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
@@ -45,11 +46,9 @@ export default function Header() {
             try {
                 const response = await fetch(`${baseUrl}/service`);
                 const data = await response.json();
-                if (data && data.data) { // Pastikan data dan data.data ada
-                setServices(data.data); // Setel data objek banner
-                } else {
-                console.error('Invalid response data format:', data);
-                }
+                const reversedData = Array.isArray(data.services) ? [...data.services].reverse() : [];
+
+                setServices(reversedData);
             } catch (error) {
                 console.error('Error fetching services:', error);
             }
@@ -123,21 +122,17 @@ export default function Header() {
                 
                 // Lakukan pengecekan data API untuk pembaruan data
                 try {
-                    const response = await fetch(`${baseUrl}/setting`);
+                    const response = await fetch(`${baseUrl}/settings`);
                     const data = await response.json();
-    
-                    if (data && data.social_media) {
-                        const cachedData = JSON.parse(cachedSetting);
-                        
-                        // Bandingkan data baru dengan cache
-                        if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
-                            setSettings(data);
-                            localStorage.setItem('settingCache', JSON.stringify(data));
-                            localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                        } 
-                    } else {
-                        console.error('Invalid API response:', data);
-                    }
+
+                    const cachedData = JSON.parse(cachedSetting);
+                    
+                    // Bandingkan data baru dengan cache
+                    if (JSON.stringify(data) !== JSON.stringify(cachedData)) {
+                        setSettings(data);
+                        localStorage.setItem('settingCache', JSON.stringify(data));
+                        localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
+                    } 
                 } catch (error) {
                     console.error('Error checking API for updates:', error);
                 }
@@ -146,16 +141,12 @@ export default function Header() {
     
             // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
-                const response = await fetch(`${baseUrl}/setting`);
+                const response = await fetch(`${baseUrl}/settings`);
                 const data = await response.json();
     
-                if (data && data.social_media) {
-                    setSettings(data);
-                    localStorage.setItem('settingCache', JSON.stringify(data));
-                    localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
-                } else {
-                    console.error('Invalid API response:', data);
-                }
+                setSettings(data);
+                localStorage.setItem('settingCache', JSON.stringify(data));
+                localStorage.setItem('settingCacheExpired', (now + 86400000).toString());
             } catch (error) {
                 console.error('Error fetching settings:', error);
             } finally {
@@ -166,41 +157,101 @@ export default function Header() {
         fetchData();
     }, [baseUrl]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const cachedPopup = localStorage.getItem('popupCache');
-            const popupTimestamp = localStorage.getItem('popupTimestamp');
-            const popupShown = localStorage.getItem('popupShown');
-            const now = new Date().getTime();
-            
-            // If the popup has been shown and it's less than 1 hour since last shown, don't show the popup again
-            if (popupShown === 'true' && popupTimestamp && now - parseInt(popupTimestamp) < 60 * 60 * 1000) {
-                setPopupData(JSON.parse(cachedPopup)); // Use cached data
-                setIsLoading(false);
-                return;
-            }
-    
-            // Otherwise, fetch new popup data
+    const fetchSocials = useCallback(async () => {
+        if (typeof window === "undefined") return;
+
+        const cachedSocials = localStorage.getItem("socialsCache");
+        const cachedExpired = localStorage.getItem("socialsCacheExpired");
+        const now = Date.now();
+
+        // **Cek apakah cache masih berlaku**
+        if (cachedSocials && cachedExpired && now < parseInt(cachedExpired)) {
+            const cachedData = JSON.parse(cachedSocials);
+            setSocials(cachedData);
+            setIsLoading(false);
+
+            // **Cek apakah ada update di API**
             try {
-                const response = await fetch(`${baseUrl}/popup`);
+                const response = await fetch(`${baseUrl}/socials`);
+                if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
                 const data = await response.json();
-    
-                if (data) {
-                    setPopupData(data);
-                    localStorage.setItem('popupCache', JSON.stringify(data)); // Cache the popup data
-                    localStorage.setItem('popupTimestamp', now.toString()); // Store the timestamp when the popup is shown
-                    localStorage.setItem('popupShown', 'true'); // Mark the popup as shown
-                    setShowPopup(true); // Show the popup
+                if (data.length > 0 && data[0].updatedAt !== cachedData[0].updatedAt) {
+                    setSocials(data);
+                    localStorage.setItem("socialsCache", JSON.stringify(data));
+                    localStorage.setItem("socialsCacheExpired", (now + 86400000).toString());
                 }
             } catch (error) {
-                console.error("Error fetching popup data:", error);
-            } finally {
-                setIsLoading(false);
+                console.error("Error checking API for updates:", error);
             }
+            return;
+        }
+
+        // **Ambil data baru jika cache tidak ada atau sudah kadaluarsa**
+        try {
+            const response = await fetch(`${baseUrl}/socials`);
+            if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+            const data = await response.json();
+            if (data.length > 0) {
+                setSocials(data);
+                localStorage.setItem("socialsCache", JSON.stringify(data));
+                localStorage.setItem("socialsCacheExpired", (now + 86400000).toString());
+            }
+        } catch (error) {
+            console.error("Error fetching socials:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchSocials();
+    }, [fetchSocials]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const cachedPopup = localStorage.getItem('popupCache');
+          const popupTimestamp = localStorage.getItem('popupTimestamp');
+          const popupShown = localStorage.getItem('popupShown');
+          const now = Date.now();
+      
+          // Jika popup sudah ditampilkan kurang dari 1 jam, gunakan cache
+          if (popupShown === 'true' && popupTimestamp && now - parseInt(popupTimestamp) < 60 * 60 * 1000) {
+            if (cachedPopup) {
+              const cachedPopupData = JSON.parse(cachedPopup);
+              if (Array.isArray(cachedPopupData) && cachedPopupData.length > 0) {
+                setPopupData(cachedPopupData);
+                setShowPopup(true);
+              }
+            }
+            setIsLoading(false);
+            return;
+          }
+      
+          try {
+            const response = await fetch(`${baseUrl}/popup`);
+            const data = await response.json();
+      
+            if (data.popups) {
+              const popupItems = data.popups.filter(popup => popup.status === true);
+              if (popupItems.length > 0) {
+                setPopupData(popupItems);
+                localStorage.setItem('popupCache', JSON.stringify(popupItems));
+                localStorage.setItem('popupTimestamp', now.toString());
+                localStorage.setItem('popupShown', 'true');
+                setShowPopup(true);
+              }
+            }
+          } catch (error) {
+            console.error("Error fetching popup data:", error);
+          } finally {
+            setIsLoading(false);
+          }
         };
-    
+      
         fetchData();
-    }, [baseUrl]);
+      }, [baseUrl]);
 
     const socialMediaLinks = settings?.social_media ? JSON.parse(settings.social_media) : [];
 
@@ -248,7 +299,7 @@ export default function Header() {
               "areaServed": "ID",
               "availableLanguage": "Indonesian"
             },
-            "sameAs": socialMediaLinks.map(item => item.link) // Ambil hanya link dari API
+            "sameAs": socials.map(item => item.link) // Ambil hanya link dari API
           },
           {
             "@type": "WebSite",
@@ -302,47 +353,41 @@ export default function Header() {
                     <div className={styles.sosmed_nav}>
                         <p>Ikuti Kami di </p>
                         <div className={styles.sosmed_nav_box}>
-                            {socialMediaLinks.length > 0 ? (
-                                socialMediaLinks.map((social, index) => (
-                                    <Link key={index} href={social.link} target="blank_" aria-label={social.name}>
-                                        {/* Render the correct icon */}
-                                        <div>{iconMapping[social.name]}</div>
-                                    </Link>
-                                ))
-                            ) : (
-                                <p>No social media data available.</p>
-                            )}
+                            {socials.map((social, index) => (
+                                <Link key={index} href={social.link} target="blank_" aria-label={social.title}>
+                                    <div>{iconMapping[social.title]}</div>
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>
             )}
-            {showPopup && popupData?.link && (
-                <div className={`${popup.modal} ${popup.active}`}>
-                    <div className={popup.modal_overlay}></div>
-                    {isLoading || !popupData.image ? (
-                        <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
-                    ) : (
-                        <div className={popup.modal_content}>
-                            <span className={popup.close} onClick={closeModal}>
-                                <IoMdClose />
-                            </span>
-                            <Link href={popupData.link} target="_blank">
-                                <img src={`${storageUrl}/${popupData.image}`} loading="lazy" alt="Promo NMW Skincare" />
-                            </Link>
-                        </div>
-                    )}
+            {showPopup && popupData && popupData.length > 0 && popupData[0].link && (
+            <div className={`${popup.modal} ${popup.active}`}>
+                <div className={popup.modal_overlay} onClick={closeModal}></div>
+                {isLoading || !popupData[0].image ? (
+                <div className="skeleton-logo skeleton-logo-100 skeleton-logo-fit" />
+                ) : (
+                <div className={popup.modal_content}>
+                    <span className={popup.close} onClick={closeModal}>
+                    <IoMdClose />
+                    </span>
+                    <Link href={popupData[0].link} target="_blank">
+                    <img src={`${storageUrl}/${popupData[0].image}`} loading="lazy" alt="Promo NMW Skincare" />
+                    </Link>
                 </div>
+                )}
+            </div>
             )}
+
             <div className={styles.nav_bottom}>
                 <div className={styles.logo}>
                     <Link href="/">
                         {isLoading || !settings.logo ? (
-                            // Tampilkan skeleton loader saat loading atau logo belum tersedia
                             <div className="skeleton-logo" />
                         ) : (
-                            // Tampilkan logo setelah tersedia
                             <img
-                                src={`${storageUrl}/${settings.logo}`}
+                                src={`${storageUrl}${settings.logo}`}
                                 alt="NMW Clinic Logo | Logo NMW Clinic | Logo NMW Clinic png"
                                 loading="lazy"
                             />
@@ -362,8 +407,8 @@ export default function Header() {
                                 <div className={`${styles.dropdown_menu} ${dropdownActive === 'services' ? styles.active : ''}`}>
                                     <ul>
                                         {services.map(service => (
-                                            <li onClick={clickMenu} key={service.id}>
-                                                <Link href={`/layanan/${encodeURIComponent(service.name.replace(/\s+/g, '-').toLowerCase())}`}>{service.name}</Link>
+                                            <li onClick={clickMenu} key={service._id}>
+                                                <Link href={`/layanan/${service.slug}`}>{service.name}</Link>
                                             </li>
                                         ))}
                                     </ul>

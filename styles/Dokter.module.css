@@ -25,8 +25,9 @@
   }
 .dokter_heading{
     display: grid;
-    grid-template-columns: 33% 67%;
+    grid-template-columns: 100%;
     align-items: flex-end;
+    margin-top: 2vw;
 }
 
 .tabs_container{
@@ -62,10 +63,10 @@
     background: #FF851A; 
   }
 .tabs {
-    width: max-content;
+    width: 100%;
     display: flex;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1.5vw;
+    flex-wrap: wrap;
+    gap: 1.1vw;
     margin-bottom: .8vw;
 }
 
@@ -104,13 +105,10 @@
     border: .1vw solid transparent;
     font-weight: 600;
 }
-.tabContent{
-    margin-top: 4vw;
-}
 .cabang_layout{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin-top: 3.7vw;
+    margin-top: 2.3vw;
     grid-gap: 1.87vw;
 }
 .cabang_box_image{
@@ -219,6 +217,69 @@
     font-weight: 700;
   }
 
+  .loadMoreButton{
+    padding: .47vw 2.3vw;
+    font-size: .8vw;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: .1vw solid #FF851A;
+    border-radius: 100vw;
+    transition: background-color 0.3s;
+    width: max-content;
+    font-family: var(--poppins);
+    letter-spacing: .04vw;
+    color: #FF851A;
+    font-weight: 600;
+    display: block;
+    margin: auto;
+    margin-top: 4vw;
+  }
+  .loadMoreButton:hover{
+    background-color: #FF851A;
+    color: white;
+  }
+
+  .fade_enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .fade_enter_active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .loading_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-family: var(--poppins);
+    letter-spacing: .04vw;
+    color: #ff851a73;
+    margin-top: 3vw;
+    text-transform: uppercase;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #7a7a7a73;
+    border-top-color: #ff851a73;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 
   @media (max-width:768px) {
     .container{
@@ -235,17 +296,25 @@
     }
     .tabs {
         width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        /* display: grid;
+        grid-template-columns: repeat(4, 1fr); */
         overflow-x: scroll;
         grid-gap: 2.5vw;
         margin-bottom: 2vw;
+        margin-top: 3vw;
     }
     .tab {
         padding: 1.4vw 4vw;
         font-size: 3.5vw;
         letter-spacing: .07vw;
         width: max-content;
+    }
+    .loadMoreButton {
+        padding: 1.4vw 4vw;
+        font-size: 3.5vw;
+        letter-spacing: .07vw;
+        width: max-content;
+        margin-top: 12vw;
     }
     .activeTab {
         padding: 1.4vw 4vw;

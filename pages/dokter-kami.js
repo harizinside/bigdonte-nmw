@@ -10,11 +10,17 @@ import breadcrumb from "@/styles/Breadcrumb.module.css"
 
 export default function DokterKami() {
     const [doctors, setDoctors] = useState([]);
-    const [activeTab, setActiveTab] = useState(0);
-    const [loading, setLoading] = useState(true); // Tambahkan state loading
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8;
+    const [position, setPosition] = useState([]);
+    const [activeTab, setActiveTab] = useState("all"); // Default ke "all"
+    const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12; // Batasi jumlah dokter per halaman
+    const [totalDoctors, setTotalDoctors] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingPage, setIsLoadingPage] = useState(false);
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const mainUrl = process.env.NEXT_PUBLIC_API_MAIN_URL;
@@ -32,7 +38,7 @@ export default function DokterKami() {
                 
                 // Lakukan pengecekan data API untuk pembaruan data
                 try {
-                    const response = await fetch(`${baseUrl}/setting`);
+                    const response = await fetch(`api/settings`);
                     const data = await response.json();
     
                     if (data && data.social_media) {
@@ -57,7 +63,7 @@ export default function DokterKami() {
     
             // Fetch data jika tidak ada cache atau cache sudah kadaluarsa
             try {
-                const response = await fetch(`${baseUrl}/setting`);
+                const response = await fetch(`api/settings`);
                 const data = await response.json();
     
                 if (data && data.social_media) {
@@ -70,109 +76,159 @@ export default function DokterKami() {
                 }
             } catch (error) {
                 console.error('Error fetching settings:', error);
-            } finally {
-                setIsLoading(false);
             }
         };
     
         fetchData();
       }, [baseUrl]);
 
-      useEffect(() => {
-        const fetchData = async () => {
-            const cachedDoctors = localStorage.getItem('doctorsCache');
-            const cacheExpiry = localStorage.getItem('doctorsCacheExpiry');
-            const now = new Date().getTime();
+    //   useEffect(() => {
+    //     const fetchData = async () => {
+    //         const cachedDoctors = localStorage.getItem('doctorsCache');
+    //         const cacheExpiry = localStorage.getItem('doctorsCacheExpiry');
+    //         const now = new Date().getTime();
     
+    //         try {
+    //             // Check if the cache is still valid
+    //             if (cachedDoctors && cacheExpiry && now < parseInt(cacheExpiry)) {
+    //                 const parsedCache = JSON.parse(cachedDoctors);
+    //                 console.log('Loaded doctors from cache');
+    
+    //                 // Compare the cache with the latest fetched data to see if it's the same
+    //                 let allDoctors = [];
+    //                 let currentPage = 1;
+    //                 let lastPage = 1;
+    
+    //                 let dataChanged = false;
+    
+    //                 while (currentPage <= lastPage) {
+    //                     const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
+    //                     const data = await response.json();
+    
+    //                     if (data && data.data && data.meta) {
+    //                         // Filter out duplicate doctors and check for new data
+    //                         const uniqueDoctors = data.data.filter(
+    //                             (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
+    //                         );
+    //                         allDoctors = [...allDoctors, ...uniqueDoctors];
+    //                         lastPage = data.meta.last_page;
+    //                         currentPage++;
+    
+    //                         // Check if there is any new data
+    //                         if (JSON.stringify(allDoctors) !== JSON.stringify(parsedCache)) {
+    //                             dataChanged = true;
+    //                         }
+    //                     } else {
+    //                         console.error("Invalid response data format:", data);
+    //                         break;
+    //                     }
+    //                 }
+    
+    //                 // If data has changed, update cache and state
+    //                 if (dataChanged) {
+    //                     localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
+    //                     localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+    //                     console.log('Doctors data fetched and cached');
+    //                     setDoctors(allDoctors);
+    //                 } else {
+    //                     console.log('No new doctor data. Loaded from cache.');
+    //                     setDoctors(parsedCache);
+    //                 }
+    //             } else {
+    //                 console.log('Fetching doctors from API');
+    //                 let allDoctors = [];
+    //                 let currentPage = 1;
+    //                 let lastPage = 1;
+    
+    //                 while (currentPage <= lastPage) {
+    //                     const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
+    //                     const data = await response.json();
+    
+    //                     if (data && data.data && data.meta) {
+    //                         // Filter out duplicate doctors
+    //                         const uniqueDoctors = data.data.filter(
+    //                             (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
+    //                         );
+    //                         allDoctors = [...allDoctors, ...uniqueDoctors];
+    //                         lastPage = data.meta.last_page;
+    //                         currentPage++;
+    //                     } else {
+    //                         console.error("Invalid response data format:", data);
+    //                         break;
+    //                     }
+    //                 }
+    
+    //                 // Cache the fetched data
+    //                 localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
+    //                 localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
+    //                 setDoctors(allDoctors); // Set the state with the fetched data
+    //                 console.log('Doctors data fetched and cached');
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching doctors:", error);
+    //             // Optionally load from cache in case of an error
+    //             if (cachedDoctors) {
+    //                 setDoctors(JSON.parse(cachedDoctors));
+    //                 console.log('Loaded doctors from cache after API error');
+    //             }
+    //         }
+    //     };
+    
+    //     fetchData();
+    // }, [baseUrl]);
+    
+    useEffect(() => {
+        const fetchPosition = async () => {
             try {
-                // Check if the cache is still valid
-                if (cachedDoctors && cacheExpiry && now < parseInt(cacheExpiry)) {
-                    const parsedCache = JSON.parse(cachedDoctors);
-                    console.log('Loaded doctors from cache');
-    
-                    // Compare the cache with the latest fetched data to see if it's the same
-                    let allDoctors = [];
-                    let currentPage = 1;
-                    let lastPage = 1;
-    
-                    let dataChanged = false;
-    
-                    while (currentPage <= lastPage) {
-                        const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
-                        const data = await response.json();
-    
-                        if (data && data.data && data.meta) {
-                            // Filter out duplicate doctors and check for new data
-                            const uniqueDoctors = data.data.filter(
-                                (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
-                            );
-                            allDoctors = [...allDoctors, ...uniqueDoctors];
-                            lastPage = data.meta.last_page;
-                            currentPage++;
-    
-                            // Check if there is any new data
-                            if (JSON.stringify(allDoctors) !== JSON.stringify(parsedCache)) {
-                                dataChanged = true;
-                            }
-                        } else {
-                            console.error("Invalid response data format:", data);
-                            break;
-                        }
-                    }
-    
-                    // If data has changed, update cache and state
-                    if (dataChanged) {
-                        localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
-                        localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
-                        console.log('Doctors data fetched and cached');
-                        setDoctors(allDoctors);
-                    } else {
-                        console.log('No new doctor data. Loaded from cache.');
-                        setDoctors(parsedCache);
-                    }
-                } else {
-                    console.log('Fetching doctors from API');
-                    let allDoctors = [];
-                    let currentPage = 1;
-                    let lastPage = 1;
-    
-                    while (currentPage <= lastPage) {
-                        const response = await fetch(`${baseUrl}/doctor?page=${currentPage}`);
-                        const data = await response.json();
-    
-                        if (data && data.data && data.meta) {
-                            // Filter out duplicate doctors
-                            const uniqueDoctors = data.data.filter(
-                                (doctor) => !allDoctors.some((existingDoctor) => existingDoctor.id === doctor.id)
-                            );
-                            allDoctors = [...allDoctors, ...uniqueDoctors];
-                            lastPage = data.meta.last_page;
-                            currentPage++;
-                        } else {
-                            console.error("Invalid response data format:", data);
-                            break;
-                        }
-                    }
-    
-                    // Cache the fetched data
-                    localStorage.setItem('doctorsCache', JSON.stringify(allDoctors));
-                    localStorage.setItem('doctorsCacheExpiry', (now + 6 * 60 * 60 * 1000).toString());
-                    setDoctors(allDoctors); // Set the state with the fetched data
-                    console.log('Doctors data fetched and cached');
-                }
+                const response = await fetch(`/api/position`);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const result = await response.json();
+                setPosition(result);
             } catch (error) {
-                console.error("Error fetching doctors:", error);
-                // Optionally load from cache in case of an error
-                if (cachedDoctors) {
-                    setDoctors(JSON.parse(cachedDoctors));
-                    console.log('Loaded doctors from cache after API error');
+                console.error("Error fetching position:", error);
+            } finally {
+                setTimeout(() => {
+                    setIsLoadingPage(false); // Matikan loading setelah data diambil
+                }, 500); // Tambahkan sedikit delay untuk efek smooth
+            }
+        };
+        fetchPosition();
+    }, []);
+    
+    useEffect(() => {
+        const fetchDoctor = async () => {
+            try {
+                setIsLoading(true); // Aktifkan loading saat mulai fetch data
+                setIsAnimating(false); // Reset animasi sebelum fetch data baru
+    
+                let url = `/api/dokter?page=${currentPage}&limit=${itemsPerPage}`;
+                if (activeTab !== "all") {
+                    url += `&id_position=${activeTab}`;
                 }
+    
+                console.log("Fetching doctors from:", url);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    
+                const result = await response.json();
+    
+                setDoctors(currentPage === 1 ? result.doctors : [...doctors, ...result.doctors]);
+                setTotalDoctors(result.totalDoctors);
+                setIsLoading(false);
+    
+                setTimeout(() => {
+                    
+                    setIsAnimating(true); // Aktifkan animasi setelah data di-load
+                    
+                }, 100);
+            } catch (error) {
+                console.error("❌ Error fetching doctors:", error);
+                setIsLoading(false); // Pastikan loading dimatikan meskipun terjadi error
             }
         };
     
-        fetchData();
-    }, [baseUrl]);    
-    
+        fetchDoctor();
+    }, [activeTab, currentPage]);
 
     const handleTabClick = (index) => {
         setActiveTab(index);
@@ -196,12 +252,12 @@ export default function DokterKami() {
         }
     };
 
-    const filteredDoctors = filterDoctors(activeTab);
+    // const filteredDoctors = filterDoctors(activeTab);
 
-    const paginatedDoctors = filteredDoctors.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
+    // const paginatedDoctors = filteredDoctors.slice(
+    //     (currentPage - 1) * itemsPerPage,
+    //     currentPage * itemsPerPage
+    // );
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -277,87 +333,83 @@ export default function DokterKami() {
             </div>
             <h1 className={styles.heading_hide}>Selamat Datang di Halaman Dokter Pada Website NMW Aesthetic Clinic</h1>
             <div className={styles.container}>
-                <div className={styles.dokter_heading}>
-                    <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
-                        <h2>
-                            <span>Dokter</span> Kami
-                        </h2>
-                    </div>
-                    <div className={styles.tabs}>
-                        <button
-                            className={activeTab === 0 ? styles.activeTab : styles.tab}
-                            onClick={() => handleTabClick(0)}
-                        >
-                            Semua Departemen
-                        </button>
-                        <button
-                            className={activeTab === 1 ? styles.activeTab : styles.tab}
-                            onClick={() => handleTabClick(1)}
-                        >
-                            Estetika
-                        </button>
-                        <button
-                            className={activeTab === 2 ? styles.activeTab : styles.tab}
-                            onClick={() => handleTabClick(2)}
-                        >
-                            Bedah Plastik
-                        </button>
-                        <button
-                            className={activeTab === 3 ? styles.activeTab : styles.tab}
-                            onClick={() => handleTabClick(3)}
-                        >
-                            Dermatologi
-                        </button>
-                    </div>
+                <div className={`${styles.heading_section} ${styles.heading_section_start}`}>
+                    <h2>
+                        <span>Dokter</span> Kami
+                    </h2>
                 </div>
-                <div className={styles.tabContent}>
-                    <div className={styles.cabang_layout}>
-                        {paginatedDoctors.length > 0 ? (
-                            paginatedDoctors.map((doctor) => (
-                                <div key={doctor.id} className={styles.cabang_box}>
-                                    <div className={styles.cabang_box_image}>
-                                        <Image width={800} height={800} priority src={`${storageUrl}/${doctor.image}`} alt={doctor.name}/>
-                                    </div>
-                                    <div className={styles.cabang_box_content}>
-                                        <h3>
-                                            dr. 
-                                            <span> {doctor.name.split(' ')[1]} </span>
-                                            {doctor.name.split(' ').slice(2).join(' ')}
-                                        </h3>
-                                        <span>{doctor.position}</span>
-                                    </div>
+                <div className={styles.dokter_heading}>
+                    <div className={styles.tabs}>
+                    {/* Button "All" */}
+                    <button 
+                        className={activeTab === "all" ? styles.activeTab : styles.tab}
+                        onClick={() => {
+                            setActiveTab("all");
+                            setCurrentPage(1); // Reset ke halaman pertama
+                            setDoctors([]); // Reset daftar dokter
+                        }}
+                    >
+                        All
+                    </button>
+
+                    {/* Looping posisi dokter */}
+                    {position.map((pos) => (
+                        <button key={pos._id}
+                            className={activeTab === pos._id ? styles.activeTab : styles.tab}
+                            onClick={() => {
+                                setActiveTab(pos._id);
+                                setCurrentPage(1); // Reset ke halaman pertama
+                                setDoctors([]); // Reset daftar dokter
+                            }}
+                        >
+                            {pos.title}
+                        </button>
+                    ))}
+                </div>
+                </div>
+                {isLoading ? (
+                    <div className={styles.loading_container}>
+                        <span className={styles.spinner}></span> Loading...
+                    </div>
+                ) : (
+                    <div className={`${styles.cabang_layout} ${isAnimating ? styles.fade_enter_active : styles.fade_enter}`}>
+                        {doctors.map((doctor) => (
+                            <div key={doctor._id} className={styles.cabang_box}>
+                                <div className={styles.cabang_box_image}>
+                                    <Image width={800} height={800} priority src={`${storageUrl}/${doctor.image}`} alt={doctor.name} />
                                 </div>
-                            ))
-                        ) : (
-                            <div className={loadingStyles.box}>
-                                <div className={loadingStyles.content}>
-                                    <img src="../images/logo.svg" alt="Logo" loading="lazy"/>
-                                    <span>Loading</span>
+                                <div className={styles.cabang_box_content}>
+                                    <h3>
+                                        dr.
+                                        <span> {doctor.name.split(" ")[1]} </span>
+                                        {doctor.name.split(" ").slice(2).join(" ")}
+                                    </h3>
+                                    <span>{doctor.position}</span>
                                 </div>
                             </div>
-                        )}
+                        ))}
                     </div>
+                )}
 
-                    {/* Pagination */}
-                    {filteredDoctors.length > itemsPerPage && (
-                        <div className={styles.article_pagination}>
-                            {Array.from({ length: Math.ceil(filteredDoctors.length / itemsPerPage) }, (_, index) => (
-                                <Link
-                                    href="#"
-                                    key={index + 1}
-                                    className={currentPage === index + 1 ? styles.active_pagination : ''}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setCurrentPage(index + 1); // Ubah halaman aktif
-                                    }}
-                                >
-                                    {index + 1}
-                                </Link>
-                            ))}
-                        </div>
-                    )}
-                </div>
+
+                {doctors.length < totalDoctors && (
+                    <button 
+                        className={styles.loadMoreButton}
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                    >
+                        Load More
+                    </button>
+                )}
             </div>
+            {isLoadingPage && (
+                <div className={loadingStyles.box}>
+                    <div className={loadingStyles.content}>
+                        <img src="/images/logo.svg" loading="lazy" alt="loading"/>
+                        <span>LOADING</span>
+                    </div>
+                </div>
+            )}
+
         </>
     );
 }

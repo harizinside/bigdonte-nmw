@@ -31,6 +31,9 @@
     letter-spacing: .03vw;
     color: #5A5A5A;
 }
+.kebijakan_layout a{
+    color: #FF851A;
+}
 
 @media (max-width:768px) {
     .container{
