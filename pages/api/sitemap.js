@@ -9,9 +9,9 @@ export default async function handler(req, res) {
 
   try {
     const apis = [
+      { url: `${baseUrl}/article-new`, pathPrefix: '/artikel', nameKey: 'title' },
       { url: `${baseUrl}/service`, pathPrefix: '/layanan', nameKey: 'name' },
       { url: `${baseUrl}/promo`, pathPrefix: '/promo', nameKey: 'title' },
-      { url: `${baseUrl}/article-new`, pathPrefix: '/artikel', nameKey: 'title' },
     ];
 
     const urls = [];
@@ -41,16 +41,49 @@ export default async function handler(req, res) {
       const result = await response.json();
       const data = result.data || [];
 
-      const apiUrls = data
-        .filter((item) => item[api.nameKey] && typeof item[api.nameKey] === 'string')
-        .map((item) => ({
-          url: `${api.pathPrefix}/${encodeURIComponent(item[api.nameKey].replace(/\s+/g, '-').toLowerCase())}`,
-          changefreq: 'daily',
-          priority: 0.7,
-          lastmod: new Date().toISOString(),
-        }));
+      if (api.url === `${baseUrl}/article-new`) {
+        if (data.articles) {
+          const filteredArticles = data.articles.filter(article => article.status === true);
+          const apiUrls = filteredArticles
+            .filter((item) => item[api.nameKey] && typeof item[api.nameKey] === 'string')
+            .map((item) => ({
+              url: `${api.pathPrefix}/${encodeURIComponent(item[api.nameKey].replace(/\s+/g, '-').toLowerCase())}`,
+              changefreq: 'daily',
+              priority: 0.7,
+              lastmod: new Date().toISOString(),
+            }));
 
-      urls.push(...apiUrls);
+          urls.push(...apiUrls);
+        }
+      } else if (api.url === `${baseUrl}/service`) {
+        if (data.services) {
+          const servicesData = data.services;
+          const apiUrls = servicesData
+            .filter((item) => item[api.nameKey] && typeof item[api.nameKey] === 'string')
+            .map((item) => ({
+              url: `${api.pathPrefix}/${encodeURIComponent(item[api.nameKey].replace(/\s+/g, '-').toLowerCase())}`,
+              changefreq: 'daily',
+              priority: 0.7,
+              lastmod: new Date().toISOString(),
+            }));
+
+          urls.push(...apiUrls);
+        }
+      } else if (api.url === `${baseUrl}/promo`) {
+        if (data.promos) {
+          const promosData = data.promos;
+          const apiUrls = promosData
+            .filter((item) => item[api.nameKey] && typeof item[api.nameKey] === 'string')
+            .map((item) => ({
+              url: `${api.pathPrefix}/${encodeURIComponent(item[api.nameKey].replace(/\s+/g, '-').toLowerCase())}`,
+              changefreq: 'daily',
+              priority: 0.7,
+              lastmod: new Date().toISOString(),
+            }));
+
+          urls.push(...apiUrls);
+        }
+      }
     }
 
     if (urls.length === 0) {
